@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         btLogin = (Button) findViewById(R.id.btn_login);
 
 
+
+        //  Login button click listener
         btLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -83,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+// ----------   Login Process ------------------
 
     public void login() {
         Log.d(TAG, "Login");
@@ -115,12 +118,13 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isValid){
 
-            // On complete call either onLoginSuccess or onLoginFailed
+            // On complete call  onLoginSuccess
             onLoginSuccess();
             // onLoginFailed();
 
             progressDialog.dismiss();
         }else {
+            // On incomplete call  onLoginFailed
             onLoginFailed();
             progressDialog.dismiss();
         }

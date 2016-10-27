@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends AppCompatActivity implements View.OnClickListener {
     final static String TAG = "MessageActivity";
+    static final String HEALTH_SEARVICE_NAME = "healthService" ;
 
     TextView tvMessageRemainANC1, tvMessageDeliveredANC1, tvMessageTotalANC1,
             tvMessageRemainANC2, tvMessageDeliveredANC2, tvMessageTotalANC2,
@@ -32,7 +34,7 @@ public class MessageActivity extends AppCompatActivity {
             tvMessageRemainPNC4, tvMessageDeliveredPNC4, tvMessageTotalPNC4;
 
 
-
+    CardView cvAnc1, cvAnc2, cvAnc3, cvAnc4, cvPnc1, cvPnc2, cvPnc3, cvPnc4;
     List<Mother> tempList;
 
     String anc1 = "";
@@ -45,6 +47,8 @@ public class MessageActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         init();
+
+        new HeavyTaskExecutor().execute();
     }
 
     private void init() {
@@ -104,7 +108,7 @@ public class MessageActivity extends AppCompatActivity {
 //    =========================   Temp   end  -===============
 
 
-        ///================================      =======================
+        ///================================  init views start    =======================
         tvMessageRemainANC1 = (TextView) findViewById(R.id.tvMessageRemainANC1);
         tvMessageDeliveredANC1 = (TextView) findViewById(R.id.tvMessageDeliveredANC1);
         tvMessageTotalANC1 = (TextView) findViewById(R.id.tvMessageTotalANC1);
@@ -138,8 +142,92 @@ public class MessageActivity extends AppCompatActivity {
         tvMessageTotalPNC4 = (TextView) findViewById(R.id.tvMessageTotalPNC4);
 
 
+        cvAnc1 = (CardView) findViewById(R.id.card_view_message_ANC1);
+        cvAnc2 = (CardView) findViewById(R.id.card_view_message_ANC2);
+        cvAnc3 = (CardView) findViewById(R.id.card_view_message_ANC3);
+        cvAnc4 = (CardView) findViewById(R.id.card_view_message_ANC4);
+        cvPnc1 = (CardView) findViewById(R.id.card_view_messagePNC1  );
+        cvPnc2 = (CardView) findViewById(R.id.card_view_messagePNC2  );
+        cvPnc3 = (CardView) findViewById(R.id.card_view_messagePNC3  );
+        cvPnc4 = (CardView) findViewById(R.id.card_view_messagePNC4  );
 
-        new HeavyTaskExecutor().execute();
+        cvAnc1.setOnClickListener(this);
+        cvAnc2.setOnClickListener(this);
+        cvAnc3.setOnClickListener(this);
+        cvAnc4.setOnClickListener(this);
+        cvPnc1.setOnClickListener(this);
+        cvPnc2.setOnClickListener(this);
+        cvPnc3.setOnClickListener(this);
+        cvPnc4.setOnClickListener(this);
+
+
+
+        ///================================  init views end    =======================
+
+
+    }
+
+
+    // ==============================    handle Click Events for all ANC and  PNC  =======================
+    @Override
+    public void onClick(View v) {
+
+        int id =  v.getId();
+
+        switch (id){
+
+            case R.id.card_view_message_ANC1: {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"ANC 1");
+                startActivity(intent);
+
+                break;}
+            case R.id.card_view_message_ANC2: {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"ANC 2");
+                startActivity(intent);
+
+                break;}
+            case R.id.card_view_message_ANC3: {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"ANC 3");
+                startActivity(intent);
+
+                break;}
+            case R.id.card_view_message_ANC4: {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"ANC 4");
+                startActivity(intent);
+
+                break;}
+            case R.id.card_view_messagePNC1 : {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"PNC 1");
+                startActivity(intent);
+
+                break;}
+            case R.id.card_view_messagePNC2 : {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"PNC 2");
+                startActivity(intent);
+
+                break;}
+            case R.id.card_view_messagePNC3 : {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"PNC 3");
+                startActivity(intent);
+
+                break;}
+            case R.id.card_view_messagePNC4 : {
+                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
+                intent.putExtra(HEALTH_SEARVICE_NAME,"PNC 4");
+                startActivity(intent);
+
+                break;}
+
+
+        }
+
     }
 
 
@@ -164,10 +252,12 @@ public class MessageActivity extends AppCompatActivity {
             Map<String, Integer> allStat = new HashMap<>();
 
             GroupMother groupMother = new GroupMother();
-            groupMother.doGrouping(db.getAllMothers()); //------------------------ put list of mothers
+            groupMother.doGrouping(db.getAllMothers()); //------------------------ put list of mothers inorder to group all mothers based on anc or pnc
 
             Log.d(TAG, String.valueOf(groupMother.anc1.size()));
             Log.d(TAG, String.valueOf(groupMother.pnc1.size()));
+
+            //  =================   calc message remain, delivered and total no of mother for specific item
 
             int anc1_remain = 0, anc1_delivered = 0, anc2_remain = 0, anc2_delivered = 0, anc3_remain = 0, anc3_delivered = 0, anc4_remain = 0, anc4_delivered = 0,
                     pnc1_remain = 0, pnc1_delivered = 0, pnc2_remain = 0, pnc2_delivered = 0, pnc3_remain = 0, pnc3_delivered = 0, pnc4_remain = 0, pnc4_delivered = 0;
@@ -247,7 +337,7 @@ public class MessageActivity extends AppCompatActivity {
                 }
             }
 
-
+//=============  store in map
             allStat.put("totalAnc1", groupMother.anc1.size());
             allStat.put("totalAnc2", groupMother.anc2.size());
             allStat.put("totalAnc3", groupMother.anc3.size());
@@ -267,13 +357,13 @@ public class MessageActivity extends AppCompatActivity {
             allStat.put("anc4_remain", anc4_remain);
             allStat.put("anc4_delivered", anc4_delivered);
 
-            allStat.put("pnc1_remain",    pnc1_remain);
+            allStat.put("pnc1_remain", pnc1_remain);
             allStat.put("pnc1_delivered", pnc1_delivered);
-            allStat.put("pnc2_remain",    pnc2_remain);
+            allStat.put("pnc2_remain", pnc2_remain);
             allStat.put("pnc2_delivered", pnc2_delivered);
-            allStat.put("pnc3_remain",    pnc3_remain);
+            allStat.put("pnc3_remain", pnc3_remain);
             allStat.put("pnc3_delivered", pnc3_delivered);
-            allStat.put("pnc4_remain",    pnc4_remain);
+            allStat.put("pnc4_remain", pnc4_remain);
             allStat.put("pnc4_delivered", pnc4_delivered);
 
 
@@ -304,18 +394,18 @@ public class MessageActivity extends AppCompatActivity {
             tvMessageTotalANC4.setText("মোট সংখ্যা " + String.valueOf(result.get("totalAnc4")) + " জন");
 
 
-               tvMessageRemainPNC1.setText(String.valueOf(result.get("pnc1_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
+            tvMessageRemainPNC1.setText(String.valueOf(result.get("pnc1_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
             tvMessageDeliveredPNC1.setText(String.valueOf(result.get("pnc1_delivered")) + " জনকে মেসেজ দেয়া হয়েছে ");
-                tvMessageTotalPNC1.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc1")) + " জন");
-              tvMessageRemainPNC2.setText(String.valueOf(result.get("pnc2_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
+            tvMessageTotalPNC1.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc1")) + " জন");
+            tvMessageRemainPNC2.setText(String.valueOf(result.get("pnc2_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
             tvMessageDeliveredPNC2.setText(String.valueOf(result.get("pnc2_delivered")) + " জনকে মেসেজ দেয়া হয়েছে ");
-                tvMessageTotalPNC2.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc2")) + " জন");
-                tvMessageRemainPNC3.setText(String.valueOf(result.get("pnc3_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
+            tvMessageTotalPNC2.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc2")) + " জন");
+            tvMessageRemainPNC3.setText(String.valueOf(result.get("pnc3_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
             tvMessageDeliveredPNC3.setText(String.valueOf(result.get("pnc3_delivered")) + " জনকে মেসেজ দেয়া হয়েছে ");
-                tvMessageTotalPNC3.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc3")) + " জন");
-             tvMessageRemainPNC4.setText(String.valueOf(result.get("pnc4_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
+            tvMessageTotalPNC3.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc3")) + " জন");
+            tvMessageRemainPNC4.setText(String.valueOf(result.get("pnc4_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
             tvMessageDeliveredPNC4.setText(String.valueOf(result.get("pnc4_delivered")) + " জনকে মেসেজ দেয়া হয়েছে ");
-                tvMessageTotalPNC4.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc4")) + " জন");
+            tvMessageTotalPNC4.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc4")) + " জন");
         }
 
     }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:cardCornerRadius="4dp"
+        android:layout_margin="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/primary"
+                android:text="title"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textSize="14dp"/>
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:gravity="center_vertical"
+                android:textSize="10dp"
+                android:layout_below="@id/title"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="txt2"
+                android:gravity="center_vertical"
+                android:textSize="10dp"
+                android:layout_below="@id/txtName"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/txt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="txt3"
+                android:textSize="10dp"
+                android:layout_above="@+id/txt2"
+                android:layout_toRightOf="@+id/txt2"
+                android:layout_toEndOf="@+id/txt2"
+                android:layout_marginLeft="106dp"
+                android:layout_marginStart="106dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="95dp"
+                android:layout_height="45dp"
+                android:text="Details"
+                android:id="@+id/button2"
+                android:layout_alignTop="@+id/txt3"
+                android:layout_toRightOf="@+id/txt3"
+                android:layout_toEndOf="@+id/txt3"
+                android:layout_marginLeft="36dp"
+                android:layout_marginStart="36dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="95dp"
+                android:layout_height="45dp"
+                android:text="Dialog"
+                android:id="@+id/button"
+                android:layout_alignTop="@+id/button2"
+                android:layout_toRightOf="@+id/button2"
+                android:layout_toEndOf="@+id/button2" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="95dp"
+                android:layout_height="45dp"
+                android:text="Status"
+                android:id="@+id/button3"
+                android:layout_alignTop="@+id/button"
+                android:layout_toRightOf="@+id/button"
+                android:layout_toEndOf="@+id/button" />
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="95dp"
+                android:layout_height="45dp"
+                android:text="Call"
+                android:id="@+id/button4"
+                android:layout_alignBottom="@+id/txt2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

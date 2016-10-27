@@ -1,11 +1,17 @@
 package com.example.tareq.healthcare;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Created by TAREQ on 10/25/2016.
  */
 public class Mother {
 
     String  motherName,lastMenstruationDate ,isPregnant  ,isMessageDelivered  , isChildBorn  , childBirthday ;
+    String runningHealthService;
+    List<String> numberOfHealthServicesReceived  = new ArrayList<>();
     int daysOnPregnancy, ageOfChild;
 
 
@@ -29,6 +35,45 @@ public class Mother {
         this.lastMenstruationDate = lastMenstruationDate;
         this.isMessageDelivered = isMessageDelivered;
     }
+
+
+
+
+    /*Comparator for sorting the list by Mother running health service */
+    public static Comparator<Mother> motherComparator = new Comparator<Mother>() {
+
+        @Override
+        public int compare(Mother lhs, Mother rhs) {
+
+            String runningHealthService1 = lhs.getRunningHealthService().toUpperCase();
+            String runningHealthService2 = rhs.getRunningHealthService().toUpperCase();
+
+            //ascending order
+            return runningHealthService1.compareTo(runningHealthService2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+
+        }
+      };
+
+    /*Comparator for sorting the list by Mother name */
+    public static Comparator<Mother> motherNameComparator = new Comparator<Mother>() {
+
+        @Override
+        public int compare(Mother lhs, Mother rhs) {
+
+            String name1 = lhs.getMotherName().toUpperCase();
+            String name2 = rhs.getMotherName().toUpperCase();
+
+            //ascending order
+            return name1.compareTo(name2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+
+        }
+    };
 
 
     public String getMotherName() {
@@ -92,5 +137,21 @@ public class Mother {
 
     public void setAgeOfChild(int ageOfChild) {
         this.ageOfChild = ageOfChild;
+    }
+
+    public String getRunningHealthService() {
+        return runningHealthService;
+    }
+
+    public void setRunningHealthService(String runningHealthService) {
+        this.runningHealthService = runningHealthService;
+    }
+
+    public List<String> getNumberOfHealthServicesReceived() {
+        return numberOfHealthServicesReceived;
+    }
+
+    public void setNumberOfHealthServicesReceived(List<String> numberOfHealthServicesReceived) {
+        this.numberOfHealthServicesReceived = numberOfHealthServicesReceived;
     }
 }

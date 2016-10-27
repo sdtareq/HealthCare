@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //Log - in First
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, All_Mother_List_Activity.class);              //=================== First Go to Login Page
         //Intent intent = new Intent(this, MessageActivity.class);
         startActivity(intent);
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         card = (CardView) findViewById(R.id.card_view_message);
         card.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {                                     //===================  Go to  Message Delivery Page
                 Intent intent = new Intent(MainActivity.this, MessageActivity.class);
                 startActivity(intent);
 
@@ -61,8 +61,16 @@ public class MainActivity extends AppCompatActivity {
         });
         findViewById(R.id.btLogOut).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {              //===================  Go to  LogOut Page
                 Intent intent =  new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.card_view_AllMotherList).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent(MainActivity.this, All_Mother_List_Activity.class);
                 startActivity(intent);
             }
         });

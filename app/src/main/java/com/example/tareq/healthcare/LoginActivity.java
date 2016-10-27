@@ -1,14 +1,14 @@
 package com.example.tareq.healthcare;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -17,7 +17,9 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText etLoginId, etLoginPassword;
     Button btLogin;
+    String userType;
 
+    DatabaseHelper db;
 
 
 
@@ -26,11 +28,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        db = new DatabaseHelper(this);
+
         etLoginId= (EditText) findViewById(R.id.etLoginId);
         etLoginPassword= (EditText) findViewById(R.id.etLoginPassword);
         btLogin = (Button) findViewById(R.id.btn_login);
 
 
+
+        //  Login button click listener
         btLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -41,6 +49,43 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.rbType1:
+                if (checked)
+                   userType = "type 1";
+                    break;
+            case R.id.rbType2:
+                if (checked)
+                    userType = "type 2";
+                    break;
+            case R.id.rbType3:
+                if (checked)
+                    userType = "type 3";
+                break;
+            case R.id.rbType4:
+                if (checked)
+                    userType = "test";
+                break;
+        }
+    }
+
+
+
+
+
+
+
+
+
+// ----------   Login Process ------------------
 
     public void login() {
         Log.d(TAG, "Login");
@@ -58,20 +103,51 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("অপেক্ষা করুন...");
         progressDialog.show();
 
-        String loginId = etLoginId.getText().toString();
-        String loginPassword =etLoginPassword.getText().toString();
+        final String userId = etLoginId.getText().toString();
+        final String userPassword =etLoginPassword.getText().toString();
 
         // TODO: Implement your own authentication logic here.
 
+
+        User user = new User(userId, userPassword, userType);
+
+           db.addAdmin(); // add admin entry in the login table
+
+
+        boolean isValid = db.isValidUser(user);
+
+        if (isValid){
+
+            // On complete call  onLoginSuccess
+            onLoginSuccess();
+            // onLoginFailed();
+
+            progressDialog.dismiss();
+        }else {
+            // On incomplete call  onLoginFailed
+            onLoginFailed();
+            progressDialog.dismiss();
+        }
+
+
+
+
+
+
+  /*
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
+//------------------------------------------
+
+                        Toast.makeText(getApplicationContext(), userType +"    "+userId +"  "+ userPassword +"  ",Toast.LENGTH_SHORT).show();
+
                         // On complete call either onLoginSuccess or onLoginFailed
                         onLoginSuccess();
                         // onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 3000);  */
     }
 
 
@@ -112,6 +188,12 @@ public class LoginActivity extends AppCompatActivity {
             valid = false;
         } else {
            etLoginPassword.setError(null);
+        }
+
+        if (userType == null){
+
+        Toast.makeText(this,"লগইন টাইপ সিলেক্ট করুন ",Toast.LENGTH_SHORT).show();
+            valid = false;
         }
 
         return valid;

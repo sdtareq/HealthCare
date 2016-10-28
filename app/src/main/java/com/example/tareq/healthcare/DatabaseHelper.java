@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String TAG = "DatabaseHelper";
 
 
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     // Database Name
     private static final String DATABASE_NAME = "maternalHealthDB";
@@ -147,6 +147,39 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }                                                   // -------------------=================   add admin end ---------------
 
 
+
+
+    public boolean isMotherTableEmpty(){     // ------------------- ======================= Check mother table is empty or not start ---------------
+
+
+
+
+
+
+        SQLiteDatabase db = super.getWritableDatabase();
+
+
+        String selectAllMoters = "SELECT  * FROM " + TABLE_MOTHER    ;  // used for checking
+        Cursor cursor = db.rawQuery(selectAllMoters, null);            // used for checking
+
+        if (cursor !=null && cursor.moveToFirst()) {   // Check if Mother table is not null
+
+            db.close(); // Closing database connection
+            Log.d(TAG,"Mother table contain values");
+        return false;
+        } // if end
+        Log.d(TAG,"Mother table is empty");
+        db.close(); // Closing database connection
+        return true;
+    }                                                   // -------------------   Check mother table is empty or not end ---------------
+
+
+
+
+
+
+
+
     public void registerMother(Mother mother){     // ------------------- ======================= add mother  start ---------------
 
 
@@ -202,8 +235,13 @@ if (mother.isMessageDelivered != null){
 
 
         }
+
+
+
         db.close(); // Closing database connection
         Log.d(TAG,"Successfully inserted");
+
+
     }                                                   // -------------------   register mother end ---------------
 
 
@@ -247,7 +285,8 @@ if (mother.isMessageDelivered != null){
         if (cursor !=null && cursor.moveToFirst()) {
 
             do {
-                String motherName, lastMenstruationDate, isMessageDelivered, isPregnant ,  isChildBorn, childBirthday  ;
+                String motherName, lastMenstruationDate, isMessageDelivered, isPregnant ,  isChildBorn, childBirthday ,motherRowPrimaryKey ;
+                motherRowPrimaryKey = cursor.getString(0);
                 motherName = cursor.getString(1);
                 lastMenstruationDate =cursor.getString(2);
                 isPregnant = cursor.getString(4);
@@ -257,6 +296,7 @@ if (mother.isMessageDelivered != null){
 
 
                 Mother item = new Mother(motherName,lastMenstruationDate,isPregnant,isChildBorn,childBirthday,isMessageDelivered);
+                item.setMotherRowPrimaryKey(motherRowPrimaryKey);
                 allMothers.add(item);
 
             } while (cursor.moveToNext());
@@ -269,6 +309,18 @@ if (mother.isMessageDelivered != null){
         return allMothers;
     }                                                  //  ------------------ get List of All Mothers  start ----------
 
+
+
+    //  ------------------ set message status for a Mothers  start ----------
+public void setMessageStatus(String primaryKey, String status){
+    SQLiteDatabase db = super.getWritableDatabase();
+    String where = MOTHER_COLUMN_ID + " =? ";
+    ContentValues values = new ContentValues();
+    values.put(MOTHER_COLUMN_IS_MESSAGE_DELIVERED,status);
+    db.update(TABLE_MOTHER,values,where,new String[] {primaryKey});
+    db.close();
+
+}
 
 
 

@@ -69,36 +69,44 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 
 
         tempList = new ArrayList<>();
-        tempList.add(new Mother("a", "2016/10/1", "true", "false", "false", "true"));
-        tempList.add(new Mother("b", "2016/10/17", "true", "false", "false", "true"));
-        tempList.add(new Mother("c", "2016/10/21", "true", "false", "false", "true"));
-        tempList.add(new Mother("d", "2016/10/8", "true", "false", "false", "true"));
-        tempList.add(new Mother("e", "2016/10/18", "true", "false", "false", "true"));
-        tempList.add(new Mother("f", "2016/10/15", "true", "false", "false", "true"));
-        tempList.add(new Mother("g", "2016/10/13", "true", "false", "false", "false"));
-        tempList.add(new Mother("h", "2016/10/1", "true", "false", "false", "false"));
-        tempList.add(new Mother("i", "2016/10/7", "true", "false", "false", "false"));
-        tempList.add(new Mother("j", "2016/10/19", "true", "false", "false", "false"));
-        tempList.add(new Mother("k", "2016/10/6", "true", "false", "false", "false"));
+        tempList.add(new Mother("aaaa", "2016/10/1", "true", "false", "false", "true"));
+        tempList.add(new Mother("bbbb", "2016/10/17", "true", "false", "false", "true"));
+        tempList.add(new Mother("cccc", "2016/10/21", "true", "false", "false", "true"));
+        tempList.add(new Mother("dddd", "2016/10/8", "true", "false", "false", "true"));
+        tempList.add(new Mother("eeee", "2016/10/18", "true", "false", "false", "true"));
+        tempList.add(new Mother("ffff", "2016/10/15", "true", "false", "false", "true"));
+        tempList.add(new Mother("gggg", "2016/10/13", "true", "false", "false", "false"));
+        tempList.add(new Mother("hhhh", "2016/10/1", "true", "false", "false", "false"));
+        tempList.add(new Mother("iiii", "2016/10/7", "true", "false", "false", "false"));
+        tempList.add(new Mother("jjjj", "2016/10/19", "true", "false", "false", "false"));
+        tempList.add(new Mother("kkkk", "2016/10/6", "true", "false", "false", "false"));
 
 
         //tempList = new ArrayList<>();
-        tempList.add(new Mother("l", "2016/10/1", "false", "true", "2016/10/1", "false"));
-        tempList.add(new Mother("m", "2016/10/17", "false", "true", "2016/10/17", "false"));
-        tempList.add(new Mother("n", "2016/10/21", "false", "true", "2016/10/21", "false"));
-        tempList.add(new Mother("o", "2016/10/8", "false", "true", "2016/10/8", "false"));
-        tempList.add(new Mother("p", "2016/10/18", "false", "true", "2016/10/18", "false"));
-        tempList.add(new Mother("q", "2016/10/15", "false", "true", "2016/10/15", "false"));
-        tempList.add(new Mother("r", "2016/10/13", "false", "true", "2016/10/13", "false"));
-        tempList.add(new Mother("s", "2016/10/7", "false", "true", "2016/10/1", "true"));
-        tempList.add(new Mother("t", "2016/10/1", "false", "true", "2016/10/7", "true"));
-        tempList.add(new Mother("u", "2016/10/19", "false", "true", "2016/10/19", "true"));
-        tempList.add(new Mother("v", "2016/10/6", "false", "true", "2016/10/6", "true"));
+        tempList.add(new Mother("llll", "2016/10/1", "false", "true", "2016/10/1", "false"));
+        tempList.add(new Mother("mmmm", "2016/10/17", "false", "true", "2016/10/17", "false"));
+        tempList.add(new Mother("nnnn", "2016/10/21", "false", "true", "2016/10/21", "false"));
+        tempList.add(new Mother("oooo", "2016/10/8", "false", "true", "2016/10/8", "false"));
+        tempList.add(new Mother("pppp", "2016/10/18", "false", "true", "2016/10/18", "false"));
+        tempList.add(new Mother("qqqq", "2016/10/15", "false", "true", "2016/10/15", "false"));
+        tempList.add(new Mother("rrrr", "2016/10/13", "false", "true", "2016/10/13", "false"));
+        tempList.add(new Mother("ssss", "2016/10/7", "false", "true", "2016/10/1", "true"));
+        tempList.add(new Mother("tttt", "2016/10/1", "false", "true", "2016/10/7", "true"));
+        tempList.add(new Mother("uuuu", "2016/10/19", "false", "true", "2016/10/19", "true"));
+        tempList.add(new Mother("vvvv", "2016/10/6", "false", "true", "2016/10/6", "true"));
+
+
         // for inserting temp mothers
-//              DatabaseHelper db = new DatabaseHelper(this);
-//        for (Mother theMother: tempList) {
-//            db.registerMother(theMother);
-//        }
+              DatabaseHelper db = new DatabaseHelper(this);
+
+        if(db.isMotherTableEmpty()){
+        for (Mother theMother: tempList) {
+            db.registerMother(theMother);
+
+        }
+        }
+
+        // inserting all mother end
 
 
         //tv.setText(  GroupMother.anc1.toString() +"   "+ String.valueOf(GroupMother.anc2.size())+"   "+ String.valueOf(GroupMother.anc3.size()));
@@ -167,6 +175,12 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new HeavyTaskExecutor().execute();
+    }
 
     // ==============================    handle Click Events for all ANC and  PNC  =======================
     @Override

@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //Log - in First
-        Intent intent = new Intent(this, All_Mother_List_Activity.class);              //=================== First Go to Login Page
+        //Intent intent = new Intent(this, All_Mother_List_Activity.class);              //=================== First Go to Login Page
         //Intent intent = new Intent(this, MessageActivity.class);
+         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
         init();

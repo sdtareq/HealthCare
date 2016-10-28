@@ -73,7 +73,7 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="95dp"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:text="Dialog"
                 android:id="@+id/button"
                 android:layout_alignTop="@+id/button2"
@@ -82,8 +82,8 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="95dp"
-                android:layout_height="45dp"
-                android:text="Status"
+                android:layout_height="wrap_content"
+                android:text="Change Msg Status"
                 android:id="@+id/button3"
                 android:layout_alignTop="@+id/button"
                 android:layout_toRightOf="@+id/button"

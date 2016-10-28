@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Mother {
 
-    String  motherName,lastMenstruationDate ,isPregnant  ,isMessageDelivered  , isChildBorn  , childBirthday ;
+    String  motherName,lastMenstruationDate ,isPregnant  ,isMessageDelivered  , isChildBorn  , childBirthday, motherRowPrimaryKey ;
     String runningHealthService;
     List<String> numberOfHealthServicesReceived  = new ArrayList<>();
     int daysOnPregnancy, ageOfChild;
@@ -153,5 +153,13 @@ public class Mother {
 
     public void setNumberOfHealthServicesReceived(List<String> numberOfHealthServicesReceived) {
         this.numberOfHealthServicesReceived = numberOfHealthServicesReceived;
+    }
+
+    public String getMotherRowPrimaryKey() {
+        return motherRowPrimaryKey;
+    }
+
+    public void setMotherRowPrimaryKey(String motherRowPrimaryKey) {
+        this.motherRowPrimaryKey = motherRowPrimaryKey;
     }
 }

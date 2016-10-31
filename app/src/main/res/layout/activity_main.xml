@@ -116,6 +116,7 @@
             <!-- A CardView that contains a TextView -->
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_All_Audio"
                  android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 card_view:cardCornerRadius="4dp"

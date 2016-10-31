@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;   // track the back pressed button
 
+    ProgressDialog progressDialog;  // init dialog
+
 
     TextView tvMessageRemain,
             tvMessageDelivered,
@@ -39,15 +41,20 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //Log - in First
-        //Intent intent = new Intent(this, All_Mother_List_Activity.class);              //=================== First Go to Login Page
-        //Intent intent = new Intent(this, MessageActivity.class);
-         Intent intent = new Intent(this, LoginActivity.class);
+                   //=================== First Go to Login Page
+         Intent intent = new Intent(this, Nutrition_Messages_Activity.class);
+          //Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
         init();
+
+        new HeavyTaskExecutor().execute();
     }
 
     private void init() {
+        progressDialog =
+                new ProgressDialog(MainActivity.this);
+
         tvMessageRemain = (TextView) findViewById(R.id.tvMessageRemain);
         tvMessageDelivered = (TextView) findViewById(R.id.tvMessageDelivered);
         tvMessageTotal = (TextView) findViewById(R.id.tvMessageTotal);
@@ -62,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         });
         findViewById(R.id.btLogOut).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {              //===================  Go to  LogOut Page
+            public void onClick(View v) {              //=========================================  Go to  LogOut Page
                 Intent intent =  new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -77,7 +84,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        new HeavyTaskExecutor().execute();
+        findViewById(R.id.card_view_All_Audio).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {            //=========================================  Go to  Audio Page
+                Intent intent =  new Intent(MainActivity.this, Nutrition_Messages_Activity.class);
+                startActivity(intent);
+            }
+        });
+
         Log.d(TAG, "user primary key: " + user_primary_key + "  user Name  " + user_name);
     }
 
@@ -85,8 +99,12 @@ public class MainActivity extends AppCompatActivity {
     // adding functionality for exit from the app
     @Override
     public void onBackPressed() {
+
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+
+
             return;
         }
 
@@ -104,15 +122,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (progressDialog != null && progressDialog.isShowing())  // for handle view not attached to window manager exception
+            progressDialog.dismiss();
+            progressDialog = null;
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if (progressDialog != null && progressDialog.isShowing()) { // for handle view not attached to window manager exception
+//            progressDialog.dismiss();
+//        progressDialog = null;}
+
+        new HeavyTaskExecutor().execute();
+    }
+
     public class HeavyTaskExecutor extends AsyncTask<String, Void, Map<String, Integer>> {
-        ProgressDialog progressDialog =
-                new ProgressDialog(MainActivity.this);
+
 
         @Override
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
-
+    if (progressDialog == null){
+        progressDialog =
+                new ProgressDialog(MainActivity.this);
+    }
             progressDialog.setMessage("Loading...");
             progressDialog.setCancelable(false);
             progressDialog.show();
@@ -229,8 +269,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Map<String, Integer> result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
-            progressDialog.dismiss();
 
+            if (progressDialog != null && progressDialog.isShowing()) {  // for handle view not attached to window manager exception
+                progressDialog.dismiss();
+            }
 
             tvMessageRemain.setText(String.valueOf(result.get("totalMsgRemaining")) + " জনকে মেসেজ দেয়া হয়নি ");
             tvMessageDelivered.setText(String.valueOf(result.get("totalMsgDelivered")) + " জনকে মেসেজ দেয়া হয়েছে ");

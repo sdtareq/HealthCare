@@ -74,7 +74,7 @@
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="95dp"
                 android:layout_height="wrap_content"
-                android:text="Dialog"
+                android:text="Messsages"
                 android:id="@+id/button"
                 android:layout_alignTop="@+id/button2"
                 android:layout_toRightOf="@+id/button2"

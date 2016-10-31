@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String TAG = "DatabaseHelper";
 
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 11;
 
     // Database Name
     private static final String DATABASE_NAME = "maternalHealthDB";
@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 + MOTHER_COLUMN_CHILD_BIRTHDAY +  " TEXT "
                 + ")";
 
-         //db.execSQL(CREATE_LOGIN_TABLE);     //-------------------------------------------------------- -----===== //
+         db.execSQL(CREATE_LOGIN_TABLE);     //-------------------------------------------------------- -----===== //
          db.execSQL(CREATE_MOTHER_TABLE);
 
 
@@ -97,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 // Drop older table if existed
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);  //------------------------------------------  ----======//
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);  //------------------------------------------  ----======//
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOTHER);
 
         // Create tables again

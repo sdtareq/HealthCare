@@ -58,4 +58,14 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <!--  Dialog theme. -->
+    <style name="AppTheme.Nutrition.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/iron</item>
+        <item name="android:background">@color/primary</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+
+
 </resources>

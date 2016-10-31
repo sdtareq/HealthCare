@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +21,7 @@ import java.util.Map;
 
 public class ANC_PNC_List_Activity extends AppCompatActivity {
     final static String TAG = "ANC_PNC_List_Activity";
-
+TextView tvTitle;
     String healthServiceName = "";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -28,7 +32,9 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anc_pnc_list);
 
+    if (savedInstanceState == null){
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
 
 
         init();
@@ -41,6 +47,8 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
 
     private void init() {
      healthServiceName = getIntent().getStringExtra(MessageActivity.HEALTH_SEARVICE_NAME); // init service name;
+        tvTitle = (TextView) findViewById(R.id.tvListTitle);
+        tvTitle.setText(healthServiceName);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_all_mother);
 
         // use this setting to improve performance if you know that changes
@@ -55,6 +63,14 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
 
 
 
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+       // Toast.makeText(this,"onDestroy",Toast.LENGTH_SHORT).show();
+    }
 
     public class HeavyTaskExecutor extends AsyncTask<String, Void, List<Mother>> {
         ProgressDialog progressDialog =

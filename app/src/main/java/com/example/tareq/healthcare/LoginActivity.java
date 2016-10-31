@@ -1,6 +1,7 @@
 package com.example.tareq.healthcare;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseHelper db;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +32,9 @@ public class LoginActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        etLoginId= (EditText) findViewById(R.id.etLoginId);
-        etLoginPassword= (EditText) findViewById(R.id.etLoginPassword);
+        etLoginId = (EditText) findViewById(R.id.etLoginId);
+        etLoginPassword = (EditText) findViewById(R.id.etLoginPassword);
         btLogin = (Button) findViewById(R.id.btn_login);
-
 
 
         //  Login button click listener
@@ -51,21 +50,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.rbType1:
                 if (checked)
-                   userType = "type 1";
-                    break;
+                    userType = "type 1";
+                break;
             case R.id.rbType2:
                 if (checked)
                     userType = "type 2";
-                    break;
+                break;
             case R.id.rbType3:
                 if (checked)
                     userType = "type 3";
@@ -76,13 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                 break;
         }
     }
-
-
-
-
-
-
-
 
 
 // ----------   Login Process ------------------
@@ -104,26 +95,32 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         final String userId = etLoginId.getText().toString();
-        final String userPassword =etLoginPassword.getText().toString();
+        final String userPassword = etLoginPassword.getText().toString();
 
         // TODO: Implement your own authentication logic here.
 
 
         User user = new User(userId, userPassword, userType);
 
-           db.addAdmin(); // add admin entry in the login table
+        db.addAdmin(); // add admin entry in the login table
+        boolean isValid = false;
+        try {
+            isValid = db.isValidUser(user);
+        } catch (Exception e) {
+            Log.d(TAG, " ==== Validation Problem");
 
 
-        boolean isValid = db.isValidUser(user);
+        }
 
-        if (isValid){
+
+        if (isValid) {
 
             // On complete call  onLoginSuccess
             onLoginSuccess();
             // onLoginFailed();
 
             progressDialog.dismiss();
-        }else {
+        } else {
             // On incomplete call  onLoginFailed
             onLoginFailed();
             progressDialog.dismiss();
@@ -151,8 +148,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
     @Override
     public void onBackPressed() {
         // disable going back to the MainActivity
@@ -161,6 +156,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         btLogin.setEnabled(true);
+//        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//        startActivity(intent);
         finish();
     }
 
@@ -187,12 +184,12 @@ public class LoginActivity extends AppCompatActivity {
             etLoginPassword.setError("৪ থেকে ১০ অক্ষরের মধ্যে পাসওয়ার্ড প্রবেশ করুন");
             valid = false;
         } else {
-           etLoginPassword.setError(null);
+            etLoginPassword.setError(null);
         }
 
-        if (userType == null){
+        if (userType == null) {
 
-        Toast.makeText(this,"লগইন টাইপ সিলেক্ট করুন ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "লগইন টাইপ সিলেক্ট করুন ", Toast.LENGTH_SHORT).show();
             valid = false;
         }
 

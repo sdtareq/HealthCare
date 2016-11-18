@@ -13,38 +13,35 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by TAREQ on 10/27/2016.
+ * Created by TAREQ on 11/5/2016.
  */
-public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adapter.ViewHolder>   {
+public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Message_List_Adapter.ViewHolder>   {
     String call;
     List<Mother> motherList = new ArrayList<>();
     private Context context;
-    String healthServiceName  ;
 
-    public ANC_PNC_List_Adapter(List<Mother> motherList, Context context,String healthServiceName) {
+    public Child_Message_List_Adapter(List<Mother> motherList, Context context) {
         this.motherList = motherList;
         this.context = context;
-        this.healthServiceName = healthServiceName;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.anc_pnc_list_item,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.child_message_list_item,parent,false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder,   int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Mother a_mother = motherList.get(position);
+
 
         if (!a_mother.getMotherName().isEmpty()){
             String name = "নামঃ"+ a_mother.getMotherName();
@@ -68,50 +65,15 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
         final String messageText = "মেসেজঃ ";
         String total_tv_message_text = "";
 
-        if (healthServiceName.equals(GroupMother.ANC_1)){
-            if (a_mother.getIsANC_1_Message_Delivered().equals("true")){
-                deliveryStatus = "হ্যাঁ";
-                holder.btn_call_1.setVisibility(View.INVISIBLE);
-                holder.btn_call_2.setVisibility(View.INVISIBLE);
-                holder.ivYesNO.setImageResource(R.drawable.yes);
-                total_tv_message_text= messageText+ deliveryStatus;
-                holder.tv_message.setText(total_tv_message_text);
-            }else {
-                deliveryStatus = "না";
-                total_tv_message_text = messageText+ deliveryStatus;
-                holder.tv_message.setText(total_tv_message_text);
-                holder.ivYesNO.setImageResource(R.drawable.no);
-                holder.btn_call_1.setVisibility(View.VISIBLE);
-                if (  a_mother.getAlternativePhoneNumber().isEmpty()){
-                    holder.btn_call_2.setVisibility(View.INVISIBLE);
-                }
 
-            }
-        }else if (healthServiceName.equals(GroupMother.ANC_2)){
-            if (a_mother.getIsANC_2_Message_Delivered().equals("true")){
+
+        if (a_mother.getAgeOfChild()>0 && a_mother.getAgeOfChild()<15){//==============  0 - 14 days
+            if (a_mother.getIsChild_message_delivered_0_to_14_days().equals("true")){
                 deliveryStatus = "হ্যাঁ";
                 holder.btn_call_1.setVisibility(View.INVISIBLE);
                 holder.btn_call_2.setVisibility(View.INVISIBLE);
                 holder.ivYesNO.setImageResource(R.drawable.yes);
-                total_tv_message_text=messageText+ deliveryStatus;
-                holder.tv_message.setText(total_tv_message_text);
-            }else {
-                deliveryStatus = "না";
-                total_tv_message_text=messageText+ deliveryStatus;
-                holder.tv_message.setText(total_tv_message_text);
-                holder.ivYesNO.setImageResource(R.drawable.no);
-                holder.btn_call_1.setVisibility(View.VISIBLE);
-                if ( a_mother.getAlternativePhoneNumber().isEmpty()){
-                    holder.btn_call_2.setVisibility(View.INVISIBLE);
-                }
-            }
-        }else if (healthServiceName.equals(GroupMother.ANC_3)){
-            if (a_mother.getIsANC_3_Message_Delivered().equals("true")){
-                deliveryStatus = "হ্যাঁ";
-                total_tv_message_text=messageText+ deliveryStatus;
-                holder.btn_call_1.setVisibility(View.INVISIBLE);
-                holder.btn_call_2.setVisibility(View.INVISIBLE);
-                holder.ivYesNO.setImageResource(R.drawable.yes);
+                total_tv_message_text =messageText+ deliveryStatus ;
                 holder.tv_message.setText(total_tv_message_text);
             }else {
                 deliveryStatus = "না";
@@ -119,12 +81,16 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                 holder.tv_message.setText(total_tv_message_text);
                 holder.ivYesNO.setImageResource(R.drawable.no);
                 holder.btn_call_1.setVisibility(View.VISIBLE);
-                if (  a_mother.getAlternativePhoneNumber().isEmpty()){
+                if (   a_mother.getAlternativePhoneNumber().isEmpty()){
                     holder.btn_call_2.setVisibility(View.INVISIBLE);
                 }
             }
-        }else if (healthServiceName.equals(GroupMother.ANC_4)){
-            if (a_mother.getIsANC_4_Message_Delivered().equals("true")){
+
+
+
+
+        }else if(a_mother.getAgeOfChild()>29 && a_mother.getAgeOfChild()<91){//==============  30 - 90 days  === 1,2,3 month
+            if (a_mother.getIsChild_message_delivered_1_2_3_month().equals("true")){
                 deliveryStatus = "হ্যাঁ";
                 holder.btn_call_1.setVisibility(View.INVISIBLE);
                 holder.btn_call_2.setVisibility(View.INVISIBLE);
@@ -141,8 +107,29 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                     holder.btn_call_2.setVisibility(View.INVISIBLE);
                 }
             }
-        }else if (healthServiceName.equals(GroupMother.PNC)){
-            if (a_mother.getIsPNC_Message_Delivered().equals("true")){
+
+        }else if(a_mother.getAgeOfChild()>179 && a_mother.getAgeOfChild()<241){//==============  180 - 240 days === 6-8 month
+
+            if (a_mother.getIsChild_message_delivered_6_to_8_month().equals("true")){
+                deliveryStatus = "হ্যাঁ";
+                holder.btn_call_1.setVisibility(View.INVISIBLE);
+                holder.btn_call_2.setVisibility(View.INVISIBLE);
+                holder.ivYesNO.setImageResource(R.drawable.yes);
+                total_tv_message_text =messageText+ deliveryStatus ;
+                holder.tv_message.setText(total_tv_message_text);
+            }else {
+                deliveryStatus = "না";
+                total_tv_message_text =messageText+ deliveryStatus ;
+                holder.tv_message.setText(total_tv_message_text);
+                holder.ivYesNO.setImageResource(R.drawable.no);
+                holder.btn_call_1.setVisibility(View.VISIBLE);
+                if (  a_mother.getAlternativePhoneNumber().isEmpty()){
+                    holder.btn_call_2.setVisibility(View.INVISIBLE);
+                }
+            }
+        }else if(a_mother.getAgeOfChild()>269 && a_mother.getAgeOfChild()<366){ //==============  270 - 365 days === 9-12 month
+
+            if (a_mother.getIsChild_message_delivered_9_to_12_month().equals("true")){
                 deliveryStatus = "হ্যাঁ";
                 holder.btn_call_1.setVisibility(View.INVISIBLE);
                 holder.btn_call_2.setVisibility(View.INVISIBLE);
@@ -161,30 +148,17 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
             }
         }
 
+        //if (!a_mother.getChild().getChildName().isEmpty()  ){
+            // Toast.makeText(context,a_mother.getChild().getChildName(),Toast.LENGTH_LONG).show();
+            //String childName= "বাচ্চার নামঃ "+a_mother.getChild().getChildName();
 
 
 
-//        total_tv_message_text =messageText+ deliveryStatus ;
-//        holder.tv_message.setText(total_tv_message_text);
-
-        if (!healthServiceName.equals(GroupMother.PNC) && a_mother.getMotherEDD() != null){//=================================================================================
-            String edd = "EDD: "+ a_mother.getMotherEDD();
-            holder.tvEDD.setText(edd);
             holder.tvChildName.setVisibility(View.GONE);
-        }
-        if (healthServiceName.equals(GroupMother.PNC) ){
-           // if (!a_mother.getChild().getChildName().isEmpty() && a_mother.getChild().getChildName() != null){
-           // Toast.makeText(context,a_mother.getChild().getChildName(),Toast.LENGTH_LONG).show();l
-                //String childName= "বাচ্চার নামঃ "+a_mother.getChild().getChildName();
-                holder.tvEDD.setVisibility(View.GONE);
+      //  }
 
 
-                 holder.tvChildName.setVisibility(View.GONE);
-            //}
-
-        }
-
-        if (   a_mother.desiredCallingTime != null){
+        if (   a_mother.desiredCallingTime  != null){
             String desireCallingTime = "";
 
             if (a_mother.getDesiredCallingTime().equals(MotherRegistrationActivity.DESIRE_CALLING_TIME_MORNING)){
@@ -201,7 +175,15 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
         }
 
 
-
+//        if (Boolean.parseBoolean(a_mother.getIsChildMessageDelivered())){
+//            holder.btnCall.setVisibility(View.INVISIBLE);
+//            holder.ivYesNO.setImageResource(R.drawable.yes);
+//            holder.txt3.setText("Msg Delivered:  "+ deliveryStatus);
+//        }else {
+//            holder.txt3.setText("Msg Delivered:  "+ deliveryStatus);
+//            holder.ivYesNO.setImageResource(R.drawable.no);
+//            holder.btnCall.setVisibility(View.VISIBLE);
+//        }
 
         call = a_mother.getMotherPhoneNumber();
         holder.btn_call_1.setOnClickListener(new View.OnClickListener() {
@@ -214,6 +196,7 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
             }
         });
+
         if (  a_mother.getAlternativePhoneNumber().isEmpty()){
 
 
@@ -224,7 +207,7 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
             holder.btn_call_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+call_2));
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+call_2));//  =====================================================================
                     context.startActivity(intent);
                 }
             });
@@ -244,32 +227,29 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                 builder.setPositiveButton("হ্যাঁ ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    DatabaseHelper helper = new DatabaseHelper(context);
+                        DatabaseHelper helper = new DatabaseHelper(context);
 
-                        if (healthServiceName.equals(GroupMother.ANC_1)){
-                            helper.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"true");
-                        }else if (healthServiceName.equals(GroupMother.ANC_2)){
-                            helper.set_ANC_2_message_status(a_mother.getMotherRowPrimaryKey(),"true");
-                        }else if (healthServiceName.equals(GroupMother.ANC_3)){
-                            helper.set_ANC_3_message_status(a_mother.getMotherRowPrimaryKey(),"true");
-                        }else if (healthServiceName.equals(GroupMother.ANC_4)){
-                            helper.set_ANC_4_message_status(a_mother.getMotherRowPrimaryKey(),"true");
-                        }else if (healthServiceName.equals(GroupMother.PNC)){
-                            helper.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+                        if (a_mother.getAgeOfChild()>0 && a_mother.getAgeOfChild()<31){//==============  0 - 14 days
+                            helper.setChild_0_To_14_Days_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"true");
+
+                        }else if(a_mother.getAgeOfChild()>30 && a_mother.getAgeOfChild()<180){//==============  30 - 90 days  === 1,2,3 month
+                            helper.setChild_1_2_3_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"true");
+
+                        }else if(a_mother.getAgeOfChild()>179 && a_mother.getAgeOfChild()<270){//==============  180 - 240 days === 6-8 month
+                            helper.setChild_6_To_8_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"true");
+
+                        }else if(a_mother.getAgeOfChild()>269 && a_mother.getAgeOfChild()<366){ //==============  270 - 365 days === 9-12 month
+                            helper.setChild_9_To_12_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"true");
+
                         }
 
-                       //helper.setMessageStatus(a_mother.getMotherRowPrimaryKey(),"true");
-                      //  holder.btn_change_status.setText("Msg  Yes");
-                      //  holder.txt3.setText("Msg Delivered");
                         holder.btn_call_1.setVisibility(View.INVISIBLE);
                         holder.btn_call_2.setVisibility(View.INVISIBLE);
 
                         holder.ivYesNO.setImageResource(R.drawable.yes);
                         String deliveryStatusNO = "হ্যাঁ";
-                        String total_tv_message_text =messageText+ deliveryStatusNO ;
+                        String total_tv_message_text = messageText+ deliveryStatusNO ;
                         holder.tv_message.setText(total_tv_message_text);
-
-
                     }
                 });
                 builder.setNegativeButton("না ", new DialogInterface.OnClickListener() {
@@ -277,25 +257,25 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                     public void onClick(DialogInterface dialog, int which) {
                         DatabaseHelper helper = new DatabaseHelper(context);
 
-                        if (healthServiceName.equals(GroupMother.ANC_1)){
-                            helper.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"false");
-                        }else if (healthServiceName.equals(GroupMother.ANC_2)){
-                            helper.set_ANC_2_message_status(a_mother.getMotherRowPrimaryKey(),"false");
-                        }else if (healthServiceName.equals(GroupMother.ANC_3)){
-                            helper.set_ANC_3_message_status(a_mother.getMotherRowPrimaryKey(),"false");
-                        }else if (healthServiceName.equals(GroupMother.ANC_4)){
-                            helper.set_ANC_4_message_status(a_mother.getMotherRowPrimaryKey(),"false");
-                        }else if (healthServiceName.equals(GroupMother.PNC)){
-                            helper.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                        if (a_mother.getAgeOfChild()>0 && a_mother.getAgeOfChild()<15){//==============  0 - 14 days
+                            helper.setChild_0_To_14_Days_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"false");
+
+                        }else if(a_mother.getAgeOfChild()>29 && a_mother.getAgeOfChild()<91){//==============  30 - 90 days  === 1,2,3 month
+                            helper.setChild_1_2_3_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"false");
+
+                        }else if(a_mother.getAgeOfChild()>179 && a_mother.getAgeOfChild()<241){//==============  180 - 240 days === 6-8 month
+                            helper.setChild_6_To_8_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"false");
+
+                        }else if(a_mother.getAgeOfChild()>269 && a_mother.getAgeOfChild()<366){ //==============  270 - 365 days === 9-12 month
+                            helper.setChild_9_To_12_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(),"false");
+
                         }
 
 
-                        //helper.setMessageStatus(a_mother.getMotherRowPrimaryKey(),"false");
 
-                       // holder.btn_change_status.setText("Msg  NO");
-                       // holder.txt3.setText("Msg not Delivered");
+
                         holder.btn_call_1.setVisibility(View.VISIBLE);
-                        if (  a_mother.getAlternativePhoneNumber().isEmpty()){
+                        if ( a_mother.getAlternativePhoneNumber().isEmpty()){
                             holder.btn_call_2.setVisibility(View.INVISIBLE);
                         }else {  holder.btn_call_2.setVisibility(View.VISIBLE);}
                         //=============================================
@@ -303,7 +283,6 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                         String deliveryStatusNO = "না";
                         String total_tv_message_text =messageText+ deliveryStatusNO ;
                         holder.tv_message.setText(total_tv_message_text);
-
                     }
                 });
                 builder.setNeutralButton("বাতিল করুন", new DialogInterface.OnClickListener() {
@@ -311,34 +290,65 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 });
-             AlertDialog dialog =   builder.create();
-            dialog.show();
+                AlertDialog dialog =   builder.create();
+                dialog.show();
             }
         });
+
         holder.btn_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE );
-                View messageView = inflater.inflate(R.layout.messages_for_mother,null);
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+View messageView = inflater.inflate(R.layout.messages_for_child,null);
 
 
-                 if (ANC_PNC_List_Activity.ANC_PNC_STATE.equals(GroupMother.ANC_4)){
-                    messageView.findViewById(R.id.linearLayout_ANC_4_Messages).setVisibility(View.VISIBLE);
-                    messageView.findViewById(R.id.linearLayout_ANC_Messages).setVisibility(View.GONE);
-                    messageView.findViewById(R.id.linearLayout_PNC_Messages).setVisibility(View.GONE);
-                }else if (ANC_PNC_List_Activity.ANC_PNC_STATE.equals(GroupMother.PNC)){
-                    messageView.findViewById(R.id.linearLayout_ANC_4_Messages).setVisibility(View.GONE);
-                    messageView.findViewById(R.id.linearLayout_ANC_Messages).setVisibility(View.GONE);
-                    messageView.findViewById(R.id.linearLayout_PNC_Messages).setVisibility(View.VISIBLE);
-                }else {
-                    messageView.findViewById(R.id.linearLayout_ANC_4_Messages).setVisibility(View.GONE);
-                    messageView.findViewById(R.id.linearLayout_ANC_Messages).setVisibility(View.VISIBLE);
-                    messageView.findViewById(R.id.linearLayout_PNC_Messages).setVisibility(View.GONE);
+
+                if (a_mother.getAgeOfChild()>0 && a_mother.getAgeOfChild()<31){//==============  0 - 14 days
+
+
+                    messageView.findViewById(R.id.linearLayout_child_message_0_to_14_days).setVisibility(View.VISIBLE);
+                    messageView.findViewById(R.id.linearLayout_child_message_1st_2nd_3rd_month).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_diet_title).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months_diet).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months_diet).setVisibility(View.GONE);
+
+
+
+                }else if(a_mother.getAgeOfChild()>30 && a_mother.getAgeOfChild()<180){//==============  30 - 90 days  === 1,2,3 month
+                    messageView.findViewById(R.id.linearLayout_child_message_0_to_14_days).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_1st_2nd_3rd_month).setVisibility(View.VISIBLE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_diet_title).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months_diet).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months_diet).setVisibility(View.GONE);
+
+                }else if(a_mother.getAgeOfChild()>179 && a_mother.getAgeOfChild()<270){//==============  180 - 240 days === 6-8 month
+                    messageView.findViewById(R.id.linearLayout_child_message_0_to_14_days).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_1st_2nd_3rd_month).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months).setVisibility(View.VISIBLE);
+                    messageView.findViewById(R.id.linearLayout_child_message_diet_title).setVisibility(View.VISIBLE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months_diet).setVisibility(View.VISIBLE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months_diet).setVisibility(View.GONE);
+
+                }else if(a_mother.getAgeOfChild()>269 && a_mother.getAgeOfChild()<366){ //==============  270 - 365 days === 9-12 month
+                    messageView.findViewById(R.id.linearLayout_child_message_0_to_14_days).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_1st_2nd_3rd_month).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months_diet).setVisibility(View.GONE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months).setVisibility(View.VISIBLE);
+                    messageView.findViewById(R.id.linearLayout_child_message_diet_title).setVisibility(View.VISIBLE);
+                    messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months_diet).setVisibility(View.VISIBLE);
+
                 }
 
 
-               builder.setView(messageView);
+
+                builder.setView(messageView);
 
                 builder.setNegativeButton("বাতিল করুন", new DialogInterface.OnClickListener() {
                     @Override
@@ -353,22 +363,24 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
             }
         });
-       holder.btn_details.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-            Intent intent = new Intent(context, Mother_Details_Activity.class);
-               intent.putExtra(Mother_Details_Activity.TAG,a_mother);
-               context.startActivity(intent);
-           }
-       });
+        holder.btn_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Mother_Details_Activity.class);
+                intent.putExtra(Mother_Details_Activity.TAG,a_mother);
+                context.startActivity(intent);
+            }
+        });
+
+
         holder.btn_Edit.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-            Intent intent = new Intent(context, EditMotherActivity.class);
-               intent.putExtra(EditMotherActivity.TAG,a_mother);
-               context.startActivity(intent);
-           }
-       });
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EditMotherActivity.class);
+                intent.putExtra(EditMotherActivity.TAG,a_mother);
+                context.startActivity(intent);
+            }
+        });
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -402,9 +414,9 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
             }
         });
 
-//         holder..;
 //         holder.btchange.;
     }
+
 
     @Override
     public int getItemCount() {
@@ -413,14 +425,15 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-TextView tv_message,tvMotherName,tvEDD,tvHusbandName,tvAddress,tvDesireCallingTime,tvChildName;
+
+        TextView tv_message,tvMotherName,tvEDD,tvHusbandName,tvAddress,tvDesireCallingTime,tvChildName;
         AppCompatButton btn_delete,btn_Edit,btn_details,btn_message,btn_change_status,btn_call_1,btn_call_2;
 //        protected TextView vName;
 //        protected TextView txt2;
 //        protected TextView txt3;
 
         //protected Button btDetails, btMessage, btChange,btnCall;
-       // protected AppCompatButton  btnEdit;
+        // protected AppCompatButton  btnEdit;
         protected ImageView ivYesNO;
 
         public ViewHolder(View itemView) {
@@ -436,9 +449,9 @@ TextView tv_message,tvMotherName,tvEDD,tvHusbandName,tvAddress,tvDesireCallingTi
 //
 
 
-           // btnCall  = (Button) itemView.findViewById(R.id.button4);
+            // btnCall  = (Button) itemView.findViewById(R.id.button4);
             ivYesNO = (ImageView) itemView.findViewById(R.id.ivYesNo);
-             //btnEdit =   itemView.findViewById(R.id.btn_Edit);
+            //btnEdit =   itemView.findViewById(R.id.btn_Edit);
 
 
             tv_message = (TextView) itemView.findViewById(R.id.tv_message );
@@ -449,16 +462,12 @@ TextView tv_message,tvMotherName,tvEDD,tvHusbandName,tvAddress,tvDesireCallingTi
             tvDesireCallingTime = (TextView) itemView.findViewById(R.id.tvDesireCallingTime);
             tvChildName = (TextView) itemView.findViewById(R.id.tvChildName);
             btn_delete = (AppCompatButton) itemView.findViewById(R.id.btn_delete);
-           btn_Edit =(AppCompatButton) itemView.findViewById(R.id.btnEdit);
+            btn_Edit =(AppCompatButton) itemView.findViewById(R.id.btnEdit);
             btn_details = (AppCompatButton) itemView.findViewById(R.id.btn_details );
             btn_message = (AppCompatButton) itemView.findViewById(R.id.btn_message );
             btn_change_status = (AppCompatButton) itemView.findViewById(R.id.btn_change_status );
             btn_call_1 = (AppCompatButton) itemView.findViewById(R.id.btn_call_1 );
             btn_call_2 = (AppCompatButton) itemView.findViewById(R.id.btn_call_2 );
-
-
-
-
 
 
 

@@ -27,7 +27,7 @@
 
     </style>
 
-    <!-- Login theme. -->
+    <!--   theme. -->
     <style name="AppTheme.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -55,7 +55,7 @@
 
     <!-- EditText Hint size -->
     <style name="TextLabel" parent="TextAppearance.Design.Hint">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">25sp</item>
     </style>
 
     <!--  Dialog theme. -->

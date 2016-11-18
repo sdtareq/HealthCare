@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_ANC_Messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_ANC_1_2_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="এএনসি ১, ২, ৩ এর মেসেজ"
+                android:textSize="@dimen/tv_message_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ডাক্তার দেখাতে হবে অন্তত ৪বার (৮-১২ সপ্তাহে), (২৪-২৬ সপ্তাহে), (৩২ সপ্তাহে),(৩৬ সপ্তাহের আগে)"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="প্রতিদিন প্রধান খাবারের ছাড়াও ২বার নাস্তা খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="প্রতিদিন ১টি করে আয়রন ফলিক এসিড খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="যতটুকু সম্ভব মা কে চা, কফি, কোক কম  খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বেশি করে পানি খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="সহজে পাওয়া যায় এমন সবুজ-হলুদ শাক-সবজি, ফল-মূল ও প্রাণীজ খাদ্য প্রতিদিন খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="আয়ডিনযুক্ত লবণ খেতে হবে ও মুখবন্ধ করা কৌটায় রাখতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="প্রতিদিন ১টি করে ক্যালসিয়াম খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="প্রতিদিন পর্যাপ্ত পরিমাণে বিশ্রাম নিতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="মাকে গর্ভাবস্থায় ৩টি টিকা নিতে হবে- টিটি ১, টিটি ২ বা অধিক, এমএমআর টিকা"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="মাকে গর্ভাবস্থায় নিয়মিত ওজন ও রক্তচাপ পরীক্ষা করতে কমিউনিটি ক্লিনিকে আসতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout_ANC_4_Messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="এএনসি ৪ এর মেসেজ"
+                android:textSize="@dimen/tv_message_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ইডিডি এর কাছাকাছি সময় বারবার ডেলিভারির খবর নিতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="শিশুকে জন্মের ১ ঘন্টার মধ্যে বুকের দুধ দিতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="শিশুকে জন্মের পর পর শালদুধের আগে কোন প্রকার মধু, চিনি পানি, মিশ্রির পানি এমনকি ১ ফোঁটা পানিও দেয়া যাবে না"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="শিশুকে কিভাবে সঠিকভাবে ধরতে ও বুকের দুধ খাওয়াতে হয় তা শেখার জন্য মাকে কমিউনিটি ক্লিনিকে আসতে বলুন"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ডেলিভারি হলে মাকে ১৪ দিনের মধ্যে ভিটামিন ”এ” ট্যাবলেট খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+        <LinearLayout
+
+            android:id="@+id/linearLayout_PNC_Messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="পিএনসি মেসেজ"
+                android:textSize="@dimen/tv_message_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৩ মাস পর্যন্ত প্রতিদিন ১টি করে আয়রন ফলিক এসিড খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বুকের দুধ খাওয়াতে কোন সমস্যা হলে মাকে কমিউনিটি ক্লিনিকে আসতে হবে "
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="প্রতিদিন প্রধান খাবার ছাড়াও মাকে অতিরিকÍ ২বার নাস্তা খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="প্রতিদিন মাকে সহজে পাওয়া যায় এমন সবুজ-হলুদ শাক-সবজি, ফল-মূল ও প্রাণীজ খাদ্য খেতে হবে"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>

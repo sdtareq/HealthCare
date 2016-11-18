@@ -2,286 +2,165 @@
 
 
 
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_Container_Mother"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight=".4"
+
+android:gravity="center"
+        >
+
+                            <!-- anc row 1 F7CAC9 -->
+        <!-- A CardView  -->
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            android:id="@+id/card_view_Anc1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginLeft="16dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                >
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:orientation="horizontal"
+                    android:background="#F7CAC9"
+                    android:paddingBottom="16dp"/>
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="  মায়েদের মেসেজ"
+                    android:textSize="35sp"
+                    android:gravity="center"
+                    android:paddingTop="8dp"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/mother"/>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+
+        <!-- anc row 2 #95DEE3 -->
+        <!-- A CardView  -->
+
+
+        <!-- anc row 3  D8AE47-->
+        <!-- A CardView  -->
+        <!--  anc row 4  88B04B-->
+        <!-- A CardView  -->
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight=".5"
-        android:weightSum="1"
-
-        >
-
-                            <!-- anc row 1  -->
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:layout_gravity="center"
-        android:background="#F7CAC9"
-        android:padding="16dp"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="ANC 1"
-              />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button android:id="@+id/btANC1_nutrition1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="মেসেজ ১"
-                 />
-
-            <Button
-                android:id="@+id/btANC1_nutrition2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="মেসেজ ২"
-                 />
-        </LinearLayout>
-    </LinearLayout>
-
-
-
-    <!-- anc row 2  -->
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:background="#95DEE3"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="ANC 2"
-            />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                 />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                 />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- anc row 3  -->
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:background="#D8AE47"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="ANC 3"
-             />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                  />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!--  anc row 4  -->
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:background="#88B04B"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="ANC 4"
-             />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                 />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                 />
-        </LinearLayout>
-    </LinearLayout>
-
-    </LinearLayout>
-
+        android:orientation="horizontal"
+        android:layout_weight=".2"/>
 
     <LinearLayout
+        android:id="@+id/LinearLayout_Container_Child"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight=".5"
-        android:weightSum="1">
+        android:layout_weight=".4"
 
-        <!-- delivery row 1  -->
-        <LinearLayout
-            android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- delivery row 1 92B6D5 -->
+
+        <!-- A CardView  -->
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            android:id="@+id/card_view_Delivery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.339"
-            android:background="#92B6D5"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Delivery Message"
-                />
-
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginRight="16dp">
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
-                    />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-
-
-        <!-- pnc row 2  -->
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.33"
-            android:background="#DFCFBE"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="PNC Message"
-                />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:orientation="horizontal"
+                    android:background="#92B6D5"
+                    android:paddingBottom="16dp"
                     />
+                <TextView
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="শিশুদের জন্য মেসেজ দিন"
+                    android:textSize="35sp"
+                    android:gravity="center"
+                    android:paddingTop="8dp"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@drawable/child"/>
+
+                </LinearLayout>
+
             </LinearLayout>
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        <!-- child row 3  -->
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.33"
-            android:background="#7FCDCD"
-            android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Child Nutrition Message"
-                />
+        <!-- pnc row 2  DFCFBE-->
+        <!-- A CardView  -->
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
-                    />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
-                    />
-            </LinearLayout>
-        </LinearLayout>
+        <!-- child row 3  7FCDCD-->
+        <!-- A CardView  -->
 
     </LinearLayout>
 
 </LinearLayout>
 
+</ScrollView>

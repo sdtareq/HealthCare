@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginBottom="4dp"
-                   >
+                    >
                     <LinearLayout
 
                         android:layout_width="match_parent"
@@ -108,12 +108,12 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:layout_weight=".2">
-                                <TextView
+                                <android.support.v7.widget.AppCompatButton
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="EDD"
-                                    android:id="@+id/tvEDD"
-                                    android:textSize="@dimen/tv_body"/>
+                                    android:text="শিশু নিবন্ধন "
+                                    android:id="@+id/btnAddChild"
+                                    android:textSize="22sp"/>
                             </LinearLayout>
 
 
@@ -128,12 +128,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="বাচ্চার নামঃ"
-                                android:id="@+id/tvChildName"
-                                android:textSize="@dimen/tv_body"/>
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

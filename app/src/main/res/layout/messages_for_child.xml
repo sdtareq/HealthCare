@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="শিশুর জন্য মেসেজ (বয়স  -  টিকা - পুষ্টি মেসেজ)"
+            android:textSize="@dimen/tv_message_header"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+            <!-- row -->
+            <LinearLayout
+                android:id="@+id/linearLayout_child_message_0_to_14_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/iv_message_for_mother_width"
+                    android:layout_height="@dimen/iv_message_for_mother_height"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:src="@drawable/s3"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="০ - ১৪ দিনের মধ্যে -  শুধুমাত্র বুকের দুধ খাওয়ান, যেকোন সমস্যায় কমিউনিটি ক্লিনিকে শিশুকে নিয়ে আসুন "
+                    android:textSize="@dimen/tv_message_body" />
+            </LinearLayout>
+
+
+            <!-- row -->
+            <LinearLayout
+                android:id="@+id/linearLayout_child_message_1st_2nd_3rd_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/iv_message_for_mother_width"
+                    android:layout_height="@dimen/iv_message_for_mother_height"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:src="@drawable/s3"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="শিশুর ১ম,২য় ও ৩য় মাসে - শুধুমাত্র বুকের দুধ খাওয়ান, যেকোন সমস্যায় কমিউনিটি ক্লিনিকে শিশুকে নিয়ে আসুন"
+                    android:textSize="@dimen/tv_message_body" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_child_message_6_to_8_months"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৬ মাসে "
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৬ মাস পূর্ন হলেই শিশুকে বাড়তি খাবার শুরু করতে হবে, "
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৬ মাস পূর্ন হওয়ার আগে শিশুকে অন্য কোন খাবার দিলে মায়ের দুধ খাওয়া কমিয়ে দিবে ফলে সে   সঠিক পুষ্টি পাবে না, "
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বুকের দুধের পাশাপাশি পারিবারিক বাড়তি খাবার শুরু করতে হবে, এ বিষয়ে বিস্তারিত জানতে কমিউনিটি ক্লিনিকে আসুন  "
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/linearLayout_child_message_9_to_12_months">
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৯ম মাসে "
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বুকের দুধের পাশাপাশি বয়স অনুযায়ী পারিবারিক বাড়তি খাবার শুরু করতে হবে, এ বিষয়ে বিস্তারিত জানতে কমিউনিটি ক্লিনিকে আসুন  "
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+        <!-- row -->
+        <LinearLayout
+            android:id="@+id/linearLayout_child_message_diet_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/iv_message_for_mother_width"
+                android:layout_height="@dimen/iv_message_for_mother_height"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:src="@drawable/s3"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="বয়স অনুযায়ী  পারিবারিক বাড়তি খাবারের মেসেজ (৬মাস পূর্ণ - ১২ মাস পর্যন্ত)"
+                android:textSize="@dimen/tv_message_body" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout_child_message_6_to_8_months_diet">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="৬ মাস (পূর্ণ)-৮ মাস (পূর্ণ)"
+                android:textSize="@dimen/tv_message_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="পরিমান"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="২৫০ মিঃলিঃ বাটির আধা (১/২) বাটি।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বেলা"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="২ বার"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ঘনত্ব"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="একেবারে চটকিয়ে নরম করতে হবে।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="দিনে মোট খাবার"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="২৫০ মিঃলিঃ বাটির ১বাটি + প্রতিবারে ১ চা চামচ করে দিনে ২চা চামচ সয়াবিন তৈল। বুকের দুধ চলবে।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout_child_message_9_to_12_months_diet">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="৯(পূর্ণ)-১১ মাস (পূর্ণ)"
+                android:textSize="@dimen/tv_message_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="পরিমান"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="২৫০ মিঃলিঃ বাটির আধা (১/২) বাটি।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বেলা"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৩ বার "
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ঘনত্ব"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="আধা চটকানো।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="দিনে মোট খাবার"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="২৫০ মিঃলিঃ বাটির দেড় (১.৫) বাটি +  প্রতিবারে ১ চা চামচ করে দিনে ৩চা চামচ সয়াবিন তৈল + ১-২ বার পুষ্টিকর নাস্তা।
+বুকের দুধ চলবে।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="১২ মাস(পূর্ণ)"
+                android:textSize="@dimen/tv_message_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="পরিমান"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="২৫০ মিঃলিঃ বাটির এক (১) বাটি।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বেলা"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৩ বার "
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ঘনত্ব"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="স্বাভাবিক।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s3"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="দিনে মোট খাবার"
+                        android:textSize="@dimen/tv_message_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal"
+                    android:paddingLeft="40dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/iv_message_for_mother_width"
+                        android:layout_height="@dimen/iv_message_for_mother_height"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:src="@drawable/s0"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="২৫০ মিঃলিঃ বাটির তিন (৩)বাটি +  প্রতিবারে ১ চা চামচ করে দিনে ৩চা চামচ সয়াবিন তৈল + ১-২ বার পুষ্টিকর নাস্তা।
+বুকের দুধ চলবে।"
+                        android:textSize="@dimen/tv_message_body" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>

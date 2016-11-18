@@ -6,19 +6,26 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * Created by TAREQ on 10/23/2016.
  */
-public class DatabaseHelper extends SQLiteOpenHelper{
+public class DatabaseHelper extends SQLiteOpenHelper {
+    private final Context context;
 
     private static final String TAG = "DatabaseHelper";
 
 
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 25;
+
 
     // Database Name
     private static final String DATABASE_NAME = "maternalHealthDB";
@@ -29,34 +36,87 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final String TABLE_LOGIN = "table_login";
     private static final String USER_COLUMN_ID = "_id";
-    private static final String USER_COLUMN_NAME ="user_name";
-    private static final String USER_COLUMN_PASSWORD ="user_password";
-    private static final String USER_COLUMN_TYPE ="user_type";
+    private static final String USER_COLUMN_NAME = "user_name";
+    private static final String USER_COLUMN_PASSWORD = "user_password";
+    private static final String USER_COLUMN_TYPE = "user_type";
     //-------------------------  Login table  end ------------------------------
 
     //-------------------------  MOTHER table start  ------------------------------
 
-    private static final String TABLE_MOTHER = "table_mother";
-    private static final String MOTHER_COLUMN_ID = "_id";           //----------------------------0
-    private static final String MOTHER_COLUMN_NAME ="mother_name"; //----------------------------1
-    private static final String MOTHER_COLUMN_LAST_MENSTRUATION ="mother_last_menstruation"; // ---2
-    private static final String MOTHER_COLUMN_AGE ="mother_age";    //----------------------------/3
-    private static final String MOTHER_COLUMN_IS_PREGNANT ="mother_is_pregnant";    //----------------------------/4
-    private static final String MOTHER_COLUMN_IS_MESSAGE_DELIVERED ="is_message_delivered";  // ----- 5
-    private static final String MOTHER_COLUMN_IS_CHILD_BORN ="is_child_born";  //----- ------------- 6
-    private static final String MOTHER_COLUMN_CHILD_BIRTHDAY ="child_birthday";  //------ ----- --- 7
+    protected static final String TABLE_MOTHER = "table_mother";
+    protected static final String MOTHER_COLUMN_ID = "_id";           //----------------------------0
+    protected static final String MOTHER_COLUMN_NAME = "mother_name"; //----------------------------1
+    protected static final String MOTHER_COLUMN_HUSBAND_NAME = "husband_name"; //----------------------------2
+    protected static final String MOTHER_COLUMN_AGE = "mother_age";    //----------------------------3
+    protected static final String MOTHER_COLUMN_PHONE_NUMBER = "phone_number";  //------ ----- --- 4
+    protected static final String MOTHER_COLUMN_DESIRED_CALLING_TIME = "desired_calling_time";  //------ ----- --- 5
+    protected static final String MOTHER_COLUMN_MOTHER_ADDRESS = "mother_address";  //------ ----- --- 6
+    protected static final String MOTHER_COLUMN_GIS_LOCATION = "GIS_location";  //------ ----- --- 7
+    protected static final String MOTHER_COLUMN_ALTERNATIVE_PHONE_NO = "alternative_phone";  //------ ----- --- 8
+    protected static final String MOTHER_COLUMN_ALTERNATIVE_PHONE_OWNER_NAME = "alternative_phone_owner_name";  //------ ----- --- 9
+    protected static final String MOTHER_COLUMN_DHIS_ID = "DHIS_ID";  //------ ----- --- 10
+    protected static final String MOTHER_COLUMN_LAST_MENSTRUATION = "mother_LMP"; // ---11
+    protected static final String MOTHER_COLUMN_PREGNANCY_STATE = "pregnancy_state";    //----------------------------/12
+    protected static final String MOTHER_COLUMN_DELIVERY_DATE = "delivery_date";    //----------------------------/13
+    protected static final String MOTHER_COLUMN_SYNC_STATUS = "sync_status";    //----------------------------/14
+    protected static final String MOTHER_COLUMN_TIMESTAMP = "created_at";    //----------------------------/15
+
+    //-------------------------  MOTHER table  end ------------------------------
+
+    //-------------------------  MESSAGE DELIVERY table start  ------------------------------
+
+    protected static final String TABLE_MESSAGE_DELIVERY = "table_message_delivery";
+    protected static final String MESSAGE_DELIVERY_COL_ID = "_id";           //----------------------------0
+    protected static final String MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID = "mother_id";           //----------------------------1
+    protected static final String MESSAGE_DELIVERY_COL_IS_ANC_1_MSG_DELIVERED = "is_ANC_1_message_delivered"; //----------------------------2
+    protected static final String MESSAGE_DELIVERY_COL_IS_ANC_2_MSG_DELIVERED = "is_ANC_2_message_delivered"; //----------------------------3
+    protected static final String MESSAGE_DELIVERY_COL_IS_ANC_3_MSG_DELIVERED = "is_ANC_3_message_delivered"; //----------------------------4
+    protected static final String MESSAGE_DELIVERY_COL_IS_ANC_4_MSG_DELIVERED = "is_ANC_4_message_delivered"; //----------------------------5
+    protected static final String MESSAGE_DELIVERY_COL_IS_PRE_DELIVERY_MSG_DELIVERED = "is_pre_delivery_message_delivered"; //----------------------------6
+    protected static final String MESSAGE_DELIVERY_COL_IS_PNC_MSG_DELIVERED = "is_PNC_message_delivered"; //----------------------------7
+    protected static final String MESSAGE_DELIVERY_COL_IS_CHILD_0_TO_14_DAYS_MSG_DELIVERED = "is_child_0_to_14_days_message_delivered"; //----------------------------8
+    protected static final String MESSAGE_DELIVERY_COL_IS_CHILD_1_2_3_MONTH_MSG_DELIVERED = "is_child_1_2_3_months_message_delivered"; //----------------------------9
+    protected static final String MESSAGE_DELIVERY_COL_IS_CHILD_6_TO_8_MONTH_MSG_DELIVERED = "is_child_6_to_8_months_message_delivered"; //----------------------------10
+    protected static final String MESSAGE_DELIVERY_COL_IS_CHILD_9_T0_12_MONTH_MSG_DELIVERED = "is_child_9_to_12_months_message_delivered"; //----------------------------11
+    protected static final String MESSAGE_DELIVERY_COL_IS_MOTHER_DEAD = "is_mother_dead";                                      //----------------------------12
+
+//    private static final String MOTHER_COLUMN_IS_MESSAGE_DELIVERED = "is_message_delivered";  // ----- 5
+//    private static final String MOTHER_COLUMN_IS_CHILD_MESSAGE_DELIVERED = "is_child_message_delivered";  // -----6
+//    private static final String MOTHER_COLUMN_IS_PRE_DELIVERY_MESSAGE_DELIVERED = "is_pre_delivery_message_delivered";  // -----7
+//    private static final String MOTHER_COLUMN_IS_CHILD_BORN = "is_child_born";  //----- ------------- 8
+//    private static final String MOTHER_COLUMN_DELIVERY_DATE = "child_birthday";  //------ ----- --- 9
+
+
+    //-------------------------  MESSAGE DELIVERY table  end ------------------------------
+
+
+    //-------------------------  Child table start  ------------------------------
+
+    protected static final String TABLE_CHILD = "table_child";
+    protected static final String CHILD_COLUMN_ID = "_id";           //----------------------------0
+    protected static final String CHILD_COLUMN_MOTHER_ID = "mother_id";           //----------------------------1
+    protected static final String CHILD_COLUMN_MOTHER_NAME = "child_mother_name";           //----------------------------2
+    protected static final String CHILD_COLUMN_NAME = "child_name"; //----------------------------3
+    protected static final String CHILD_COLUMN_SEX = "sex_of_child"; //-------------------------------- ---4
+    protected static final String CHILD_COLUMN_DATE_OF_BIRTH = "child_date_of_birth";    //----------------------------/5
+    protected static final String CHILD_COLUMN_BIRTH_WEIGHT = "child_weight";    //----------------------------/6
+    protected static final String CHILD_COLUMN_ID_NUMBER_OF_CHILD = "id_number_of_child";  // ----- 7
+//    private static final String CHILD_COLUMN_IS_CHILD_BORN ="is_child_born";  //----- -------------
+//    private static final String CHILD_COLUMN_CHILD_BIRTHDAY ="child_birthday";  //------ ----- ---
+//    private static final String CHILD_COLUMN_PHONE_NUMBER ="phone_number";  //------ ----- ---
+//    private static final String CHILD_COLUMN_MOTHER_ADDRESS ="mother_address";  //------ ----- ---
     //-------------------------  Login table  end ------------------------------
-   //  ====================== All  Tables end ===========================
+    //  ====================== All  Tables end ===========================
 
 
 //=============================    Constructor  start ================================
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null , DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
 //=============================    Constructor end  ================================
-
 
 
 //  ===========================   Create Table  start ==================================
@@ -68,24 +128,64 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 + "("
                 + USER_COLUMN_ID + " INTEGER UNIQUE PRIMARY KEY, "
                 + USER_COLUMN_NAME + " TEXT UNIQUE, "
-                + USER_COLUMN_PASSWORD +  " TEXT, "
-                + USER_COLUMN_TYPE +  " TEXT "
+                + USER_COLUMN_PASSWORD + " TEXT, "
+                + USER_COLUMN_TYPE + " TEXT "
                 + ")";
 
         String CREATE_MOTHER_TABLE = "CREATE TABLE " + TABLE_MOTHER    //-------------------   Create Table for MOTHER
                 + "("
                 + MOTHER_COLUMN_ID + " INTEGER UNIQUE PRIMARY KEY, "
                 + MOTHER_COLUMN_NAME + " TEXT , "
-                + MOTHER_COLUMN_LAST_MENSTRUATION +  " TEXT , "
+                + MOTHER_COLUMN_HUSBAND_NAME + " TEXT , "
                 + MOTHER_COLUMN_AGE + " TEXT , "
-                + MOTHER_COLUMN_IS_PREGNANT + " TEXT , "
-                + MOTHER_COLUMN_IS_MESSAGE_DELIVERED +  " TEXT , "
-                + MOTHER_COLUMN_IS_CHILD_BORN + " TEXT , "
-                + MOTHER_COLUMN_CHILD_BIRTHDAY +  " TEXT "
+                + MOTHER_COLUMN_PHONE_NUMBER + " TEXT , "
+                + MOTHER_COLUMN_DESIRED_CALLING_TIME + " TEXT , "
+                + MOTHER_COLUMN_MOTHER_ADDRESS + " TEXT , "
+                + MOTHER_COLUMN_GIS_LOCATION + " TEXT , "
+                + MOTHER_COLUMN_ALTERNATIVE_PHONE_NO + " TEXT , "
+                + MOTHER_COLUMN_ALTERNATIVE_PHONE_OWNER_NAME + " TEXT , "
+                + MOTHER_COLUMN_DHIS_ID + " TEXT , "
+                + MOTHER_COLUMN_LAST_MENSTRUATION + " TEXT , "
+                + MOTHER_COLUMN_PREGNANCY_STATE + " TEXT , "
+                + MOTHER_COLUMN_DELIVERY_DATE + " TEXT ,"
+                + MOTHER_COLUMN_SYNC_STATUS + " TEXT ,"
+                + MOTHER_COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                 + ")";
 
-         db.execSQL(CREATE_LOGIN_TABLE);     //-------------------------------------------------------- -----===== //
-         db.execSQL(CREATE_MOTHER_TABLE);
+        String CREATE_MESSAGE_DELIVERY_TABLE = "CREATE TABLE " + TABLE_MESSAGE_DELIVERY    //-------------------   Create Table for MOTHER
+                + "("
+                + MESSAGE_DELIVERY_COL_ID + " INTEGER UNIQUE PRIMARY KEY, "
+                + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_ANC_1_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_ANC_2_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_ANC_3_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_ANC_4_MSG_DELIVERED  + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_PRE_DELIVERY_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_PNC_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_CHILD_0_TO_14_DAYS_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_CHILD_1_2_3_MONTH_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_CHILD_6_TO_8_MONTH_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_CHILD_9_T0_12_MONTH_MSG_DELIVERED   + " TEXT , "
+                + MESSAGE_DELIVERY_COL_IS_MOTHER_DEAD   + " TEXT "
+                + ")";
+
+        String CREATE_CHILD_TABLE = "CREATE TABLE " + TABLE_CHILD    //-------------------   Create Table for Child
+                + "("
+                + CHILD_COLUMN_ID + " INTEGER UNIQUE PRIMARY KEY, "
+                + CHILD_COLUMN_MOTHER_ID + " TEXT , "
+                + CHILD_COLUMN_MOTHER_NAME + " TEXT , "
+                + CHILD_COLUMN_NAME + " TEXT , "
+                + CHILD_COLUMN_SEX + " TEXT , "
+                + CHILD_COLUMN_DATE_OF_BIRTH + " TEXT , "
+                + CHILD_COLUMN_BIRTH_WEIGHT + " TEXT , "
+                + CHILD_COLUMN_ID_NUMBER_OF_CHILD + " TEXT UNIQUE  "
+
+                + ")";
+
+        db.execSQL(CREATE_LOGIN_TABLE);     //-------------------------------------------------------- -----===== //
+        db.execSQL(CREATE_MOTHER_TABLE);
+        db.execSQL(CREATE_MESSAGE_DELIVERY_TABLE);
+        db.execSQL(CREATE_CHILD_TABLE);
 
 
     }
@@ -99,6 +199,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);  //------------------------------------------  ----======//
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOTHER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGE_DELIVERY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHILD);
 
         // Create tables again
         onCreate(db);
@@ -113,11 +215,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onUpgrade(db, oldVersion, newVersion);
     }
 
- //===============================   Downgrade Table end ======================================
+    //===============================   Downgrade Table end ======================================
 
 // ======================================    Methods   ======================================
 
-    public void addAdmin(){                                // -------------------================   add admin  start ---------------
+    public void addAdmin() {                                // -------------------================   add admin  start ---------------
 
         String userName = "admin", userPassword = "admin", userType = "test";
 
@@ -131,139 +233,371 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         long newRowId = 0;
 
 
-        try{
+        try {
             // Inserting Row
-               db.insertOrThrow(TABLE_LOGIN, null, values);
+            db.insertOrThrow(TABLE_LOGIN, null, values);
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
 
-            Log.d(TAG,"Duplicate Primary key at addAdmin()");
+            Log.d(TAG, "Duplicate Primary key at addAdmin()");
 
 
         }
         db.close(); // Closing database connection
-        Log.d(TAG,"Successfully inserted");
+        Log.d(TAG, "Successfully inserted");
     }                                                   // -------------------=================   add admin end ---------------
 
 
-
-
-    public boolean isMotherTableEmpty(){     // ------------------- ======================= Check mother table is empty or not start ---------------
-
-
-
-
+    public boolean isMotherTableEmpty() {     // ------------------- ======================= Check mother table is empty or not start ---------------
 
 
         SQLiteDatabase db = super.getWritableDatabase();
 
 
-        String selectAllMoters = "SELECT  * FROM " + TABLE_MOTHER    ;  // used for checking
-        Cursor cursor = db.rawQuery(selectAllMoters, null);            // used for checking
+        String selectAllMothers = "SELECT  * FROM " + TABLE_MOTHER;  // used for checking
+        Cursor cursor = db.rawQuery(selectAllMothers, null);            // used for checking
 
-        if (cursor !=null && cursor.moveToFirst()) {   // Check if Mother table is not null
+        if (cursor != null && cursor.moveToFirst()) {   // Check if Mother table is not null
 
             db.close(); // Closing database connection
-            Log.d(TAG,"Mother table contain values");
-        return false;
+            Log.d(TAG, "Mother table contain values");
+            return false;
         } // if end
-        Log.d(TAG,"Mother table is empty");
+        Log.d(TAG, "Mother table is empty");
         db.close(); // Closing database connection
         return true;
     }                                                   // -------------------   Check mother table is empty or not end ---------------
 
 
+    public void registerMother(Mother mother) {     // ------------------- ======================= add mother  start ---------------
+
+        String motherRowId = "";
+        String motherName                = mother.getMotherName();
+        String husbandName               = mother.getHusbandName();
+        String motherAge                 = mother.getMotherAge();
+        String motherPhoneNumber         = mother.getMotherPhoneNumber();
+        String desiredCallingTime        = mother.getDesiredCallingTime();
+        String motherAddress             = mother.getMotherAddress();
+        String GIS_Location              = mother.getGIS_Location();
+        String alternativePhoneNumber    = mother.getAlternativePhoneNumber();
+        String alternativePhoneOwnerName = mother.getAlternativePhoneOwnerName();
+        String DHIS_ID                   = mother.getDHIS_ID();
+        String lastMenstruationDate      = mother.getLastMenstruationDate();
+        String pregnancyState            = mother.getPregnancyState();
+        String deliveryDate               ;
+        String syncStatus = "false";
 
 
+//        String motherName = mother.getMotherName(), lastMenstruationDate,
+//                isMessageDelivered, isChildMessageDelivered, isPreDeliveryMessageDelivered, isChildBorn, deliveryDate, pregnancyState, motherPhoneNumber = mother.getMotherPhoneNumber(),
+//                motherAddress = mother.getMotherAddress(), motherAge = mother.getMotherAge();
 
+//        if (mother.getIsMessageDelivered() != null) {
+//            isMessageDelivered = mother.getIsMessageDelivered();
+//        } else {
+//            isMessageDelivered = "false";
+//        }
+//
+//        if (mother.getIsChildMessageDelivered() != null) {
+//            isChildMessageDelivered = mother.getIsChildMessageDelivered();
+//        } else {
+//            isChildMessageDelivered = "false";
+//        }
+//        if (mother.getIsPreDelivery_Message_Delivered() != null) {
+//            isPreDeliveryMessageDelivered = mother.getIsPreDelivery_Message_Delivered();
+//        } else {
+//            isPreDeliveryMessageDelivered = "false";
+//        }
+//
+//        if (mother.getIsChildBorn() != null) {
+//            isChildBorn = mother.getIsChildBorn();
+//        } else {
+//            isChildBorn = "false";
+//        }
+//
+        if (mother.getDeliveryDate() != null) {
+            deliveryDate = mother.getDeliveryDate();
+        } else {
+            deliveryDate = "false";
+            // Toast.makeText(context, " Delivery date set to false", Toast.LENGTH_SHORT).show();
 
-
-
-    public void registerMother(Mother mother){     // ------------------- ======================= add mother  start ---------------
-
-
-        String motherName = mother.getMotherName(), lastMenstruationDate= mother.getLastMenstruationDate(), isMessageDelivered, isChildBorn, childBirthday, isPregnant  ;
-if (mother.isMessageDelivered != null){
-  isMessageDelivered = mother.isMessageDelivered;
-}else {
-    isMessageDelivered = "false";
-}
-
-        if (mother.isChildBorn != null){
-            isChildBorn = mother.isChildBorn;
-        }else {
-            isChildBorn = "false";
         }
 
-        if (mother.childBirthday != null){
-            childBirthday = mother.childBirthday;
+        if (mother.getMotherRowPrimaryKey() != null){
+            motherRowId = mother.getMotherRowPrimaryKey();
         }else {
-            childBirthday = "false";
-        }
-
-        if (mother.isPregnant != null){
-            isPregnant = mother.isPregnant;
-        }else {
-            isPregnant = "false";
+            motherRowId = generateUniqueMotherId();
         }
 
 
+//
+//        if (mother.getPregnancyState() != null) {
+//            pregnancyState = mother.getPregnancyState();
+//
+//        } else {
+//            pregnancyState = "false";
+//        }
+//        if (mother.getLastMenstruationDate() != null) {
+//            lastMenstruationDate = mother.getLastMenstruationDate();
+//
+//        } else {
+//            lastMenstruationDate = "false";
+//        }
+
+        // Toast.makeText(context, " phone no "+motherPhoneNumber+"   address: "+motherAddress, Toast.LENGTH_SHORT).show();
 
         SQLiteDatabase db = super.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(MOTHER_COLUMN_NAME, motherName);
-        values.put(MOTHER_COLUMN_LAST_MENSTRUATION, lastMenstruationDate);
-        values.put(MOTHER_COLUMN_IS_MESSAGE_DELIVERED, isMessageDelivered);
-        values.put(MOTHER_COLUMN_IS_CHILD_BORN, isChildBorn);
-        values.put(MOTHER_COLUMN_CHILD_BIRTHDAY, childBirthday);
-        values.put(MOTHER_COLUMN_IS_PREGNANT, isPregnant);
+if (!motherRowId.isEmpty()){
+    // Toast.makeText(context,"db mother row:  "+ mother.getMotherRowPrimaryKey(),Toast.LENGTH_LONG).show();
+    values.put(MOTHER_COLUMN_ID, motherRowId);
 
+}
+
+
+    values.put(MOTHER_COLUMN_NAME  , motherName);
+    values.put(MOTHER_COLUMN_HUSBAND_NAME  , husbandName);
+    values.put(MOTHER_COLUMN_AGE  , motherAge);
+    values.put(MOTHER_COLUMN_PHONE_NUMBER  , motherPhoneNumber);
+    values.put(MOTHER_COLUMN_DESIRED_CALLING_TIME  , desiredCallingTime );
+    values.put(MOTHER_COLUMN_MOTHER_ADDRESS  ,motherAddress  );
+    values.put(MOTHER_COLUMN_GIS_LOCATION  , GIS_Location  );
+    values.put(MOTHER_COLUMN_ALTERNATIVE_PHONE_NO  ,alternativePhoneNumber  );
+    values.put(MOTHER_COLUMN_ALTERNATIVE_PHONE_OWNER_NAME  ,alternativePhoneOwnerName  );
+    values.put(MOTHER_COLUMN_DHIS_ID  ,DHIS_ID  );
+    values.put(MOTHER_COLUMN_LAST_MENSTRUATION  ,lastMenstruationDate  );
+    values.put(MOTHER_COLUMN_PREGNANCY_STATE  ,pregnancyState  );
+    values.put(MOTHER_COLUMN_DELIVERY_DATE  ,deliveryDate  );
+    values.put(MOTHER_COLUMN_SYNC_STATUS  ,syncStatus  );
+
+
+
+
+
+        Log.d(TAG, " ==============  " + motherRowId);
+        Log.d(TAG, "  =============  " + motherName);
+        Log.d(TAG, " ==============  " + husbandName);
+        Log.d(TAG, " ==============  " + motherAge);
+        Log.d(TAG, "  =============  " + motherPhoneNumber);
+        Log.d(TAG, " ==============  " + desiredCallingTime);
+        Log.d(TAG, "  =============  " + motherAddress);
+
+        Log.d(TAG, "  =============  " + GIS_Location);
+        Log.d(TAG, " ==============  " + alternativePhoneNumber);
+        Log.d(TAG, "  =============  " + alternativePhoneOwnerName);
+        Log.d(TAG, " ==============  " + DHIS_ID);
+        Log.d(TAG, "  =============  " + lastMenstruationDate);
+        Log.d(TAG, " ==============  " + pregnancyState);
+        Log.d(TAG, "  =============  " + deliveryDate);
+        Log.d(TAG, " ==============  " + syncStatus);
 
 
         long newRowId = 0;
 
 
-        try{
+        try {
             // Inserting Row
-            db.insertOrThrow(TABLE_MOTHER, null, values);
+            newRowId = db.insertOrThrow(TABLE_MOTHER, null, values);
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
 
-            Log.d(TAG,"Duplicate Primary key at resisterMother() ");
+            Log.d(TAG, "Duplicate Primary key at resisterMother() ");
 
 
         }
 
 
-
         db.close(); // Closing database connection
-        Log.d(TAG,"Successfully inserted");
+        Log.d(TAG, "Successfully inserted");
+if (mother.getMotherRowPrimaryKey() == null){
+        mother.setMotherRowPrimaryKey(String.valueOf(newRowId));
+        add_mother_in_message_Delivery_table(mother);
+    }else { add_mother_in_message_Delivery_table(mother);}
+
+        if (mother.getChild() != null) {           //  call register child
+            Log.d(TAG, " ================ Child not null ");
+
+
+            mother.getChild().setChildMotherTableId(String.valueOf(newRowId));
+
+            registerChild(mother.getChild());
+
+
+        }
 
 
     }                                                   // -------------------   register mother end ---------------
 
+    public String generateUniqueMotherId(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date now = new Date();
+        String idString =  sdf.format(now);
+
+        Log.d(TAG,"========== time id string: "+idString);
+      //  long id = Long.parseLong(idString);
+        //Log.d(TAG,"========== time id int: "+id+ "type of id is:  "+ id);
+
+        return idString;
+    }
+
+public void add_mother_in_message_Delivery_table(Mother mother ){
+
+    String mother_column_id = mother.getMotherRowPrimaryKey() ;
+    String isANC_1_Message_Delivered                 = "false";
+    String isANC_2_Message_Delivered                 = "false";
+    String isANC_3_Message_Delivered                 = "false";
+    String isANC_4_Message_Delivered                 = "false";
+    String isPreDelivery_Message_Delivered           = "false";
+
+    String isPNC_Message_Delivered                   = "false";
+    String isChild_message_delivered_0_to_14_days    = "false";
+    String isChild_message_delivered_1_2_3_month     = "false";
+    String isChild_message_delivered_6_to_8_month    = "false";
+    String isChild_message_delivered_9_to_12_month   = "false";
+    String isMotherDead                              = "false";
+
+
+    SQLiteDatabase db = super.getWritableDatabase();
+    ContentValues values = new ContentValues();
 
 
 
-    public boolean isValidUser(User user){              //  ------------------ Check Valid user or not start----------
+    values.put(MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID, mother_column_id);
+    values.put(MESSAGE_DELIVERY_COL_IS_ANC_1_MSG_DELIVERED  ,isANC_1_Message_Delivered  );
+    values.put(MESSAGE_DELIVERY_COL_IS_ANC_2_MSG_DELIVERED  ,isANC_2_Message_Delivered  );
+    values.put(MESSAGE_DELIVERY_COL_IS_ANC_3_MSG_DELIVERED  ,isANC_3_Message_Delivered  );
+    values.put(MESSAGE_DELIVERY_COL_IS_ANC_4_MSG_DELIVERED  ,isANC_4_Message_Delivered  );
+    values.put(MESSAGE_DELIVERY_COL_IS_PRE_DELIVERY_MSG_DELIVERED  ,isPreDelivery_Message_Delivered  );
+    values.put(MESSAGE_DELIVERY_COL_IS_PNC_MSG_DELIVERED  ,isPNC_Message_Delivered  );
+    values.put(MESSAGE_DELIVERY_COL_IS_CHILD_0_TO_14_DAYS_MSG_DELIVERED  ,isChild_message_delivered_0_to_14_days  );
+    values.put(MESSAGE_DELIVERY_COL_IS_CHILD_1_2_3_MONTH_MSG_DELIVERED  , isChild_message_delivered_1_2_3_month );
+    values.put(MESSAGE_DELIVERY_COL_IS_CHILD_6_TO_8_MONTH_MSG_DELIVERED  ,isChild_message_delivered_6_to_8_month  );
+    values.put(MESSAGE_DELIVERY_COL_IS_CHILD_9_T0_12_MONTH_MSG_DELIVERED ,isChild_message_delivered_9_to_12_month  );
+    values.put(MESSAGE_DELIVERY_COL_IS_MOTHER_DEAD  ,isMotherDead  );
+
+
+    try {
+        // Inserting Row
+        db.insertOrThrow(TABLE_MESSAGE_DELIVERY, null, values);
+
+    } catch (Exception e) {
+
+
+        Log.d(TAG, "Duplicate Primary key at add_mother_in_message_Delivery_table(Mother mother ) ");
+
+
+    }
+
+
+    db.close(); // Closing database connection
+    Log.d(TAG, "id Successfully inserted in message delivery table");
+
+
+}
+    public void registerChild(Child child) {     // ------------------- ======================= add child  start ---------------
+
+
+        String childMotherName = child.getChildMotherName(),
+                childMotherId = child.getChildMotherTableId(),
+                childName = child.getChildName(),
+                childDateOfBirth = child.getChildDateOfBirth(),
+                sexOfChild = child.getSexOfChild(),
+                childBirthWeight = child.getChildBirthWeight(),
+
+                idNumberOfChild = child.getIdNumberOfChild();
+
+
+        SQLiteDatabase db = super.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        values.put(CHILD_COLUMN_MOTHER_NAME, childMotherName);
+        values.put(CHILD_COLUMN_MOTHER_ID, childMotherId);
+        values.put(CHILD_COLUMN_NAME, childName);
+        values.put(CHILD_COLUMN_SEX, sexOfChild);
+        values.put(CHILD_COLUMN_DATE_OF_BIRTH, childDateOfBirth);
+        values.put(CHILD_COLUMN_BIRTH_WEIGHT, childBirthWeight);
+        values.put(CHILD_COLUMN_ID_NUMBER_OF_CHILD, idNumberOfChild);
+
+
+        try {
+            // Inserting Row
+            db.insertOrThrow(TABLE_CHILD, null, values);
+
+        } catch (Exception e) {
+
+
+            Log.d(TAG, "Duplicate Primary key at resisterChild() ");
+
+
+        }
+
+
+        db.close(); // Closing database connection
+        Log.d(TAG, "Child Successfully inserted");
+
+
+    }                                                   // -------------------   register child end ---------------
+
+                                                         // -------------------   update mother start ---------------
+
+    public void updateMother(Mother mother){
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        String motherRowId = mother.getMotherRowPrimaryKey();
+        Log.d(TAG, "=======================  "+motherRowId);
+
+        database.execSQL("DELETE FROM " + TABLE_MOTHER + " WHERE " + MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
+        database.execSQL("DELETE FROM " + TABLE_MESSAGE_DELIVERY + " WHERE " + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
+
+        if (mother.getChild() != null){
+            database.execSQL("DELETE FROM " + TABLE_CHILD + " WHERE " + CHILD_COLUMN_MOTHER_ID + "= '" + motherRowId + "'");
+        }
+        //Close the database
+        database.close();
+
+        registerMother(mother);
+    }
+                                                          // -------------------   update mother end ---------------
+
+
+    public void deleteMother(Mother mother){
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        String motherRowId = mother.getMotherRowPrimaryKey();
+        Log.d(TAG, "=======================  "+motherRowId);
+
+        database.execSQL("DELETE FROM " + TABLE_MOTHER + " WHERE " + MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
+        database.execSQL("DELETE FROM " + TABLE_MESSAGE_DELIVERY + " WHERE " + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
+        if (mother.getChild() != null){
+            database.execSQL("DELETE FROM " + TABLE_CHILD + " WHERE " + CHILD_COLUMN_MOTHER_ID + "= '" + motherRowId + "'");
+        }
+        //Close the database
+        database.close();
+
+
+    }
+    // -------------------   update mother end ---------------
+
+    public boolean isValidUser(User user) {              //  ------------------ Check Valid user or not start----------
         String userName = user.getUserName(),
                 userPassword = user.getUserPassword(),
                 userType = user.getUserType();
 
-        String where = USER_COLUMN_NAME + " =? AND "+ USER_COLUMN_PASSWORD +" =? AND "+ USER_COLUMN_TYPE +" =? ";
+        String where = USER_COLUMN_NAME + " =? AND " + USER_COLUMN_PASSWORD + " =? AND " + USER_COLUMN_TYPE + " =? ";
 
-        SQLiteDatabase  db = super.getWritableDatabase();
+        SQLiteDatabase db = super.getWritableDatabase();
 
-        Cursor cursor = db.query(TABLE_LOGIN,null,where, new String[] {userName,userPassword,userType},null,null,null) ;
+        Cursor cursor = db.query(TABLE_LOGIN, null, where, new String[]{userName, userPassword, userType}, null, null, null);
 
-        if(cursor.getCount() <= 0){
+        if (cursor.getCount() <= 0) {
             cursor.close();
             return false;
         }
 
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             MainActivity.user_primary_key = String.valueOf(cursor.getInt(0));
             MainActivity.user_name = userName;
         }
@@ -271,33 +605,96 @@ if (mother.isMessageDelivered != null){
 
         cursor.close();
 
-        return  true;
+        return true;
     }                                                 //  ------------------ Check Valid user or not  end ----------
 
 
-    public List<Mother> getAllMothers(){                 //  ------------------ get List of All Mothers  start ----------
+    public List<Mother> getAllMothers() {                 //  ------------------ get List of All Mothers  start ----------
+        String mother_column_id                     ;
+        String motherName                           ;
+        String husbandName                          ;
+        String motherAge                            ;
+        String motherPhoneNumber                    ;
+        String desiredCallingTime                   ;
+        String motherAddress                        ;
+        String GIS_Location                         ;
+        String alternativePhoneNumber               ;
+        String alternativePhoneOwnerName            ;
+        String DHIS_ID                              ;
+        String lastMenstruationDate                 ;
+        String pregnancyState                       ;
+        String deliveryDate                         ;
+        String syncStatus                         ;
+        String timeStamp                         ;
+
+
+        String isANC_1_Message_Delivered                 ;
+        String isANC_2_Message_Delivered                 ;
+        String isANC_3_Message_Delivered                 ;
+        String isANC_4_Message_Delivered                 ;
+        String isPreDelivery_Message_Delivered           ;
+        String isPNC_Message_Delivered                   ;
+        String isChild_message_delivered_0_to_14_days    ;
+        String isChild_message_delivered_1_2_3_month     ;
+        String isChild_message_delivered_6_to_8_month    ;
+        String isChild_message_delivered_9_to_12_month   ;
+        String isMotherDead                              ;
+
+
         List<Mother> allMothers = new ArrayList<>();
 
-        String selectAllMoters = "SELECT  * FROM " + TABLE_MOTHER    ;
+        String selectAllMoters = "SELECT  * FROM " + TABLE_MOTHER + " INNER JOIN " + TABLE_MESSAGE_DELIVERY + " ON " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID + " = " + TABLE_MESSAGE_DELIVERY
+                + "." + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID ;
+        //String selectAllMoters = "SELECT  * FROM " + TABLE_MOTHER;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectAllMoters, null);
 
-        if (cursor !=null && cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
 
             do {
-                String motherName, lastMenstruationDate, isMessageDelivered, isPregnant ,  isChildBorn, childBirthday ,motherRowPrimaryKey ;
-                motherRowPrimaryKey = cursor.getString(0);
-                motherName = cursor.getString(1);
-                lastMenstruationDate =cursor.getString(2);
-                isPregnant = cursor.getString(4);
-                isMessageDelivered =cursor.getString(5);
-                isChildBorn = cursor.getString(6);
-                childBirthday = cursor.getString(7);
+//                String motherName, lastMenstruationDate, motherAge, isMessageDelivered, isChildMessageDelivered, isPreDeliveryMessageDelivered, pregnancyState, isChildBorn, childBirthday,
+//                        motherRowPrimaryKey, motherPhoneNumber, motherAddress;
+
+                mother_column_id           = cursor.getString(0);
+                motherName                 = cursor.getString(1);
+                husbandName                = cursor.getString(2);
+                motherAge                  = cursor.getString(3);
+                motherPhoneNumber          = cursor.getString(4);
+                desiredCallingTime         = cursor.getString(5);
+                motherAddress              = cursor.getString(6);
+                GIS_Location               = cursor.getString(7);
+                alternativePhoneNumber     = cursor.getString(8);
+                alternativePhoneOwnerName  = cursor.getString(9);
+                DHIS_ID                    = cursor.getString(10);
+                lastMenstruationDate       = cursor.getString(11);
+                pregnancyState             = cursor.getString(12);
+                deliveryDate               = cursor.getString(13);
+                syncStatus                 = cursor.getString(14);
+                timeStamp                  = cursor.getString(15);
 
 
-                Mother item = new Mother(motherName,lastMenstruationDate,isPregnant,isChildBorn,childBirthday,isMessageDelivered);
-                item.setMotherRowPrimaryKey(motherRowPrimaryKey);
+                isANC_1_Message_Delivered               = cursor.getString(18);
+                isANC_2_Message_Delivered               = cursor.getString(19);
+                isANC_3_Message_Delivered               = cursor.getString(20);
+                isANC_4_Message_Delivered               = cursor.getString(21);
+                isPreDelivery_Message_Delivered         = cursor.getString(22);
+                isPNC_Message_Delivered                 = cursor.getString(23);
+                isChild_message_delivered_0_to_14_days  = cursor.getString(24);
+                isChild_message_delivered_1_2_3_month   = cursor.getString(25);
+                isChild_message_delivered_6_to_8_month  = cursor.getString(26);
+                isChild_message_delivered_9_to_12_month = cursor.getString(27);
+                isMotherDead                            = cursor.getString(28);
+
+
+                Mother item = new Mother(mother_column_id,motherName,husbandName,motherAge,motherPhoneNumber,desiredCallingTime,motherAddress,GIS_Location,alternativePhoneOwnerName,alternativePhoneNumber,
+                        DHIS_ID,lastMenstruationDate,pregnancyState,deliveryDate,isANC_1_Message_Delivered,isANC_2_Message_Delivered,isANC_3_Message_Delivered,isANC_4_Message_Delivered,
+                        isPreDelivery_Message_Delivered,isPNC_Message_Delivered,isChild_message_delivered_0_to_14_days,isChild_message_delivered_1_2_3_month,isChild_message_delivered_6_to_8_month,
+                        isChild_message_delivered_9_to_12_month,isMotherDead);
+                item.setSyncStatus(syncStatus);
+                item.setTimeStamp(timeStamp);
+
                 allMothers.add(item);
+
 
             } while (cursor.moveToNext());
 
@@ -305,24 +702,709 @@ if (mother.isMessageDelivered != null){
         }
 
 
+        return allMothers;
+    }                                                  //  ------------------ get List of All Mothers  end ----------
+
+    public List<Mother> getAllMotherswithChild() {                 //  ------------------ get List of All Mothers  with Child start ----------
+        List<Mother> allMothers = new ArrayList<>();
+
+//        String selectAllMothersWithChild = "SELECT  * FROM " + TABLE_MOTHER + " INNER JOIN " + TABLE_CHILD + " ON " + TABLE_CHILD + "." + CHILD_COLUMN_MOTHER_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID + " WHERE "
+//                + TABLE_MOTHER + "." + MOTHER_COLUMN_PREGNANCY_STATE + "=?";
+
+        String selectAllMothersWithChild = "SELECT  * FROM " + TABLE_MOTHER + " INNER JOIN " + TABLE_CHILD + " ON " + TABLE_CHILD + "." + CHILD_COLUMN_MOTHER_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID
+                + " INNER JOIN " + TABLE_MESSAGE_DELIVERY + " ON " + TABLE_MESSAGE_DELIVERY + "." + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID +" WHERE "
+                + TABLE_MOTHER + "." + MOTHER_COLUMN_PREGNANCY_STATE + "=?";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            do {
+//                String motherName, lastMenstruationDate, motherAge, isMessageDelivered, isChildMessageDelivered, isPreDeliveryMessageDelivered, pregnancyState, isChildBorn, childBirthday,
+//                        motherRowPrimaryKey, motherPhoneNumber, motherAddress, childColumnId, childMotherId, childMotherName, childName, sexOfChild, childDateOfBirh, childBirthWeight, idNumberOfChild;
+                String motherRowPrimaryKey                          = cursor.getString(0)                                       ;
+                String motherName                                   = cursor.getString(1)                                       ;
+                String husbandName                                  = cursor.getString(2)                                          ;
+                String motherAge                                    = cursor.getString(3)                                          ;
+                String motherPhoneNumber                            = cursor.getString(4)                                                       ;
+                String desiredCallingTime                           = cursor.getString(5)                                                 ;
+                String motherAddress                                = cursor.getString(6)                                            ;
+                String GIS_Location                                 = cursor.getString(7)                                           ;
+                String alternativePhoneNumber                       = cursor.getString(8)                                                     ;
+                String alternativePhoneOwnerName                    = cursor.getString(9)                                                        ;
+                String DHIS_ID                                      = cursor.getString(10)                                      ;
+                String lastMenstruationDate                         = cursor.getString(11)                                                   ;
+                String pregnancyState                               = cursor.getString(12)                                             ;
+                String deliveryDate                                 = cursor.getString(13)                                           ;
+                String syncStatus                                   = cursor.getString(14)                                           ;
+                String timeStamp                                    = cursor.getString(15)                                           ;
+
+
+                String  childColumnId                               = cursor.getString(16);
+                String  childName                                   = cursor.getString(19)      ;
+                String  sexOfChild                                  = cursor.getString(20)        ;
+                String  childDateOfBirth                            = cursor.getString(21)             ;
+                String  childBirthWeight                            = cursor.getString(22)             ;
+                String  idNumberOfChild                             = cursor.getString(23)            ;
+
+
+                String isANC_1_Message_Delivered                    = cursor.getString(26)                                                        ;
+                String isANC_2_Message_Delivered                    = cursor.getString(27)                                                        ;
+                String isANC_3_Message_Delivered                    = cursor.getString(28)                                                        ;
+                String isANC_4_Message_Delivered                    = cursor.getString(29)                                                        ;
+                String isPreDelivery_Message_Delivered              = cursor.getString(30)                                                              ;
+                String isPNC_Message_Delivered                      = cursor.getString(31)                                                      ;
+                String isChild_message_delivered_0_to_14_days       = cursor.getString(32)                                                                     ;
+                String isChild_message_delivered_1_2_3_month        = cursor.getString(33)                                                                    ;
+                String isChild_message_delivered_6_to_8_month       = cursor.getString(34)                                                                     ;
+                String isChild_message_delivered_9_to_12_month      = cursor.getString(35)                                                                      ;
+                String isMotherDead                                 = cursor.getString(36)                                           ;
+
+
+
+
+
+                Child child = new Child(motherName, motherRowPrimaryKey, childName,childDateOfBirth, sexOfChild, childBirthWeight, childColumnId, idNumberOfChild);
+
+                Mother item = new Mother(motherRowPrimaryKey,motherName,husbandName,motherAge,motherPhoneNumber,desiredCallingTime,motherAddress,GIS_Location,alternativePhoneOwnerName,
+                        alternativePhoneNumber,DHIS_ID,lastMenstruationDate,pregnancyState,deliveryDate,isANC_1_Message_Delivered,isANC_2_Message_Delivered,isANC_3_Message_Delivered,isANC_4_Message_Delivered,
+                        isPreDelivery_Message_Delivered,isPNC_Message_Delivered,isChild_message_delivered_0_to_14_days,isChild_message_delivered_1_2_3_month,isChild_message_delivered_6_to_8_month,
+                        isChild_message_delivered_9_to_12_month,isMotherDead);
+item.setSyncStatus(syncStatus);
+                item.setTimeStamp(timeStamp);
+                item.setChild(child);
+
+                allMothers.add(item);
+
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
 
         return allMothers;
-    }                                                  //  ------------------ get List of All Mothers  start ----------
-
-
+    }                                                  //  ------------------ get List of All Mothers with Child  end ----------
 
     //  ------------------ set message status for a Mothers  start ----------
-public void setMessageStatus(String primaryKey, String status){
-    SQLiteDatabase db = super.getWritableDatabase();
-    String where = MOTHER_COLUMN_ID + " =? ";
-    ContentValues values = new ContentValues();
-    values.put(MOTHER_COLUMN_IS_MESSAGE_DELIVERED,status);
-    db.update(TABLE_MOTHER,values,where,new String[] {primaryKey});
-    db.close();
+    public void setMessageStatus(String primaryKey, String status) {
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+      //  values.put(MOTHER_COLUMN_IS_MESSAGE_DELIVERED, status);
+        db.update(TABLE_MOTHER, values, where, new String[]{primaryKey});
+        db.close();
 
-}
+    }
+
+
+    //  ------------------ set  Child Message Delivery Status  start ----------
+    public void setChildMessageStatus(String primaryKey, String status) {
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+      //  values.put(MOTHER_COLUMN_IS_CHILD_MESSAGE_DELIVERED, status);
+        db.update(TABLE_MOTHER, values, where, new String[]{primaryKey});
+        db.close();
+
+    }
+    //  ------------------ set  CHILD 0 TO 14 DAYS Message Delivery Status  start ----------
+    public void setChild_0_To_14_Days_message_delivery_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_CHILD_0_TO_14_DAYS_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+    //  ------------------ set  CHILD 1,2,3 MONTH Message Delivery Status  start ----------
+    public void setChild_1_2_3_month_message_delivery_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_CHILD_1_2_3_MONTH_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+    //  ------------------ set  CHILD 6 TO 8 MONTH Message Delivery Status  start ----------
+    public void setChild_6_To_8_month_message_delivery_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_CHILD_6_TO_8_MONTH_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+    //  ------------------ set  CHILD 9 TO 12 MONTH Message Delivery Status  start ----------
+    public void setChild_9_To_12_month_message_delivery_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_CHILD_9_T0_12_MONTH_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+
+    //  ------------------ set  Pre Delivery Message Delivery Status  start ----------
+    public void setPreDeliveryMessageStatus(String primaryKey, String status) {
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_PRE_DELIVERY_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+
+    }
+
+    //  ------------------ set    Delivery state  start ----------
+    public void setPregnancyState(String primaryKey, String pregnancyState, String deliveryDate) {
+
+
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MOTHER_COLUMN_PREGNANCY_STATE, pregnancyState);
+        values.put(MOTHER_COLUMN_DELIVERY_DATE, deliveryDate);
+        db.update(TABLE_MOTHER, values, where, new String[]{primaryKey});
+        db.close();
+
+    }
+
+    //  ------------------ SET  ANC 1 MESSAGE STATUS  start ----------
+    public void set_ANC_1_message_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_ANC_1_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+
+    //  ------------------ SET  ANC 2 MESSAGE STATUS  start ----------
+    public void set_ANC_2_message_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_ANC_2_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+
+    //  ------------------ SET  ANC 3 MESSAGE STATUS  start ----------
+    public void set_ANC_3_message_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_ANC_3_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+
+    //  ------------------ SET  ANC 4 MESSAGE STATUS  start ----------
+    public void set_ANC_4_message_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_ANC_4_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
+
+    //  ------------------ SET  PNC MESSAGE STATUS  start ----------
+    public void set_PNC_message_status(String primaryKey, String status){
+        SQLiteDatabase db = super.getWritableDatabase();
+        String where = MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " =? ";
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELIVERY_COL_IS_PNC_MSG_DELIVERED, status);
+        db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+        db.close();
+    }
 
 
 
+
+    public    HashMap<String ,List<HashMap<String ,String>>> getAllTables(){// =========================== get all tables
+       // List<HashMap<String,HashMap<String ,String >>> allTableList = new ArrayList<>();
+         List<HashMap<String, List<HashMap<String,String>>>> allTableList = new ArrayList<>();
+        //HashMap<String ,List<HashMap<String ,String>>> tableMap = new HashMap<>();
+        HashMap<String ,List<HashMap<String ,String>>> all_table_map = new HashMap<>();
+        List<String> tableName = new ArrayList<>();
+        SQLiteDatabase database = super.getWritableDatabase();
+        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+
+                tableName.add(c.getString(0)); // table names
+
+                c.moveToNext();
+            }
+        }
+//============================================================================================================================================
+        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2), null);  // mother table
+        String[] motherColumnNamesArray = cursorMotherTable.getColumnNames();
+
+        HashMap<String ,List<HashMap<String ,String>>> table_map = new HashMap<>();
+        List<HashMap<String ,String>> tableRow = new ArrayList<>();
+         if (cursorMotherTable.moveToFirst()) {
+            while ( !cursorMotherTable.isAfterLast() ) {
+                HashMap<String ,String> colValue = new LinkedHashMap<>();
+
+
+                colValue.put(motherColumnNamesArray[0], cursorMotherTable.getString(0));
+                colValue.put(motherColumnNamesArray[1], cursorMotherTable.getString(1));
+                colValue.put(motherColumnNamesArray[2], cursorMotherTable.getString(2));
+                colValue.put(motherColumnNamesArray[3], cursorMotherTable.getString(3));
+                colValue.put(motherColumnNamesArray[4], cursorMotherTable.getString(4));
+                colValue.put(motherColumnNamesArray[5], cursorMotherTable.getString(5));
+                colValue.put(motherColumnNamesArray[6], cursorMotherTable.getString(6));
+                colValue.put(motherColumnNamesArray[7], cursorMotherTable.getString(7));
+                colValue.put(motherColumnNamesArray[8], cursorMotherTable.getString(8));
+                colValue.put(motherColumnNamesArray[9], cursorMotherTable.getString(9));
+                colValue.put(motherColumnNamesArray[10],cursorMotherTable.getString(10));
+                colValue.put(motherColumnNamesArray[11],cursorMotherTable.getString(11));
+                colValue.put(motherColumnNamesArray[12],cursorMotherTable.getString(12));
+                colValue.put(motherColumnNamesArray[13],cursorMotherTable.getString(13));
+                colValue.put(motherColumnNamesArray[14],cursorMotherTable.getString(14));
+                colValue.put(motherColumnNamesArray[15],cursorMotherTable.getString(15));
+
+
+
+                tableRow.add(colValue);
+                cursorMotherTable.moveToNext();
+            }
+        }
+
+        //table_map.put(tableName.get(2),tableRow);
+       all_table_map.put(tableName.get(2),tableRow);
+
+             //allTableList.add(table_map);////============================================
+
+//===================================================================================================================================================================
+//============================================================================================================================================
+        Cursor cursorMessageTable = database.rawQuery("SELECT * FROM "+tableName.get(3), null);  // message table
+        String[] messageColumnNamesArray = cursorMessageTable.getColumnNames();
+
+         HashMap<String ,List<HashMap<String ,String>>> table_message_map = new HashMap<>();
+         List<HashMap<String ,String>> tableMessageRow = new ArrayList<>();
+        if (cursorMessageTable.moveToFirst()) {
+            while ( !cursorMessageTable.isAfterLast() ) {
+                HashMap<String ,String> colValue = new LinkedHashMap<>();
+
+
+                colValue.put(messageColumnNamesArray[0], cursorMessageTable.getString(0));
+                colValue.put(messageColumnNamesArray[1], cursorMessageTable.getString(1));
+                colValue.put(messageColumnNamesArray[2], cursorMessageTable.getString(2));
+                colValue.put(messageColumnNamesArray[3], cursorMessageTable.getString(3));
+                colValue.put(messageColumnNamesArray[4], cursorMessageTable.getString(4));
+                colValue.put(messageColumnNamesArray[5], cursorMessageTable.getString(5));
+                colValue.put(messageColumnNamesArray[6], cursorMessageTable.getString(6));
+                colValue.put(messageColumnNamesArray[7], cursorMessageTable.getString(7));
+                colValue.put(messageColumnNamesArray[8], cursorMessageTable.getString(8));
+                colValue.put(messageColumnNamesArray[9], cursorMessageTable.getString(9));
+                colValue.put(messageColumnNamesArray[10],cursorMessageTable.getString(10));
+                colValue.put(messageColumnNamesArray[11],cursorMessageTable.getString(11));
+                colValue.put(messageColumnNamesArray[12],cursorMessageTable.getString(12));
+
+
+
+
+                tableMessageRow.add(colValue);
+                cursorMessageTable.moveToNext();
+            }
+        }
+
+       // table_message_map.put(tableName.get(3),tableMessageRow);
+        all_table_map.put(tableName.get(3),tableMessageRow);
+        //allTableList.add(table_message_map);////============================================
+
+//===================================================================================================================================================================
+        //============================================================================================================================================
+        Cursor cursorChildTable = database.rawQuery("SELECT * FROM "+tableName.get(4), null);  // Child table
+        String[] childColumnNamesArray = cursorChildTable.getColumnNames();
+
+        HashMap<String ,List<HashMap<String ,String>>> table_child_map = new HashMap<>();
+        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
+        if (cursorChildTable.moveToFirst()) {
+            while (!cursorMessageTable.isAfterLast()) {
+                HashMap<String, String> colValue = new LinkedHashMap<>();
+
+
+                colValue.put(childColumnNamesArray[0], cursorMessageTable.getString(0));
+                colValue.put(childColumnNamesArray[1], cursorMessageTable.getString(1));
+                colValue.put(childColumnNamesArray[2], cursorMessageTable.getString(2));
+                colValue.put(childColumnNamesArray[3], cursorMessageTable.getString(3));
+                colValue.put(childColumnNamesArray[4], cursorMessageTable.getString(4));
+                colValue.put(childColumnNamesArray[5], cursorMessageTable.getString(5));
+                colValue.put(childColumnNamesArray[6], cursorMessageTable.getString(6));
+                colValue.put(childColumnNamesArray[7], cursorMessageTable.getString(7));
+
+
+                tableChildRow.add(colValue);
+                cursorMessageTable.moveToNext();
+
+            }
+        }
+
+       // table_child_map.put(tableName.get(4),tableChildRow);
+       all_table_map.put(tableName.get(4),tableChildRow);
+        //allTableList.add(table_child_map);////============================================
+
+//===================================================================================================================================================================
+
+        database.close();
+
+        return all_table_map;
+    }
+
+//    public    List<HashMap<String, List<HashMap<String, List<HashMap<String,String>>>>>> getDbDef(){
+//        List<HashMap<String, List<HashMap<String, List<HashMap<String,String>>>>>> dbDef_List = new ArrayList<>();
+//        HashMap<String, List<HashMap<String, List<HashMap<String,String>>>>> dbDef_hashMap = new HashMap<>();
+//        List<HashMap<String, List<HashMap<String,String>>>> allTables = new ArrayList<>();
+//
+//        List<String> tableName = new ArrayList<>();
+//        SQLiteDatabase database = super.getWritableDatabase();
+//        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+//
+//
+//        if (c.moveToFirst()) {
+//            while ( !c.isAfterLast() ) {
+//
+//                tableName.add(c.getString(0)); // table names
+//
+//                c.moveToNext();
+//            }
+//        }
+//
+//
+//
+//
+//
+//
+//        //============================================================================================================================================
+//        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2), null);  // mother table
+//        String[] motherColumnNamesArray = cursorMotherTable.getColumnNames();
+//
+//        HashMap<String ,List<HashMap<String ,String>>> table_mother_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableMotherRow = new ArrayList<>();
+//        if (cursorMotherTable.moveToFirst()) {
+//            //while ( !cursorMotherTable.isAfterLast() ) {
+//                HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//                colValue.put(motherColumnNamesArray[0],   (cursorMotherTable.getType(0 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[1],   (cursorMotherTable.getType(1 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[2],   (cursorMotherTable.getType(2 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[3],   (cursorMotherTable.getType(3 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[4],   (cursorMotherTable.getType(4 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[5],   (cursorMotherTable.getType(5 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[6],   (cursorMotherTable.getType(6 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[7],   (cursorMotherTable.getType(7 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[8],   (cursorMotherTable.getType(8 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[9],   (cursorMotherTable.getType(9 )==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[10],  (cursorMotherTable.getType(10)==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[11],  (cursorMotherTable.getType(11)==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[12],  (cursorMotherTable.getType(12)==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[13],  (cursorMotherTable.getType(13)==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[14],  (cursorMotherTable.getType(14)==1) ? "INTEGER":"TEXT");
+//                colValue.put(motherColumnNamesArray[15],  (cursorMotherTable.getType(15)==1) ? "INTEGER":"TEXT");
+//
+//
+//
+//                tableMotherRow.add(colValue);
+//             //   cursorMotherTable.moveToNext();
+//           // }
+//        }
+//
+//        table_mother_map.put(tableName.get(2),tableMotherRow);
+//        allTables.add(table_mother_map);////============================================
+//
+////===================================================================================================================================================================
+//
+//        //============================================================================================================================================
+//        Cursor cursorMessageTable = database.rawQuery("SELECT * FROM "+tableName.get(3), null);  // MESSAGE table
+//        String[] messageColumnNamesArray = cursorMessageTable.getColumnNames();
+//
+//        HashMap<String ,List<HashMap<String ,String>>> table_message_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableMessageRow = new ArrayList<>();
+//        if (cursorMessageTable.moveToFirst()) {
+//
+//                HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//                colValue.put(messageColumnNamesArray[0],  (cursorMessageTable.getType(0 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[1],  (cursorMessageTable.getType(1 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[2],  (cursorMessageTable.getType(2 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[3],  (cursorMessageTable.getType(3 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[4],  (cursorMessageTable.getType(4 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[5],  (cursorMessageTable.getType(5 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[6],  (cursorMessageTable.getType(6 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[7],  (cursorMessageTable.getType(7 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[8],  (cursorMessageTable.getType(8 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[9],  (cursorMessageTable.getType(9 )==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[10], (cursorMessageTable.getType(10)==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[11], (cursorMessageTable.getType(11)==1) ? "INTEGER": "TEXT");
+//                colValue.put(messageColumnNamesArray[12], (cursorMessageTable.getType(12)==1) ? "INTEGER": "TEXT");
+//
+//
+//
+//
+//                tableMessageRow.add(colValue);
+//
+//        }
+//
+//        table_message_map.put(tableName.get(3),tableMessageRow);
+//        allTables.add(table_message_map);////============================================
+//
+////===================================================================================================================================================================
+//
+//
+//
+//        //============================================================================================================================================
+//        Cursor cursorChildTable = database.rawQuery("SELECT * FROM "+tableName.get(4), null);  // Child table
+//        String[] childColumnNamesArray = cursorChildTable.getColumnNames();
+//
+//        HashMap<String ,List<HashMap<String ,String>>> table_child_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
+//        if (cursorChildTable.moveToFirst()) {
+//
+//            HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//            colValue.put(childColumnNamesArray[0],  (cursorChildTable.getType(0 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[1],  (cursorChildTable.getType(1 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[2],  (cursorChildTable.getType(2 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[3],  (cursorChildTable.getType(3 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[4],  (cursorChildTable.getType(4 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[5],  (cursorChildTable.getType(5 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[6],  (cursorChildTable.getType(6 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[7],  (cursorChildTable.getType(7 )==1) ? "INTEGER": "TEXT");
+//
+//
+//
+//
+//
+//            tableChildRow.add(colValue);
+//
+//        }
+//
+//        table_child_map.put(tableName.get(4),tableChildRow);
+//        allTables.add(table_child_map);////============================================
+//
+////===================================================================================================================================================================
+//        //============================================================================================================================================
+//        Cursor cursorLoginTable = database.rawQuery("SELECT * FROM "+tableName.get(1), null);  // LOGIN table
+//        String[] logInColumnNamesArray = cursorLoginTable.getColumnNames();
+//
+//        HashMap<String ,List<HashMap<String ,String>>> table_login_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableLogInRow = new ArrayList<>();
+//        if (cursorLoginTable.moveToFirst()) {
+//            //while ( !cursorMotherTable.isAfterLast() ) {
+//            HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//            colValue.put(logInColumnNamesArray[0],   (cursorLoginTable.getType(0 )==1) ? "INTEGER":"TEXT");
+//            colValue.put(logInColumnNamesArray[1],   (cursorLoginTable.getType(1 )==1) ? "INTEGER":"TEXT");
+//            colValue.put(logInColumnNamesArray[2],   (cursorLoginTable.getType(2 )==1) ? "INTEGER":"TEXT");
+//            colValue.put(logInColumnNamesArray[3],   (cursorLoginTable.getType(3 )==1) ? "INTEGER":"TEXT");
+//            // colValue.put(logInColumnNamesArray[4],   (cursorLoginTable.getType(4 )==1) ? "INTEGER":"TEXT");
+//
+//
+//
+//
+//            tableLogInRow.add(colValue);
+//            //   cursorMotherTable.moveToNext();
+//            // }
+//        }
+//
+//        table_login_map.put(tableName.get(1),tableLogInRow);
+//        allTables.add(table_login_map);////============================================
+//
+////===================================================================================================================================================================
+//
+//        dbDef_hashMap.put("dbDef",allTables);
+//        dbDef_List.add(dbDef_hashMap);
+//
+//
+//        return dbDef_List;
+//    }
+
+
+    public      HashMap<String,   HashMap<String , HashMap<String ,String>>> getDbDef2(){   //////////============================================
+        List<HashMap<String,  List<HashMap<String , HashMap<String ,String>>>>> dbDef_List = new ArrayList<>();
+        HashMap<String,   HashMap<String , HashMap<String ,String>>> dbDef_hashMap = new HashMap<>();
+        HashMap<String , HashMap<String ,String>> allTablesMap = new LinkedHashMap<>();
+
+        List<String> tableName = new ArrayList<>();
+        SQLiteDatabase database = super.getWritableDatabase();
+        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+
+                tableName.add(c.getString(0)); // table names
+
+                c.moveToNext();
+            }
+        }
+
+
+
+
+
+
+        //============================================================================================================================================
+        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2), null);  // mother table
+        String[] motherColumnNamesArray = cursorMotherTable.getColumnNames();
+
+        HashMap<String , HashMap<String ,String>>  table_mother_map = new HashMap<>();
+        List<HashMap<String ,String>> tableMotherRow = new ArrayList<>();
+        if (cursorMotherTable.moveToFirst()) {
+            //while ( !cursorMotherTable.isAfterLast() ) {
+            HashMap<String ,String> colValue = new LinkedHashMap<>();
+
+
+            colValue.put(motherColumnNamesArray[0],   (cursorMotherTable.getType(0 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[1],   (cursorMotherTable.getType(1 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[2],   (cursorMotherTable.getType(2 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[3],   (cursorMotherTable.getType(3 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[4],   (cursorMotherTable.getType(4 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[5],   (cursorMotherTable.getType(5 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[6],   (cursorMotherTable.getType(6 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[7],   (cursorMotherTable.getType(7 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[8],   (cursorMotherTable.getType(8 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[9],   (cursorMotherTable.getType(9 )==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[10],  (cursorMotherTable.getType(10)==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[11],  (cursorMotherTable.getType(11)==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[12],  (cursorMotherTable.getType(12)==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[13],  (cursorMotherTable.getType(13)==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[14],  (cursorMotherTable.getType(14)==1) ? "INTEGER":"TEXT");
+            colValue.put(motherColumnNamesArray[15],  (cursorMotherTable.getType(15)==1) ? "INTEGER":"TEXT");
+
+
+
+           // tableMotherRow.add(colValue);
+            //   cursorMotherTable.moveToNext();
+            // }
+            //table_mother_map.put(tableName.get(2),colValue);
+            allTablesMap.put(tableName.get(2),colValue);
+        }
+
+
+        //allTables.add(table_mother_map);////============================================
+
+//===================================================================================================================================================================
+
+        //============================================================================================================================================
+        Cursor cursorMessageTable = database.rawQuery("SELECT * FROM "+tableName.get(3), null);  // MESSAGE table
+        String[] messageColumnNamesArray = cursorMessageTable.getColumnNames();
+
+        HashMap<String , HashMap<String ,String>>  table_message_map = new HashMap<>();
+        List<HashMap<String ,String>> tableMessageRow = new ArrayList<>();
+        if (cursorMessageTable.moveToFirst()) {
+
+            HashMap<String ,String> colValue = new LinkedHashMap<>();
+
+
+            colValue.put(messageColumnNamesArray[0],  (cursorMessageTable.getType(0 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[1],  (cursorMessageTable.getType(1 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[2],  (cursorMessageTable.getType(2 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[3],  (cursorMessageTable.getType(3 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[4],  (cursorMessageTable.getType(4 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[5],  (cursorMessageTable.getType(5 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[6],  (cursorMessageTable.getType(6 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[7],  (cursorMessageTable.getType(7 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[8],  (cursorMessageTable.getType(8 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[9],  (cursorMessageTable.getType(9 )==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[10], (cursorMessageTable.getType(10)==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[11], (cursorMessageTable.getType(11)==1) ? "INTEGER": "TEXT");
+            colValue.put(messageColumnNamesArray[12], (cursorMessageTable.getType(12)==1) ? "INTEGER": "TEXT");
+
+
+
+
+           // tableMessageRow.add(colValue);
+            //table_message_map.put(tableName.get(3),colValue);
+            allTablesMap.put(tableName.get(3),colValue);
+        }
+
+
+        //allTables.add(table_message_map);////============================================
+
+//===================================================================================================================================================================
+
+
+
+        //============================================================================================================================================
+        Cursor cursorChildTable = database.rawQuery("SELECT * FROM "+tableName.get(4), null);  // Child table
+        String[] childColumnNamesArray = cursorChildTable.getColumnNames();
+
+        HashMap<String , HashMap<String ,String>>  table_child_map = new HashMap<>();
+        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
+        if (cursorChildTable.moveToFirst()) {
+
+            HashMap<String ,String> colValue = new LinkedHashMap<>();
+
+
+            colValue.put(childColumnNamesArray[0],  (cursorChildTable.getType(0 )==1) ? "INTEGER": "TEXT");
+            colValue.put(childColumnNamesArray[1],  (cursorChildTable.getType(1 )==1) ? "INTEGER": "TEXT");
+            colValue.put(childColumnNamesArray[2],  (cursorChildTable.getType(2 )==1) ? "INTEGER": "TEXT");
+            colValue.put(childColumnNamesArray[3],  (cursorChildTable.getType(3 )==1) ? "INTEGER": "TEXT");
+            colValue.put(childColumnNamesArray[4],  (cursorChildTable.getType(4 )==1) ? "INTEGER": "TEXT");
+            colValue.put(childColumnNamesArray[5],  (cursorChildTable.getType(5 )==1) ? "INTEGER": "TEXT");
+            colValue.put(childColumnNamesArray[6],  (cursorChildTable.getType(6 )==1) ? "INTEGER": "TEXT");
+            colValue.put(childColumnNamesArray[7],  (cursorChildTable.getType(7 )==1) ? "INTEGER": "TEXT");
+
+
+
+
+
+            //tableChildRow.add(colValue);
+            //table_child_map.put(tableName.get(4),colValue);
+            allTablesMap.put(tableName.get(4),colValue);
+        }
+
+
+        //allTables.add(table_child_map);////============================================
+
+//===================================================================================================================================================================
+        //============================================================================================================================================
+//        Cursor cursorLoginTable = database.rawQuery("SELECT * FROM "+tableName.get(1), null);  // LOGIN table
+//        String[] logInColumnNamesArray = cursorLoginTable.getColumnNames();
+//
+//        HashMap<String , HashMap<String ,String>>  table_login_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableLogInRow = new ArrayList<>();
+//        if (cursorLoginTable.moveToFirst()) {
+//            //while ( !cursorMotherTable.isAfterLast() ) {
+//            HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//            colValue.put(logInColumnNamesArray[0],   (cursorLoginTable.getType(0 )==1) ? "INTEGER":"TEXT");
+//            colValue.put(logInColumnNamesArray[1],   (cursorLoginTable.getType(1 )==1) ? "INTEGER":"TEXT");
+//            colValue.put(logInColumnNamesArray[2],   (cursorLoginTable.getType(2 )==1) ? "INTEGER":"TEXT");
+//            colValue.put(logInColumnNamesArray[3],   (cursorLoginTable.getType(3 )==1) ? "INTEGER":"TEXT");
+//            // colValue.put(logInColumnNamesArray[4],   (cursorLoginTable.getType(4 )==1) ? "INTEGER":"TEXT");
+//
+//
+//
+//           // table_login_map.put(tableName.get(1),colValue);
+//            allTablesMap.put(tableName.get(1),colValue);
+//            //   cursorMotherTable.moveToNext();
+//            // } tableLogInRow.add(colValue);
+//        }
+
+
+       // allTables.add(table_login_map);////============================================
+
+//===================================================================================================================================================================
+
+        dbDef_hashMap.put("dbDef",allTablesMap);
+        //dbDef_List.add(dbDef_hashMap);
+
+
+        return dbDef_hashMap;
+    }
 
 }  //===========================  Class end   ==========================

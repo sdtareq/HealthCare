@@ -33,7 +33,7 @@ public class All_Mother_List_Adapter extends RecyclerView.Adapter<All_Mother_Lis
 
         holder.vName.setText(a_mother.getMotherName());
         holder.txt2.setText(a_mother.getLastMenstruationDate());
-        holder.txt3.setText(a_mother.getIsPregnant());
+        holder.txt3.setText(a_mother.getPregnancyState());
         holder.vTitle.setText(a_mother.getRunningHealthService());
 
     }
@@ -50,6 +50,7 @@ public class All_Mother_List_Adapter extends RecyclerView.Adapter<All_Mother_Lis
         protected TextView txt2;
         protected TextView txt3;
         protected TextView vTitle;
+
 
         public ViewHolder(View itemView) {
             super(itemView);

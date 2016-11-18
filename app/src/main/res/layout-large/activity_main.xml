@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.tareq.healthcare.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <LinearLayout
@@ -10,7 +11,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.tareq.healthcare.MainActivity"
+
     android:orientation="vertical"
 
     >
@@ -35,15 +36,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
+        android:layout_gravity="center"
         android:paddingBottom="45dp"
         >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
+        android:weightSum="1"
+
         >
 
 
@@ -52,15 +55,17 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_message"
         android:layout_gravity="center"
-        android:layout_width="280dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
+        android:layout_weight=".33"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-           android:gravity="center"
+            android:gravity="center"
             android:paddingBottom="8dp"
 
             >
@@ -76,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="মায়েদের মেসেজ দিন"
-            android:textSize="30sp"
+            android:textSize="@dimen/tv_header"
             android:gravity="center"
             android:paddingTop="8dp"/>
         <TextView
@@ -85,7 +90,7 @@
             android:layout_height="match_parent"
             android:text="00 জনকে মেসেজ দেয়া হয়নি "
             android:gravity="center"
-            android:textSize="15sp"/>
+            android:textSize="@dimen/tv_body"/>
 
             <TextView
                 android:id="@+id/tvMessageDelivered"
@@ -93,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:text="00 জনকে মেসেজ দেয়া হয়েছে "
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="@dimen/tv_body"
 
                 />
 
@@ -103,7 +108,7 @@
                 android:layout_height="match_parent"
                 android:text="মোট সংখ্যা 00 জন"
                 android:gravity="center"
-                android:textSize="15sp"/>
+                android:textSize="@dimen/tv_body"/>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -114,11 +119,12 @@
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
 
-            android:id="@+id/card_view_All_Audio"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/card_view_All_Nutritions"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginLeft="16dp">
+            android:layout_marginLeft="16dp"
+            android:layout_weight=".3">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,8 +142,16 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="পুষ্টিকর খাবার সম্পর্কে জেনে নিন"
-                    android:textSize="30sp"
+                    android:text="মা ও শিশুর "
+                    android:textSize="@dimen/tv_header"
+                    android:gravity="center"
+                    android:paddingTop="8dp"/>
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text=" নিউট্রিশন"
+                    android:textSize="@dimen/tv_header"
                     android:gravity="center"
                     android:paddingTop="8dp"/>
 
@@ -149,10 +163,11 @@
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_view_mother_register"
 
-            android:layout_width="270dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             card_view:cardCornerRadius="4dp"
             android:layout_marginLeft="16dp"
+            android:layout_weight=".3"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,11 +190,19 @@
                     android:id="@+id/tvMOtherRegisterTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="নতুন মা রেজিস্টার করুন"
-                    android:textSize="30sp"
+                    android:text="নতুন মা রেজিস্টার  "
+                    android:textSize="@dimen/tv_header"
                     android:gravity="center"
                     android:paddingTop="8dp"/>
 
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="  করুন"
+                    android:textSize="@dimen/tv_header"
+                    android:gravity="center"
+                    android:paddingTop="8dp"/>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -195,10 +218,11 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:weightSum="1">
 
 
 
@@ -206,11 +230,12 @@
         <!-- A CardView that contains a TextView -->
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view_AllMotherList"
+            android:id="@+id/card_view_help_line"
 
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="4dp">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            card_view:cardCornerRadius="4dp"
+            android:layout_weight=".33">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -221,15 +246,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:background="#4285F4"
                     android:paddingBottom="16dp"/>
                 <TextView
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="সকল মায়েদের লিস্ট"
-                    android:textSize="30sp"
+                    android:text="হেল্প লাইন"
+                    android:textSize="@dimen/tv_header"
+                    android:gravity="center"
+                    android:paddingTop="8dp"/>
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="345678888"
+                    android:textSize="@dimen/tv_body"
                     android:gravity="center"
                     android:paddingTop="8dp"/>
 
@@ -244,10 +277,11 @@
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
 
 
-            android:layout_width="420dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginLeft="16dp">
+            android:layout_marginLeft="16dp"
+            android:layout_weight=".3">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -266,19 +300,79 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="ডেটা সিঙ্ক করুন"
-                    android:textSize="30sp"
+                    android:textSize="@dimen/tv_header"
                     android:gravity="center"
                     android:paddingTop="8dp"/>
                 <TextView
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="সর্বশেষ সিঙ্ক করা হয়েছেঃ 24/10/2016"
-                    android:textSize="23sp"
+                    android:text="সর্বশেষ সিঙ্ক করা হয়েছেঃ "
+                    android:textSize="@dimen/tv_body"
+                    android:gravity="center"/>
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="24/10/2016"
+                    android:textSize="@dimen/tv_body"
                     android:gravity="center"/>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+        <!-- A CardView that contains a TextView -->
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            android:id="@+id/card_view_Export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight=".3">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:orientation="horizontal"
+                    android:background="#55ACEE"
+                    android:paddingBottom="16dp"/>
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="ডেটা এক্সপোর্ট করুন"
+                    android:textSize="@dimen/tv_header"
+                    android:gravity="center"
+                    android:paddingTop="8dp"/>
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="সর্বশেষ এক্সপোর্ট করা হয়েছেঃ "
+                    android:textSize="@dimen/tv_body"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/tvExportDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textSize="23sp"
+                    android:gravity="center"/>
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
     </LinearLayout>
 
 

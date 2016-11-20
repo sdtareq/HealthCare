@@ -3,6 +3,7 @@ package com.example.tareq.healthcare;
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 public class ANC_PNC_List_Activity extends AppCompatActivity {
     final static String TAG = "ANC_PNC_List_Activity";
+    final static String LIST_STATE_KEY = "recycler_state";
     final static String DESIRE_CALLING_TIME_MORNING = "সকাল";
     final static String DESIRE_CALLING_TIME_NOON = "দুপুর ";
     final static String DESIRE_CALLING_TIME_EVENING = "সন্ধ্যা ";
@@ -31,7 +33,7 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    Parcelable mListState; ////  recycler view state
     ProgressDialog progressDialog;  // init dialog
 
     @Override
@@ -98,7 +100,19 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(TAG,healthServiceName);
 
+        mListState = mLayoutManager.onSaveInstanceState();// Save list state
+        outState.putParcelable(LIST_STATE_KEY,mListState);
+
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null){     // Retrieve list state and list/item positions
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+
     }
 
     @Override
@@ -107,6 +121,10 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(),"onResume"   ,Toast.LENGTH_SHORT).show();
         if (healthServiceName != null) {
             new HeavyTaskExecutor().execute();
+        }
+
+        if (mListState != null){
+            mLayoutManager.onRestoreInstanceState(mListState);
         }
 
     }

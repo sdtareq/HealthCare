@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,7 @@ public class AddChildActivity extends AppCompatActivity {
     String mMotherName, mMotherRowId , mSexOfChild,mChildDateOfBirth="";
 
     EditText etChildName, etChildDateOfBirth, etChildBirthWeight, etIdNumberOfChild;
-    Button   btn_register;
+    AppCompatButton btn_register,btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,15 @@ public class AddChildActivity extends AppCompatActivity {
         etChildBirthWeight = (EditText) findViewById(R.id.etChildBirthWeight);
         etIdNumberOfChild = (EditText) findViewById(R.id.etIdNumberOfChild);
 
-        btn_register = (Button) findViewById(R.id.btn_register);
+        btn_register = (AppCompatButton) findViewById(R.id.btn_register);
+        btn_back = (AppCompatButton) findViewById(R.id.btn_back);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         etChildDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override

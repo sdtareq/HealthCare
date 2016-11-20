@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        Gson gson = new Gson();
-//         String table1 = gson.toJson(db.getAllTables());
+//         String table1 = gson.toJson(db.getAllTables2());
 //      //  String table1 = gson.toJson(db.getDbDef2());
 //
 //        Toast.makeText(this,table1,Toast.LENGTH_LONG).show();
@@ -223,6 +223,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.card_view_sync).setOnClickListener(new View.OnClickListener() {  // =================  Call Help Line
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Activity_Sync.class);
+                startActivity(intent);
+            }
+        });
+
 
         findViewById(R.id.card_view_All_Nutritions).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,6 +323,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Map<String, Integer> doInBackground(String... datas) {
+
+            //temp
+
+
+
+
+            //temp
 
 
             Map<String, Integer> allStat = new HashMap<>();
@@ -641,16 +656,17 @@ public class MainActivity extends AppCompatActivity {
 
                     String selectAllMothers  = "SELECT  * FROM " +  DatabaseHelper.TABLE_MOTHER
                             + " INNER JOIN " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + " ON " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + "." + DatabaseHelper.MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID
-                            + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID  ;
+                            + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID+ " WHERE " + DatabaseHelper.TABLE_MOTHER+"."+DatabaseHelper.MOTHER_COLUMN_PREGNANCY_STATE
+                            +"=?" ;
 
                     //Cursor cursor = db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});
 
 
                     // Cursor curCSV =  db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});  // query
-                    Cursor curCSV2 =  db.rawQuery(selectAllMothers ,null);  // query
+                    Cursor curCSV2 =  db.rawQuery(selectAllMothers ,new String[]{"pregnant"});  // query
                      //csvWrite.writeNext(curCSV.getColumnNames());
 
-                    while (curCSV2.moveToNext() && curCSV2 != null)
+                    while (curCSV2.moveToNext())
 
                     {
 

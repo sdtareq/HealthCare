@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <TextView
+
+        android:id="@+id/tv_dialog_delete_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="title"
+        android:textSize="@dimen/tv_header"
+        android:layout_margin="@dimen/vertical_margin"
+        android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/vertical_margin"
+        android:gravity="center"
+        android:weightSum="1">
+        <Button
+            android:id="@+id/btn_dialog_delete_no"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="no"
+            android:textSize="@dimen/tv_body"
+            android:gravity="center"
+            android:layout_weight=".5"
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
+        <Button
+            android:id="@+id/btn_dialog_delete_yes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="yes"
+            android:textSize="@dimen/tv_body"
+            android:gravity="center"
+            android:layout_weight=".5"
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
+    </LinearLayout>
+
+</LinearLayout>

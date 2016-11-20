@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
 
-    private static final int DATABASE_VERSION = 25;
+    private static final int DATABASE_VERSION = 27;
 
 
     // Database Name
@@ -787,6 +787,9 @@ item.setSyncStatus(syncStatus);
     }                                                  //  ------------------ get List of All Mothers with Child  end ----------
 
     //  ------------------ set message status for a Mothers  start ----------
+    String syncStatusFalse = "false"; //======================================================================== set Sync Status ------
+
+
     public void setMessageStatus(String primaryKey, String status) {
         SQLiteDatabase db = super.getWritableDatabase();
         String where = MOTHER_COLUMN_ID + " =? ";
@@ -815,6 +818,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_CHILD_0_TO_14_DAYS_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
     //  ------------------ set  CHILD 1,2,3 MONTH Message Delivery Status  start ----------
@@ -824,6 +833,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_CHILD_1_2_3_MONTH_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
     //  ------------------ set  CHILD 6 TO 8 MONTH Message Delivery Status  start ----------
@@ -833,6 +848,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_CHILD_6_TO_8_MONTH_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
     //  ------------------ set  CHILD 9 TO 12 MONTH Message Delivery Status  start ----------
@@ -842,6 +863,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_CHILD_9_T0_12_MONTH_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
 
@@ -852,6 +879,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_PRE_DELIVERY_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
 
     }
@@ -866,6 +899,12 @@ item.setSyncStatus(syncStatus);
         values.put(MOTHER_COLUMN_PREGNANCY_STATE, pregnancyState);
         values.put(MOTHER_COLUMN_DELIVERY_DATE, deliveryDate);
         db.update(TABLE_MOTHER, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
 
     }
@@ -877,6 +916,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_ANC_1_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
 
@@ -887,6 +932,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_ANC_2_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
 
@@ -897,6 +948,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_ANC_3_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
 
@@ -907,6 +964,12 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_ANC_4_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
 
@@ -917,17 +980,174 @@ item.setSyncStatus(syncStatus);
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELIVERY_COL_IS_PNC_MSG_DELIVERED, status);
         db.update(TABLE_MESSAGE_DELIVERY, values, where, new String[]{primaryKey});
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
 
 
 
 
-    public    HashMap<String ,List<HashMap<String ,String>>> getAllTables(){// =========================== get all tables
-       // List<HashMap<String,HashMap<String ,String >>> allTableList = new ArrayList<>();
-         List<HashMap<String, List<HashMap<String,String>>>> allTableList = new ArrayList<>();
-        //HashMap<String ,List<HashMap<String ,String>>> tableMap = new HashMap<>();
-        HashMap<String ,List<HashMap<String ,String>>> all_table_map = new HashMap<>();
+//    public    HashMap<String ,List<HashMap<String ,String>>> getAllTables(){// =========================== get all tables
+//       // List<HashMap<String,HashMap<String ,String >>> allTableList = new ArrayList<>();
+//         List<HashMap<String, List<HashMap<String,String>>>> allTableList = new ArrayList<>();
+//        //HashMap<String ,List<HashMap<String ,String>>> tableMap = new HashMap<>();
+//        HashMap<String ,List<HashMap<String ,String>>> all_table_map = new LinkedHashMap<>();
+//        List<String> tableName = new ArrayList<>();
+//        SQLiteDatabase database = super.getWritableDatabase();
+//        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+//
+//
+//        if (c.moveToFirst()) {
+//            while ( !c.isAfterLast() ) {
+//
+//                tableName.add(c.getString(0)); // table names
+//
+//                c.moveToNext();
+//            }
+//        }
+////============================================================================================================================================
+//        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2)+" WHERE "
+//                + MOTHER_COLUMN_SYNC_STATUS + "=?", new String[] {"false"});  // mother table
+//        String[] motherColumnNamesArray = cursorMotherTable.getColumnNames();
+//
+//        HashMap<String ,List<HashMap<String ,String>>> table_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableRow = new ArrayList<>();
+//         if (cursorMotherTable.moveToFirst()) {
+//            while ( !cursorMotherTable.isAfterLast() ) {
+//                HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//                colValue.put(motherColumnNamesArray[0], cursorMotherTable.getString(0));
+//                colValue.put(motherColumnNamesArray[1], cursorMotherTable.getString(1));
+//                colValue.put(motherColumnNamesArray[2], cursorMotherTable.getString(2));
+//                colValue.put(motherColumnNamesArray[3], cursorMotherTable.getString(3));
+//                colValue.put(motherColumnNamesArray[4], cursorMotherTable.getString(4));
+//                colValue.put(motherColumnNamesArray[5], cursorMotherTable.getString(5));
+//                colValue.put(motherColumnNamesArray[6], cursorMotherTable.getString(6));
+//                colValue.put(motherColumnNamesArray[7], cursorMotherTable.getString(7));
+//                colValue.put(motherColumnNamesArray[8], cursorMotherTable.getString(8));
+//                colValue.put(motherColumnNamesArray[9], cursorMotherTable.getString(9));
+//                colValue.put(motherColumnNamesArray[10],cursorMotherTable.getString(10));
+//                colValue.put(motherColumnNamesArray[11],cursorMotherTable.getString(11));
+//                colValue.put(motherColumnNamesArray[12],cursorMotherTable.getString(12));
+//                colValue.put(motherColumnNamesArray[13],cursorMotherTable.getString(13));
+//                colValue.put(motherColumnNamesArray[14],cursorMotherTable.getString(14));
+//                colValue.put(motherColumnNamesArray[15],cursorMotherTable.getString(15));
+//
+//
+//
+//                tableRow.add(colValue);
+//                cursorMotherTable.moveToNext();
+//            }
+//        }
+//        cursorMotherTable.close();
+//        //table_map.put(tableName.get(2),tableRow);
+//       all_table_map.put(tableName.get(2),tableRow);
+//
+//             //allTableList.add(table_map);////============================================
+//
+////===================================================================================================================================================================
+////============================================================================================================================================
+////        "SELECT  * FROM " + TABLE_MOTHER + " INNER JOIN " + TABLE_CHILD + " ON " + TABLE_CHILD + "." + CHILD_COLUMN_MOTHER_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID
+////                + " INNER JOIN " + TABLE_MESSAGE_DELIVERY + " ON " + TABLE_MESSAGE_DELIVERY + "." + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID +" WHERE "
+////                + TABLE_MOTHER + "." + MOTHER_COLUMN_PREGNANCY_STATE + "=?";
+//        String queryMessageTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(3)+ " ON " +tableName.get(3)+"."+ MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID
+//                +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
+//
+//        Cursor cursorMessageTable = database.rawQuery(queryMessageTable, new String[]{"false"});  // message table
+//        String[] messageColumnNamesArray = cursorMessageTable.getColumnNames();
+//
+//         HashMap<String ,List<HashMap<String ,String>>> table_message_map = new HashMap<>();
+//         List<HashMap<String ,String>> tableMessageRow = new ArrayList<>();
+//        if (cursorMessageTable.moveToFirst()) {
+//            while ( !cursorMessageTable.isAfterLast() ) {
+//                HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//                colValue.put(messageColumnNamesArray[16], cursorMessageTable.getString(16));
+//                colValue.put(messageColumnNamesArray[17], cursorMessageTable.getString(17));
+//                colValue.put(messageColumnNamesArray[18], cursorMessageTable.getString(18));
+//                colValue.put(messageColumnNamesArray[19], cursorMessageTable.getString(19));
+//                colValue.put(messageColumnNamesArray[20], cursorMessageTable.getString(20));
+//                colValue.put(messageColumnNamesArray[21], cursorMessageTable.getString(21));
+//                colValue.put(messageColumnNamesArray[22], cursorMessageTable.getString(22));
+//                colValue.put(messageColumnNamesArray[23], cursorMessageTable.getString(23));
+//                colValue.put(messageColumnNamesArray[24], cursorMessageTable.getString(24));
+//                colValue.put(messageColumnNamesArray[25], cursorMessageTable.getString(25));
+//                colValue.put(messageColumnNamesArray[26], cursorMessageTable.getString(26));
+//                colValue.put(messageColumnNamesArray[27], cursorMessageTable.getString(27));
+//                colValue.put(messageColumnNamesArray[28], cursorMessageTable.getString(28));
+//
+//
+//
+//
+//                tableMessageRow.add(colValue);
+//                cursorMessageTable.moveToNext();
+//            }
+//        }
+//        cursorMessageTable.close();
+//       // table_message_map.put(tableName.get(3),tableMessageRow);
+//        all_table_map.put(tableName.get(3),tableMessageRow);
+//        //allTableList.add(table_message_map);////============================================
+//
+////===================================================================================================================================================================
+//        //============================================================================================================================================
+//        String queryChildTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(4)+ " ON " +tableName.get(4)+"."+ CHILD_COLUMN_MOTHER_ID
+//                +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
+//        Cursor cursorChildTable = database.rawQuery(queryChildTable, new String[] {"false"});  // Child table
+//        String[] childColumnNamesArray = cursorChildTable.getColumnNames();
+//
+//        HashMap<String ,List<HashMap<String ,String>>> table_child_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
+//        if (cursorChildTable.moveToFirst()) {
+//            while (!cursorChildTable.isAfterLast()) {
+//                HashMap<String, String> colValue = new LinkedHashMap<>();
+//
+//
+//                colValue.put(childColumnNamesArray[16], cursorChildTable.getString(16));
+//                colValue.put(childColumnNamesArray[17], cursorChildTable.getString(17));
+//                colValue.put(childColumnNamesArray[18], cursorChildTable.getString(18));
+//                colValue.put(childColumnNamesArray[19], cursorChildTable.getString(19));
+//                colValue.put(childColumnNamesArray[20], cursorChildTable.getString(20));
+//                colValue.put(childColumnNamesArray[21], cursorChildTable.getString(21));
+//                colValue.put(childColumnNamesArray[22], cursorChildTable.getString(22));
+//               // colValue.put(childColumnNamesArray[23], cursorChildTable.getString(23));
+//
+//
+//                tableChildRow.add(colValue);
+//                cursorChildTable.moveToNext();
+//
+//            }
+//        }
+//        cursorChildTable.close();
+//
+//       // table_child_map.put(tableName.get(4),tableChildRow);
+//       all_table_map.put(tableName.get(4),tableChildRow);
+//        //allTableList.add(table_child_map);////============================================
+//
+////===================================================================================================================================================================
+//
+//        database.close();
+//
+//        return all_table_map;
+//    }
+//
+
+
+
+
+
+//=================================================================================================================================================================================================================================================
+
+    public    HashMap<String ,HashMap<String ,String>> getAllTables2(){// =========================== get all tables
+
+        HashMap<String , HashMap<String ,String>> rowsAll_map = new LinkedHashMap<>();////////////////////////////////////////////
+        HashMap<String,String > tableNameAndRows_map = new LinkedHashMap<>();   /////////////////////////////////////////////
         List<String> tableName = new ArrayList<>();
         SQLiteDatabase database = super.getWritableDatabase();
         Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
@@ -942,293 +1162,174 @@ item.setSyncStatus(syncStatus);
             }
         }
 //============================================================================================================================================
-        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2), null);  // mother table
+        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2)+" WHERE "
+                + MOTHER_COLUMN_SYNC_STATUS + "=?", new String[] {"false"});  // mother table
         String[] motherColumnNamesArray = cursorMotherTable.getColumnNames();
 
-        HashMap<String ,List<HashMap<String ,String>>> table_map = new HashMap<>();
-        List<HashMap<String ,String>> tableRow = new ArrayList<>();
-         if (cursorMotherTable.moveToFirst()) {
+        String motherAllRows = "" ;
+        boolean flag = false;
+
+        if (cursorMotherTable.moveToFirst()) {
+            String n = "", t ="\t";
             while ( !cursorMotherTable.isAfterLast() ) {
-                HashMap<String ,String> colValue = new LinkedHashMap<>();
+
+                if (flag){
+                   n= "\n" ;
+                }
+
+                motherAllRows += n+cursorMotherTable.getString(0);
+                for (int i=1;i< motherColumnNamesArray.length;i++){
+                    motherAllRows += t + cursorMotherTable.getString(i);
+                }
 
 
-                colValue.put(motherColumnNamesArray[0], cursorMotherTable.getString(0));
-                colValue.put(motherColumnNamesArray[1], cursorMotherTable.getString(1));
-                colValue.put(motherColumnNamesArray[2], cursorMotherTable.getString(2));
-                colValue.put(motherColumnNamesArray[3], cursorMotherTable.getString(3));
-                colValue.put(motherColumnNamesArray[4], cursorMotherTable.getString(4));
-                colValue.put(motherColumnNamesArray[5], cursorMotherTable.getString(5));
-                colValue.put(motherColumnNamesArray[6], cursorMotherTable.getString(6));
-                colValue.put(motherColumnNamesArray[7], cursorMotherTable.getString(7));
-                colValue.put(motherColumnNamesArray[8], cursorMotherTable.getString(8));
-                colValue.put(motherColumnNamesArray[9], cursorMotherTable.getString(9));
-                colValue.put(motherColumnNamesArray[10],cursorMotherTable.getString(10));
-                colValue.put(motherColumnNamesArray[11],cursorMotherTable.getString(11));
-                colValue.put(motherColumnNamesArray[12],cursorMotherTable.getString(12));
-                colValue.put(motherColumnNamesArray[13],cursorMotherTable.getString(13));
-                colValue.put(motherColumnNamesArray[14],cursorMotherTable.getString(14));
-                colValue.put(motherColumnNamesArray[15],cursorMotherTable.getString(15));
+//                HashMap<String ,String> colValue = new LinkedHashMap<>();
+//
+//
+//                colValue.put(motherColumnNamesArray[0], cursorMotherTable.getString(0));
+//                colValue.put(motherColumnNamesArray[1], cursorMotherTable.getString(1));
+//                colValue.put(motherColumnNamesArray[2], cursorMotherTable.getString(2));
+//                colValue.put(motherColumnNamesArray[3], cursorMotherTable.getString(3));
+//                colValue.put(motherColumnNamesArray[4], cursorMotherTable.getString(4));
+//                colValue.put(motherColumnNamesArray[5], cursorMotherTable.getString(5));
+//                colValue.put(motherColumnNamesArray[6], cursorMotherTable.getString(6));
+//                colValue.put(motherColumnNamesArray[7], cursorMotherTable.getString(7));
+//                colValue.put(motherColumnNamesArray[8], cursorMotherTable.getString(8));
+//                colValue.put(motherColumnNamesArray[9], cursorMotherTable.getString(9));
+//                colValue.put(motherColumnNamesArray[10],cursorMotherTable.getString(10));
+//                colValue.put(motherColumnNamesArray[11],cursorMotherTable.getString(11));
+//                colValue.put(motherColumnNamesArray[12],cursorMotherTable.getString(12));
+//                colValue.put(motherColumnNamesArray[13],cursorMotherTable.getString(13));
+//                colValue.put(motherColumnNamesArray[14],cursorMotherTable.getString(14));
+//                colValue.put(motherColumnNamesArray[15],cursorMotherTable.getString(15));
 
 
 
-                tableRow.add(colValue);
+              //  tableRow.add(colValue);
+                flag = true;
+
                 cursorMotherTable.moveToNext();
             }
         }
+        cursorMotherTable.close();
 
-        //table_map.put(tableName.get(2),tableRow);
-       all_table_map.put(tableName.get(2),tableRow);
+        tableNameAndRows_map.put(tableName.get(2),motherAllRows);
+        ///////////////////////////////////////////////////////////////////////////////////===============================================================
 
-             //allTableList.add(table_map);////============================================
+       //===================================================================================================================================================================
+////============================================================================================================================================
 
-//===================================================================================================================================================================
-//============================================================================================================================================
-        Cursor cursorMessageTable = database.rawQuery("SELECT * FROM "+tableName.get(3), null);  // message table
+        String queryMessageTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(3)+ " ON " +tableName.get(3)+"."+ MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID
+                +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
+
+        Cursor cursorMessageTable = database.rawQuery(queryMessageTable, new String[]{"false"});  // message table
         String[] messageColumnNamesArray = cursorMessageTable.getColumnNames();
 
-         HashMap<String ,List<HashMap<String ,String>>> table_message_map = new HashMap<>();
-         List<HashMap<String ,String>> tableMessageRow = new ArrayList<>();
+        String messageAllRows = "" ;
+        boolean flagMessage = false;
+
         if (cursorMessageTable.moveToFirst()) {
+            String n = "", t ="\t";
+
             while ( !cursorMessageTable.isAfterLast() ) {
-                HashMap<String ,String> colValue = new LinkedHashMap<>();
 
+                if (flagMessage){
+                    n= "\n" ;
+                }
 
-                colValue.put(messageColumnNamesArray[0], cursorMessageTable.getString(0));
-                colValue.put(messageColumnNamesArray[1], cursorMessageTable.getString(1));
-                colValue.put(messageColumnNamesArray[2], cursorMessageTable.getString(2));
-                colValue.put(messageColumnNamesArray[3], cursorMessageTable.getString(3));
-                colValue.put(messageColumnNamesArray[4], cursorMessageTable.getString(4));
-                colValue.put(messageColumnNamesArray[5], cursorMessageTable.getString(5));
-                colValue.put(messageColumnNamesArray[6], cursorMessageTable.getString(6));
-                colValue.put(messageColumnNamesArray[7], cursorMessageTable.getString(7));
-                colValue.put(messageColumnNamesArray[8], cursorMessageTable.getString(8));
-                colValue.put(messageColumnNamesArray[9], cursorMessageTable.getString(9));
-                colValue.put(messageColumnNamesArray[10],cursorMessageTable.getString(10));
-                colValue.put(messageColumnNamesArray[11],cursorMessageTable.getString(11));
-                colValue.put(messageColumnNamesArray[12],cursorMessageTable.getString(12));
+                messageAllRows += n+cursorMessageTable.getString(16);
+                for (int i=17;i< messageColumnNamesArray.length;i++){
+                    messageAllRows += t + cursorMessageTable.getString(i);
+                }
 
 
 
+                flagMessage = true;
 
-                tableMessageRow.add(colValue);
                 cursorMessageTable.moveToNext();
             }
         }
+        cursorMessageTable.close();
 
-       // table_message_map.put(tableName.get(3),tableMessageRow);
-        all_table_map.put(tableName.get(3),tableMessageRow);
-        //allTableList.add(table_message_map);////============================================
+        tableNameAndRows_map.put(tableName.get(3),messageAllRows);
 
-//===================================================================================================================================================================
-        //============================================================================================================================================
-        Cursor cursorChildTable = database.rawQuery("SELECT * FROM "+tableName.get(4), null);  // Child table
+//                colValue.put(messageColumnNamesArray[16], cursorMessageTable.getString(16));
+//                colValue.put(messageColumnNamesArray[17], cursorMessageTable.getString(17));
+//                colValue.put(messageColumnNamesArray[18], cursorMessageTable.getString(18));
+//                colValue.put(messageColumnNamesArray[19], cursorMessageTable.getString(19));
+//                colValue.put(messageColumnNamesArray[20], cursorMessageTable.getString(20));
+//                colValue.put(messageColumnNamesArray[21], cursorMessageTable.getString(21));
+//                colValue.put(messageColumnNamesArray[22], cursorMessageTable.getString(22));
+//                colValue.put(messageColumnNamesArray[23], cursorMessageTable.getString(23));
+//                colValue.put(messageColumnNamesArray[24], cursorMessageTable.getString(24));
+//                colValue.put(messageColumnNamesArray[25], cursorMessageTable.getString(25));
+//                colValue.put(messageColumnNamesArray[26], cursorMessageTable.getString(26));
+//                colValue.put(messageColumnNamesArray[27], cursorMessageTable.getString(27));
+//                colValue.put(messageColumnNamesArray[28], cursorMessageTable.getString(28));
+
+////===================================================================================================================================================================
+//        //============================================================================================================================================
+        String queryChildTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(4)+ " ON " +tableName.get(4)+"."+ CHILD_COLUMN_MOTHER_ID
+                +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
+        Cursor cursorChildTable = database.rawQuery(queryChildTable, new String[] {"false"});  // Child table
         String[] childColumnNamesArray = cursorChildTable.getColumnNames();
 
-        HashMap<String ,List<HashMap<String ,String>>> table_child_map = new HashMap<>();
-        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
+
+        String ChildAllRows = "" ;
+        boolean flagChild = false;
+
         if (cursorChildTable.moveToFirst()) {
-            while (!cursorMessageTable.isAfterLast()) {
-                HashMap<String, String> colValue = new LinkedHashMap<>();
+            String n = "", t ="\t";
+
+            while ( !cursorChildTable.isAfterLast() ) {
+
+                if (flagChild){
+                    n= "\n" ;
+                }
+
+                ChildAllRows += n+cursorChildTable.getString(16);
+                for (int i=17;i< childColumnNamesArray.length;i++){
+                    ChildAllRows += t + cursorChildTable.getString(i);
+                }
 
 
-                colValue.put(childColumnNamesArray[0], cursorMessageTable.getString(0));
-                colValue.put(childColumnNamesArray[1], cursorMessageTable.getString(1));
-                colValue.put(childColumnNamesArray[2], cursorMessageTable.getString(2));
-                colValue.put(childColumnNamesArray[3], cursorMessageTable.getString(3));
-                colValue.put(childColumnNamesArray[4], cursorMessageTable.getString(4));
-                colValue.put(childColumnNamesArray[5], cursorMessageTable.getString(5));
-                colValue.put(childColumnNamesArray[6], cursorMessageTable.getString(6));
-                colValue.put(childColumnNamesArray[7], cursorMessageTable.getString(7));
 
+                flagChild = true;
 
-                tableChildRow.add(colValue);
-                cursorMessageTable.moveToNext();
-
+                cursorChildTable.moveToNext();
             }
         }
+        cursorChildTable.close();
 
-       // table_child_map.put(tableName.get(4),tableChildRow);
-       all_table_map.put(tableName.get(4),tableChildRow);
-        //allTableList.add(table_child_map);////============================================
+        tableNameAndRows_map.put(tableName.get(4),ChildAllRows);
 
-//===================================================================================================================================================================
+//                colValue.put(childColumnNamesArray[16], cursorChildTable.getString(16));
+//                colValue.put(childColumnNamesArray[17], cursorChildTable.getString(17));
+//                colValue.put(childColumnNamesArray[18], cursorChildTable.getString(18));
+//                colValue.put(childColumnNamesArray[19], cursorChildTable.getString(19));
+//                colValue.put(childColumnNamesArray[20], cursorChildTable.getString(20));
+//                colValue.put(childColumnNamesArray[21], cursorChildTable.getString(21));
+//                colValue.put(childColumnNamesArray[22], cursorChildTable.getString(22));
+//                colValue.put(childColumnNamesArray[23], cursorChildTable.getString(23));
+//
+//
+
+////===================================================================================================================================================================
 
         database.close();
 
-        return all_table_map;
+        rowsAll_map.put("rowsAll",tableNameAndRows_map);
+
+        return rowsAll_map;
     }
 
-//    public    List<HashMap<String, List<HashMap<String, List<HashMap<String,String>>>>>> getDbDef(){
-//        List<HashMap<String, List<HashMap<String, List<HashMap<String,String>>>>>> dbDef_List = new ArrayList<>();
-//        HashMap<String, List<HashMap<String, List<HashMap<String,String>>>>> dbDef_hashMap = new HashMap<>();
-//        List<HashMap<String, List<HashMap<String,String>>>> allTables = new ArrayList<>();
-//
-//        List<String> tableName = new ArrayList<>();
-//        SQLiteDatabase database = super.getWritableDatabase();
-//        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-//
-//
-//        if (c.moveToFirst()) {
-//            while ( !c.isAfterLast() ) {
-//
-//                tableName.add(c.getString(0)); // table names
-//
-//                c.moveToNext();
-//            }
-//        }
-//
-//
-//
-//
-//
-//
-//        //============================================================================================================================================
-//        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2), null);  // mother table
-//        String[] motherColumnNamesArray = cursorMotherTable.getColumnNames();
-//
-//        HashMap<String ,List<HashMap<String ,String>>> table_mother_map = new HashMap<>();
-//        List<HashMap<String ,String>> tableMotherRow = new ArrayList<>();
-//        if (cursorMotherTable.moveToFirst()) {
-//            //while ( !cursorMotherTable.isAfterLast() ) {
-//                HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//                colValue.put(motherColumnNamesArray[0],   (cursorMotherTable.getType(0 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[1],   (cursorMotherTable.getType(1 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[2],   (cursorMotherTable.getType(2 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[3],   (cursorMotherTable.getType(3 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[4],   (cursorMotherTable.getType(4 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[5],   (cursorMotherTable.getType(5 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[6],   (cursorMotherTable.getType(6 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[7],   (cursorMotherTable.getType(7 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[8],   (cursorMotherTable.getType(8 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[9],   (cursorMotherTable.getType(9 )==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[10],  (cursorMotherTable.getType(10)==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[11],  (cursorMotherTable.getType(11)==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[12],  (cursorMotherTable.getType(12)==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[13],  (cursorMotherTable.getType(13)==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[14],  (cursorMotherTable.getType(14)==1) ? "INTEGER":"TEXT");
-//                colValue.put(motherColumnNamesArray[15],  (cursorMotherTable.getType(15)==1) ? "INTEGER":"TEXT");
-//
-//
-//
-//                tableMotherRow.add(colValue);
-//             //   cursorMotherTable.moveToNext();
-//           // }
-//        }
-//
-//        table_mother_map.put(tableName.get(2),tableMotherRow);
-//        allTables.add(table_mother_map);////============================================
-//
-////===================================================================================================================================================================
-//
-//        //============================================================================================================================================
-//        Cursor cursorMessageTable = database.rawQuery("SELECT * FROM "+tableName.get(3), null);  // MESSAGE table
-//        String[] messageColumnNamesArray = cursorMessageTable.getColumnNames();
-//
-//        HashMap<String ,List<HashMap<String ,String>>> table_message_map = new HashMap<>();
-//        List<HashMap<String ,String>> tableMessageRow = new ArrayList<>();
-//        if (cursorMessageTable.moveToFirst()) {
-//
-//                HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//                colValue.put(messageColumnNamesArray[0],  (cursorMessageTable.getType(0 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[1],  (cursorMessageTable.getType(1 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[2],  (cursorMessageTable.getType(2 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[3],  (cursorMessageTable.getType(3 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[4],  (cursorMessageTable.getType(4 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[5],  (cursorMessageTable.getType(5 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[6],  (cursorMessageTable.getType(6 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[7],  (cursorMessageTable.getType(7 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[8],  (cursorMessageTable.getType(8 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[9],  (cursorMessageTable.getType(9 )==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[10], (cursorMessageTable.getType(10)==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[11], (cursorMessageTable.getType(11)==1) ? "INTEGER": "TEXT");
-//                colValue.put(messageColumnNamesArray[12], (cursorMessageTable.getType(12)==1) ? "INTEGER": "TEXT");
-//
-//
-//
-//
-//                tableMessageRow.add(colValue);
-//
-//        }
-//
-//        table_message_map.put(tableName.get(3),tableMessageRow);
-//        allTables.add(table_message_map);////============================================
-//
-////===================================================================================================================================================================
-//
-//
-//
-//        //============================================================================================================================================
-//        Cursor cursorChildTable = database.rawQuery("SELECT * FROM "+tableName.get(4), null);  // Child table
-//        String[] childColumnNamesArray = cursorChildTable.getColumnNames();
-//
-//        HashMap<String ,List<HashMap<String ,String>>> table_child_map = new HashMap<>();
-//        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
-//        if (cursorChildTable.moveToFirst()) {
-//
-//            HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//            colValue.put(childColumnNamesArray[0],  (cursorChildTable.getType(0 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[1],  (cursorChildTable.getType(1 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[2],  (cursorChildTable.getType(2 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[3],  (cursorChildTable.getType(3 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[4],  (cursorChildTable.getType(4 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[5],  (cursorChildTable.getType(5 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[6],  (cursorChildTable.getType(6 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[7],  (cursorChildTable.getType(7 )==1) ? "INTEGER": "TEXT");
-//
-//
-//
-//
-//
-//            tableChildRow.add(colValue);
-//
-//        }
-//
-//        table_child_map.put(tableName.get(4),tableChildRow);
-//        allTables.add(table_child_map);////============================================
-//
-////===================================================================================================================================================================
-//        //============================================================================================================================================
-//        Cursor cursorLoginTable = database.rawQuery("SELECT * FROM "+tableName.get(1), null);  // LOGIN table
-//        String[] logInColumnNamesArray = cursorLoginTable.getColumnNames();
-//
-//        HashMap<String ,List<HashMap<String ,String>>> table_login_map = new HashMap<>();
-//        List<HashMap<String ,String>> tableLogInRow = new ArrayList<>();
-//        if (cursorLoginTable.moveToFirst()) {
-//            //while ( !cursorMotherTable.isAfterLast() ) {
-//            HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//            colValue.put(logInColumnNamesArray[0],   (cursorLoginTable.getType(0 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(logInColumnNamesArray[1],   (cursorLoginTable.getType(1 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(logInColumnNamesArray[2],   (cursorLoginTable.getType(2 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(logInColumnNamesArray[3],   (cursorLoginTable.getType(3 )==1) ? "INTEGER":"TEXT");
-//            // colValue.put(logInColumnNamesArray[4],   (cursorLoginTable.getType(4 )==1) ? "INTEGER":"TEXT");
-//
-//
-//
-//
-//            tableLogInRow.add(colValue);
-//            //   cursorMotherTable.moveToNext();
-//            // }
-//        }
-//
-//        table_login_map.put(tableName.get(1),tableLogInRow);
-//        allTables.add(table_login_map);////============================================
-//
-////===================================================================================================================================================================
-//
-//        dbDef_hashMap.put("dbDef",allTables);
-//        dbDef_List.add(dbDef_hashMap);
-//
-//
-//        return dbDef_List;
-//    }
+
+
+
+
+
+
+
 
 
     public      HashMap<String,   HashMap<String , HashMap<String ,String>>> getDbDef2(){   //////////============================================
@@ -1361,42 +1462,10 @@ item.setSyncStatus(syncStatus);
 
 
 
-            //tableChildRow.add(colValue);
-            //table_child_map.put(tableName.get(4),colValue);
+
             allTablesMap.put(tableName.get(4),colValue);
         }
 
-
-        //allTables.add(table_child_map);////============================================
-
-//===================================================================================================================================================================
-        //============================================================================================================================================
-//        Cursor cursorLoginTable = database.rawQuery("SELECT * FROM "+tableName.get(1), null);  // LOGIN table
-//        String[] logInColumnNamesArray = cursorLoginTable.getColumnNames();
-//
-//        HashMap<String , HashMap<String ,String>>  table_login_map = new HashMap<>();
-//        List<HashMap<String ,String>> tableLogInRow = new ArrayList<>();
-//        if (cursorLoginTable.moveToFirst()) {
-//            //while ( !cursorMotherTable.isAfterLast() ) {
-//            HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//            colValue.put(logInColumnNamesArray[0],   (cursorLoginTable.getType(0 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(logInColumnNamesArray[1],   (cursorLoginTable.getType(1 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(logInColumnNamesArray[2],   (cursorLoginTable.getType(2 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(logInColumnNamesArray[3],   (cursorLoginTable.getType(3 )==1) ? "INTEGER":"TEXT");
-//            // colValue.put(logInColumnNamesArray[4],   (cursorLoginTable.getType(4 )==1) ? "INTEGER":"TEXT");
-//
-//
-//
-//           // table_login_map.put(tableName.get(1),colValue);
-//            allTablesMap.put(tableName.get(1),colValue);
-//            //   cursorMotherTable.moveToNext();
-//            // } tableLogInRow.add(colValue);
-//        }
-
-
-       // allTables.add(table_login_map);////============================================
 
 //===================================================================================================================================================================
 

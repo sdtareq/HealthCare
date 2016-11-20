@@ -23,7 +23,8 @@ import java.util.List;
  * Created by TAREQ on 10/27/2016.
  */
 public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adapter.ViewHolder>   {
-    String call;
+    String call = "";
+    String call_2= "";
     List<Mother> motherList = new ArrayList<>();
     private Context context;
     String healthServiceName  ;
@@ -81,9 +82,16 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                 total_tv_message_text = messageText+ deliveryStatus;
                 holder.tv_message.setText(total_tv_message_text);
                 holder.ivYesNO.setImageResource(R.drawable.no);
-                holder.btn_call_1.setVisibility(View.VISIBLE);
+                if (a_mother.getMotherPhoneNumber().isEmpty()){
+                    holder.btn_call_1.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_1.setVisibility(View.VISIBLE);
+                }
+
                 if (  a_mother.getAlternativePhoneNumber().isEmpty()){
                     holder.btn_call_2.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_2.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -100,9 +108,16 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                 total_tv_message_text=messageText+ deliveryStatus;
                 holder.tv_message.setText(total_tv_message_text);
                 holder.ivYesNO.setImageResource(R.drawable.no);
-                holder.btn_call_1.setVisibility(View.VISIBLE);
-                if ( a_mother.getAlternativePhoneNumber().isEmpty()){
+                if (a_mother.getMotherPhoneNumber().isEmpty()){
+                    holder.btn_call_1.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_1.setVisibility(View.VISIBLE);
+                }
+
+                if (  a_mother.getAlternativePhoneNumber().isEmpty()){
                     holder.btn_call_2.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_2.setVisibility(View.VISIBLE);
                 }
             }
         }else if (healthServiceName.equals(GroupMother.ANC_3)){
@@ -118,9 +133,16 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                 total_tv_message_text =messageText+ deliveryStatus ;
                 holder.tv_message.setText(total_tv_message_text);
                 holder.ivYesNO.setImageResource(R.drawable.no);
-                holder.btn_call_1.setVisibility(View.VISIBLE);
+                if (a_mother.getMotherPhoneNumber().isEmpty()){
+                    holder.btn_call_1.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_1.setVisibility(View.VISIBLE);
+                }
+
                 if (  a_mother.getAlternativePhoneNumber().isEmpty()){
                     holder.btn_call_2.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_2.setVisibility(View.VISIBLE);
                 }
             }
         }else if (healthServiceName.equals(GroupMother.ANC_4)){
@@ -136,9 +158,16 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                 total_tv_message_text =messageText+ deliveryStatus ;
                 holder.tv_message.setText(total_tv_message_text);
                 holder.ivYesNO.setImageResource(R.drawable.no);
-                holder.btn_call_1.setVisibility(View.VISIBLE);
+                if (a_mother.getMotherPhoneNumber().isEmpty()){
+                    holder.btn_call_1.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_1.setVisibility(View.VISIBLE);
+                }
+
                 if (  a_mother.getAlternativePhoneNumber().isEmpty()){
                     holder.btn_call_2.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_2.setVisibility(View.VISIBLE);
                 }
             }
         }else if (healthServiceName.equals(GroupMother.PNC)){
@@ -154,9 +183,16 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                 total_tv_message_text =messageText+ deliveryStatus ;
                 holder.tv_message.setText(total_tv_message_text);
                 holder.ivYesNO.setImageResource(R.drawable.no);
-                holder.btn_call_1.setVisibility(View.VISIBLE);
+                if (a_mother.getMotherPhoneNumber().isEmpty()){
+                    holder.btn_call_1.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_1.setVisibility(View.VISIBLE);
+                }
+
                 if (  a_mother.getAlternativePhoneNumber().isEmpty()){
                     holder.btn_call_2.setVisibility(View.INVISIBLE);
+                }else {
+                    holder.btn_call_2.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -202,8 +238,10 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
 
 
+         if (!a_mother.getMotherPhoneNumber().isEmpty()){
+               call = a_mother.getMotherPhoneNumber();
+           }
 
-        call = a_mother.getMotherPhoneNumber();
         holder.btn_call_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,13 +252,16 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
             }
         });
-        if (  a_mother.getAlternativePhoneNumber().isEmpty()){
+//        if (  a_mother.getAlternativePhoneNumber().isEmpty()){
+//
+//
+//            holder.btn_call_2.setVisibility(View.INVISIBLE);
+//        }else {
 
-
-            holder.btn_call_2.setVisibility(View.INVISIBLE);
-        }else {
-            final String call_2 = a_mother.getAlternativePhoneNumber();
-            holder.btn_call_2.setVisibility(View.VISIBLE);
+        if (!a_mother.getAlternativePhoneNumber().isEmpty()){
+            call_2= a_mother.getAlternativePhoneNumber();
+        }
+//            holder.btn_call_2.setVisibility(View.VISIBLE);
             holder.btn_call_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -228,23 +269,119 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                     context.startActivity(intent);
                 }
             });
-        }
+        //}
 
         holder.btn_change_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.dialog_message, null);
 
-                builder.setTitle("মেসেজ স্ট্যাটাস পরিবর্তন করুন");
-                builder.setMessage("আপনি কি মেসেজ দিয়েছেন? \n" +
-                        " যদি দিয়ে থাকেন “হ্যাঁ” ক্লিক করুন। \n" +
+                TextView tv_message_title = (TextView) view.findViewById(R.id.tv_message_title);
+                TextView tv_message_body = (TextView) view.findViewById(R.id.tv_message_body);
+                Button btn_message_cancel = (Button) view.findViewById(R.id.btn_message_cancel);
+                Button btn_message_yes = (Button) view.findViewById(R.id.btn_message_yes);
+                Button btn_message_no = (Button) view.findViewById(R.id.btn_message_no);
+
+
+                tv_message_title.setText("মেসেজ দিয়েছেন? ");
+                tv_message_body.setText(" যদি দিয়ে থাকেন “হ্যাঁ” ক্লিক করুন। \n" +
                         " যদি না দিয়ে থাকেন “না” ক্লিক করুন।\n" +
                         " বাহির হওয়ার জন্য “বাতিল করুন” ক্লিক করুন।");
-                builder.setPositiveButton("হ্যাঁ ", new DialogInterface.OnClickListener() {
+                btn_message_cancel.setText("বাতিল করুন");
+                btn_message_yes.setText("হ্যাঁ ");
+                btn_message_no.setText("না ");
+
+                builder.setView(view);
+
+
+
+//                builder.setPositiveButton("হ্যাঁ ", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                    DatabaseHelper helper = new DatabaseHelper(context);
+//
+//                        if (healthServiceName.equals(GroupMother.ANC_1)){
+//                            helper.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+//                        }else if (healthServiceName.equals(GroupMother.ANC_2)){
+//                            helper.set_ANC_2_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+//                        }else if (healthServiceName.equals(GroupMother.ANC_3)){
+//                            helper.set_ANC_3_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+//                        }else if (healthServiceName.equals(GroupMother.ANC_4)){
+//                            helper.set_ANC_4_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+//                        }else if (healthServiceName.equals(GroupMother.PNC)){
+//                            helper.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+//                        }
+//
+//                       //helper.setMessageStatus(a_mother.getMotherRowPrimaryKey(),"true");
+//                      //  holder.btn_change_status.setText("Msg  Yes");
+//                      //  holder.txt3.setText("Msg Delivered");
+//                        holder.btn_call_1.setVisibility(View.INVISIBLE);
+//                        holder.btn_call_2.setVisibility(View.INVISIBLE);
+//
+//                        holder.ivYesNO.setImageResource(R.drawable.yes);
+//                        String deliveryStatusNO = "হ্যাঁ";
+//                        String total_tv_message_text =messageText+ deliveryStatusNO ;
+//                        holder.tv_message.setText(total_tv_message_text);
+//
+//
+//                    }
+//                });
+//                builder.setNegativeButton("না ", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        DatabaseHelper helper = new DatabaseHelper(context);
+//
+//                        if (healthServiceName.equals(GroupMother.ANC_1)){
+//                            helper.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+//                        }else if (healthServiceName.equals(GroupMother.ANC_2)){
+//                            helper.set_ANC_2_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+//                        }else if (healthServiceName.equals(GroupMother.ANC_3)){
+//                            helper.set_ANC_3_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+//                        }else if (healthServiceName.equals(GroupMother.ANC_4)){
+//                            helper.set_ANC_4_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+//                        }else if (healthServiceName.equals(GroupMother.PNC)){
+//                            helper.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+//                        }
+//
+//
+//                        //helper.setMessageStatus(a_mother.getMotherRowPrimaryKey(),"false");
+//
+//                       // holder.btn_change_status.setText("Msg  NO");
+//                       // holder.txt3.setText("Msg not Delivered");
+//                        holder.btn_call_1.setVisibility(View.VISIBLE);
+//                        if (  a_mother.getAlternativePhoneNumber().isEmpty()){
+//                            holder.btn_call_2.setVisibility(View.INVISIBLE);
+//                        }else {  holder.btn_call_2.setVisibility(View.VISIBLE);}
+//                        //=============================================
+//                        holder.ivYesNO.setImageResource(R.drawable.no);
+//                        String deliveryStatusNO = "না";
+//                        String total_tv_message_text =messageText+ deliveryStatusNO ;
+//                        holder.tv_message.setText(total_tv_message_text);
+//
+//                    }
+//                });
+//                builder.setNeutralButton("বাতিল করুন", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                    }
+//                });
+             final AlertDialog dialog =   builder.create();
+            dialog.show();
+
+                btn_message_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    DatabaseHelper helper = new DatabaseHelper(context);
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                btn_message_yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DatabaseHelper helper = new DatabaseHelper(context);
 
                         if (healthServiceName.equals(GroupMother.ANC_1)){
                             helper.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"true");
@@ -268,13 +405,14 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                         String deliveryStatusNO = "হ্যাঁ";
                         String total_tv_message_text =messageText+ deliveryStatusNO ;
                         holder.tv_message.setText(total_tv_message_text);
-
-
+//
+                        dialog.dismiss();
                     }
                 });
-                builder.setNegativeButton("না ", new DialogInterface.OnClickListener() {
+
+                btn_message_no.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         DatabaseHelper helper = new DatabaseHelper(context);
 
                         if (healthServiceName.equals(GroupMother.ANC_1)){
@@ -303,16 +441,9 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
                         String deliveryStatusNO = "না";
                         String total_tv_message_text =messageText+ deliveryStatusNO ;
                         holder.tv_message.setText(total_tv_message_text);
-
+                        dialog.dismiss();
                     }
                 });
-                builder.setNeutralButton("বাতিল করুন", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-             AlertDialog dialog =   builder.create();
-            dialog.show();
             }
         });
         holder.btn_message.setOnClickListener(new View.OnClickListener() {
@@ -374,31 +505,61 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("আপনি কি এই মাকে ডিলিট করতে চান?");
-                builder.setPositiveButton("হ্যাঁ", new DialogInterface.OnClickListener() {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.dialog_delete, null);
+
+                TextView tv_dialog_title = (TextView) view.findViewById(R.id.tv_dialog_delete_title);
+                Button btn_yes = (Button) view.findViewById(R.id.btn_dialog_delete_yes);
+                Button btn_no = (Button) view.findViewById(R.id.btn_dialog_delete_no);
+
+                tv_dialog_title.setText("ডিলিট করতে চান?");
+                btn_no.setText("না ");
+                btn_yes.setText("হ্যাঁ");
+                builder.setView(view);
+
+
+//                builder.setPositiveButton("হ্যাঁ", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        DatabaseHelper dbHelper = new DatabaseHelper(context);
+//                        dbHelper.deleteMother(a_mother);
+//
+//                        motherList.remove(holder.getAdapterPosition());
+//                        notifyItemRemoved(holder.getAdapterPosition());
+//                        notifyItemRangeChanged(holder.getAdapterPosition(),getItemCount());
+//
+//
+//                    }
+//                });
+//                builder.setNegativeButton("না ", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+
+                final AlertDialog dialog =   builder.create();
+                dialog.show();
+
+                btn_yes.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         DatabaseHelper dbHelper = new DatabaseHelper(context);
                         dbHelper.deleteMother(a_mother);
 
                         motherList.remove(holder.getAdapterPosition());
                         notifyItemRemoved(holder.getAdapterPosition());
-                        notifyItemRangeChanged(holder.getAdapterPosition(),getItemCount());
-
-
+                        notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
+                        dialog.dismiss();
                     }
                 });
-                builder.setNegativeButton("না ", new DialogInterface.OnClickListener() {
+
+                btn_no.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
+                    public void onClick(View v) {
+                        dialog.dismiss();
                     }
                 });
-
-                AlertDialog dialog =   builder.create();
-                dialog.show();
-
-
             }
         });
 

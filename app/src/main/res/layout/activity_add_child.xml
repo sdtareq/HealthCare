@@ -198,7 +198,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="1">
-
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:padding="12dp"
+                    android:text="ফিরে যাই "
+                    android:textSize="@dimen/btn_text"
+                    android:layout_weight=".5"
+                    android:gravity="center"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_register"
@@ -207,7 +217,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:padding="12dp"
-                    android:text="রেজিস্টার করুন"
+                    android:text="নিবন্ধন করুন"
                     android:textSize="@dimen/btn_text"
                     android:layout_weight=".5"
                     android:gravity="center"/>

@@ -1,6 +1,7 @@
 package com.example.tareq.healthcare;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +40,7 @@ public class MotherRegistrationActivity extends AppCompatActivity {
     int mYear, mMonth, mDay;
     Mother mother;
     String pregnancyState = null, sexOfChild="", desiredCallingTime;
-
+    boolean isEdited = false;///////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +53,12 @@ public class MotherRegistrationActivity extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   // ===============================================    Back Button on Click
+                Intent intent = new Intent();//////////////
+                intent.putExtra(TAG, isEdited );///////
+
+                setResult(RESULT_OK, intent);//////
+
+
                 finish();
                 //   Toast.makeText(getApplicationContext(), "c1: "+etC1.getText().toString()+"  c2:  "+etC2.getText().toString(), Toast.LENGTH_SHORT).show();
 
@@ -86,7 +93,7 @@ public class MotherRegistrationActivity extends AppCompatActivity {
 
                     DatabaseHelper db = new DatabaseHelper(MotherRegistrationActivity.this);   // store in db)
                     db.registerMother(mother);
-
+                    isEdited = true;    /////////////////
 
                 }
                 if (pregnancyState != null && pregnancyState.equals(PREGNANCY_STATE_POST_DELIVERY)) {
@@ -107,7 +114,7 @@ if (!validateChild()){
 
                     DatabaseHelper db = new DatabaseHelper(MotherRegistrationActivity.this);   // store in db)
                     db.registerMother(mother);
-
+                    isEdited = true;    /////////////////
                 }
                 // if (pregnancyState != null && pregnancyState.equals("not known")){}
 
@@ -117,7 +124,16 @@ if (!validateChild()){
 
 
     }
+    @Override
+    public void onBackPressed() {
 
+        Intent intent = new Intent();//////////////
+        intent.putExtra(TAG, isEdited );///////
+        setResult(RESULT_OK, intent);//////
+
+        finish();
+
+    }
     private boolean validate() {
         boolean valid = true;
         if (etMotherName.getText().toString().isEmpty() || pregnancyState == null) {

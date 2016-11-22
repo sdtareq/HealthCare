@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,11 +23,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
 
-    private static final int DATABASE_VERSION = 27;
+    private static final int DATABASE_VERSION = 28;
 
 
     // Database Name
-    private static final String DATABASE_NAME = "maternalHealthDB";
+    protected static final String DATABASE_NAME = "maternalHealthDB";
 
 
     //  ====================== All  Tables start ===========================
@@ -80,11 +79,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     protected static final String MESSAGE_DELIVERY_COL_IS_CHILD_9_T0_12_MONTH_MSG_DELIVERED = "is_child_9_to_12_months_message_delivered"; //----------------------------11
     protected static final String MESSAGE_DELIVERY_COL_IS_MOTHER_DEAD = "is_mother_dead";                                      //----------------------------12
 
-//    private static final String MOTHER_COLUMN_IS_MESSAGE_DELIVERED = "is_message_delivered";  // ----- 5
-//    private static final String MOTHER_COLUMN_IS_CHILD_MESSAGE_DELIVERED = "is_child_message_delivered";  // -----6
-//    private static final String MOTHER_COLUMN_IS_PRE_DELIVERY_MESSAGE_DELIVERED = "is_pre_delivery_message_delivered";  // -----7
-//    private static final String MOTHER_COLUMN_IS_CHILD_BORN = "is_child_born";  //----- ------------- 8
-//    private static final String MOTHER_COLUMN_DELIVERY_DATE = "child_birthday";  //------ ----- --- 9
 
 
     //-------------------------  MESSAGE DELIVERY table  end ------------------------------
@@ -105,7 +99,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    private static final String CHILD_COLUMN_CHILD_BIRTHDAY ="child_birthday";  //------ ----- ---
 //    private static final String CHILD_COLUMN_PHONE_NUMBER ="phone_number";  //------ ----- ---
 //    private static final String CHILD_COLUMN_MOTHER_ADDRESS ="mother_address";  //------ ----- ---
-    //-------------------------  Login table  end ------------------------------
+    //-------------------------  child table  end ------------------------------
+
+
+
+    //-------------------------  Child Follow Up table start  ------------------------------
+
+    protected static final String TABLE_CHILD_FOLLOW_UP = "table_child_follow_up";
+    protected static final String CHILD_FOLLOW_UP_COL_ID            = "_id";           //----------------------------0
+    protected static final String CHILD_FOLLOW_UP_COL_MOTHER_ID     = "mother_id";           //----------------------------1
+    protected static final String CHILD_FOLLOW_UP_COL_MOTHER_NAME   = "child_mother_name";           //----------------------------2
+    protected static final String CHILD_FOLLOW_UP_COL_CHILD_NAME    = "child_name"; //----------------------------3
+    protected static final String CHILD_FOLLOW_UP_COL_CHILD_TABLE_ID = "child_table_id"; //-------------------------------- ---4
+    protected static final String CHILD_FOLLOW_UP_COL_DATE_OF_VISIT = "date_of_visit";    //----------------------------/5
+    protected static final String CHILD_FOLLOW_UP_COL_CHILD_WEIGHT  = "child_weight";    //----------------------------/6
+    protected static final String CHILD_FOLLOW_UP_COL_CHILD_HEIGHT   = "child_height";  // ----- 7
+//    private static final String CHILD_COLUMN_IS_CHILD_BORN ="is_child_born";  //----- -------------
+//    private static final String CHILD_COLUMN_CHILD_BIRTHDAY ="child_birthday";  //------ ----- ---
+//    private static final String CHILD_COLUMN_PHONE_NUMBER ="phone_number";  //------ ----- ---
+//    private static final String CHILD_COLUMN_MOTHER_ADDRESS ="mother_address";  //------ ----- ---
+    //-------------------------  child follow up table  end ------------------------------
     //  ====================== All  Tables end ===========================
 
 
@@ -182,10 +195,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 + ")";
 
+        String CREATE_CHILD_FOLLOW_UP_TABLE = "CREATE TABLE " + TABLE_CHILD_FOLLOW_UP    //-------------------   Create Table for Child
+                + "("
+                + CHILD_FOLLOW_UP_COL_ID            + " INTEGER UNIQUE PRIMARY KEY, "
+                + CHILD_FOLLOW_UP_COL_MOTHER_ID     +  " TEXT , "
+                + CHILD_FOLLOW_UP_COL_MOTHER_NAME   +  " TEXT , "
+                + CHILD_FOLLOW_UP_COL_CHILD_NAME    +  " TEXT , "
+                + CHILD_FOLLOW_UP_COL_CHILD_TABLE_ID + " TEXT , "
+                + CHILD_FOLLOW_UP_COL_DATE_OF_VISIT      + " TEXT , "
+                + CHILD_FOLLOW_UP_COL_CHILD_WEIGHT    + " TEXT , "
+                + CHILD_FOLLOW_UP_COL_CHILD_HEIGHT       + " TEXT UNIQUE  "
+
+                + ")";
+
         db.execSQL(CREATE_LOGIN_TABLE);     //-------------------------------------------------------- -----===== //
         db.execSQL(CREATE_MOTHER_TABLE);
         db.execSQL(CREATE_MESSAGE_DELIVERY_TABLE);
         db.execSQL(CREATE_CHILD_TABLE);
+        db.execSQL(CREATE_CHILD_FOLLOW_UP_TABLE);
 
 
     }
@@ -201,6 +228,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOTHER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGE_DELIVERY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHILD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHILD_FOLLOW_UP);
 
         // Create tables again
         onCreate(db);
@@ -269,6 +297,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }                                                   // -------------------   Check mother table is empty or not end ---------------
 
+    // -------------------   addChildFollowUp start ---------------
+
+     public void addChildFollowUp(Child child){
+
+         String  childFollowUpTableId = generateUniqueId(),
+                 childTableId           = child.getChildId(),
+                 childMotherName        = child.getChildMotherName(),
+                 childMotherId           = child.getChildMotherTableId(),
+                 childName              = child.getChildName(),
+                 childDateOfVisit           = child.getChildDateOfVisit(),
+                 childWeight            = child.getChildWeight(),
+                 childHeight            = child.getChildHeight();
+
+
+
+
+         SQLiteDatabase db = super.getWritableDatabase();
+         ContentValues values = new ContentValues();
+
+
+         values.put(CHILD_FOLLOW_UP_COL_ID           , childFollowUpTableId);
+         values.put(CHILD_FOLLOW_UP_COL_MOTHER_ID    , childMotherId      );
+         values.put(CHILD_FOLLOW_UP_COL_MOTHER_NAME  , childMotherName     );
+         values.put(CHILD_FOLLOW_UP_COL_CHILD_NAME   , childName       );
+         values.put(CHILD_FOLLOW_UP_COL_CHILD_TABLE_ID, childTableId           );
+         values.put(CHILD_FOLLOW_UP_COL_DATE_OF_VISIT, childDateOfVisit    );
+         values.put(CHILD_FOLLOW_UP_COL_CHILD_WEIGHT , childWeight         );
+         values.put(CHILD_FOLLOW_UP_COL_CHILD_HEIGHT , childHeight         );
+
+
+         try {
+             // Inserting Row
+             db.insertOrThrow(TABLE_CHILD_FOLLOW_UP, null, values);
+
+         } catch (Exception e) {
+
+
+             Log.d(TAG, "Duplicate Primary key at addChildFollowUp() ");
+
+
+         }
+
+
+         db.close(); // Closing database connection
+         Log.d(TAG, "Child Follow Up Successfully inserted");
+
+     }
+
+    // -------------------   addChildFollowUp end ---------------
+
 
     public void registerMother(Mother mother) {     // ------------------- ======================= add mother  start ---------------
 
@@ -327,7 +405,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (mother.getMotherRowPrimaryKey() != null){
             motherRowId = mother.getMotherRowPrimaryKey();
         }else {
-            motherRowId = generateUniqueMotherId();
+            motherRowId = generateUniqueId();
         }
 
 
@@ -410,11 +488,16 @@ if (!motherRowId.isEmpty()){
 
 
         db.close(); // Closing database connection
+
         Log.d(TAG, "Successfully inserted");
+
 if (mother.getMotherRowPrimaryKey() == null){
         mother.setMotherRowPrimaryKey(String.valueOf(newRowId));
         add_mother_in_message_Delivery_table(mother);
-    }else { add_mother_in_message_Delivery_table(mother);}
+    }
+//else {
+//    add_mother_in_message_Delivery_table(mother);
+//}
 
         if (mother.getChild() != null) {           //  call register child
             Log.d(TAG, " ================ Child not null ");
@@ -430,7 +513,7 @@ if (mother.getMotherRowPrimaryKey() == null){
 
     }                                                   // -------------------   register mother end ---------------
 
-    public String generateUniqueMotherId(){
+    public String generateUniqueId(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date now = new Date();
         String idString =  sdf.format(now);
@@ -550,7 +633,7 @@ public void add_mother_in_message_Delivery_table(Mother mother ){
         Log.d(TAG, "=======================  "+motherRowId);
 
         database.execSQL("DELETE FROM " + TABLE_MOTHER + " WHERE " + MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
-        database.execSQL("DELETE FROM " + TABLE_MESSAGE_DELIVERY + " WHERE " + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
+        //database.execSQL("DELETE FROM " + TABLE_MESSAGE_DELIVERY + " WHERE " + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
 
         if (mother.getChild() != null){
             database.execSQL("DELETE FROM " + TABLE_CHILD + " WHERE " + CHILD_COLUMN_MOTHER_ID + "= '" + motherRowId + "'");
@@ -1315,6 +1398,45 @@ item.setSyncStatus(syncStatus);
 //
 
 ////===================================================================================================================================================================
+//        //============================================================================================================================================
+        String queryChildFollowUpTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(5)+ " ON " +tableName.get(5)+"."+ CHILD_FOLLOW_UP_COL_MOTHER_ID
+                +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
+        Cursor cursorChildFollowUpTable = database.rawQuery(queryChildFollowUpTable, new String[] {"false"});  // Child Follow Up table
+        String[] childFollowUpColumnNamesArray = cursorChildTable.getColumnNames();
+
+
+        String ChildFollowUpAllRows = "" ;
+        boolean flagChildFollowUp = false;
+
+        if (cursorChildFollowUpTable.moveToFirst()) {
+            String n = "", t ="\t";
+
+            while ( !cursorChildFollowUpTable.isAfterLast() ) {
+
+                if (flagChildFollowUp){
+                    n= "\n" ;
+                }
+
+                ChildFollowUpAllRows += n+cursorChildFollowUpTable.getString(16);
+                for (int i=17;i< childFollowUpColumnNamesArray.length;i++){
+                    ChildFollowUpAllRows += t + cursorChildFollowUpTable.getString(i);
+                }
+
+
+
+                flagChildFollowUp = true;
+
+                cursorChildFollowUpTable.moveToNext();
+            }
+        }
+        cursorChildFollowUpTable.close();
+
+        tableNameAndRows_map.put(tableName.get(5),ChildFollowUpAllRows);
+
+
+
+////===================================================================================================================================================================
+
 
         database.close();
 
@@ -1464,6 +1586,40 @@ item.setSyncStatus(syncStatus);
 
 
             allTablesMap.put(tableName.get(4),colValue);
+        }
+
+
+//===================================================================================================================================================================
+        //============================================================================================================================================
+        Cursor cursorChildFollowUpTable = database.rawQuery("SELECT * FROM "+tableName.get(5), null);  // Child FollowUp table
+        String[] childFollowUpColumnNamesArray = cursorChildFollowUpTable.getColumnNames();
+
+//        HashMap<String , HashMap<String ,String>>  table_child_map = new HashMap<>();
+//        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
+        if (cursorChildFollowUpTable.moveToFirst()) {
+
+            HashMap<String ,String> colValue = new LinkedHashMap<>();
+
+
+            for (int i = 0; i<childFollowUpColumnNamesArray.length;i++){
+                colValue.put(childFollowUpColumnNamesArray[i],  (cursorChildFollowUpTable.getType(i)==1) ? "INTEGER": "TEXT");
+            }
+
+//            colValue.put(childColumnNamesArray[0],  (cursorChildTable.getType(0 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[1],  (cursorChildTable.getType(1 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[2],  (cursorChildTable.getType(2 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[3],  (cursorChildTable.getType(3 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[4],  (cursorChildTable.getType(4 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[5],  (cursorChildTable.getType(5 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[6],  (cursorChildTable.getType(6 )==1) ? "INTEGER": "TEXT");
+//            colValue.put(childColumnNamesArray[7],  (cursorChildTable.getType(7 )==1) ? "INTEGER": "TEXT");
+
+
+
+
+
+
+            allTablesMap.put(tableName.get(5),colValue);
         }
 
 

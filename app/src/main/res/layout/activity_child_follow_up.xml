@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="শিশু নিবন্ধন"
+            android:text="ফলো আপ"
             android:gravity="center"
             android:textSize="@dimen/tv_header"/>
 
@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:hint=""
+                    android:hint="মায়ের নাম"
                     android:textSize="@dimen/et_text"
                     android:focusable="false"
                     />
@@ -56,87 +56,15 @@
                 android:layout_marginBottom="8dp"
                 app:hintTextAppearance="@style/TextLabel"
                 >
-                <EditText android:id="@+id/etMotherRowId"
+                <EditText android:id="@+id/etChildAge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint=" "
+                    android:hint="বাচ্চার বয়স (দিন)"
                     android:textSize="@dimen/et_text"
                     android:focusable="false"
                     />
             </android.support.design.widget.TextInputLayout>
-
-
-
-            <!-- Container 1 -->
-            <LinearLayout
-                android:id="@+id/LinearLayout_Container_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="শিশু নিবন্ধন"
-                    android:textSize="@dimen/tv_body"/>
-
-                <!-- name Label -->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:hintTextAppearance="@style/TextLabel"
-                    >
-                    <EditText android:id="@+id/etChildName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:hint="বাচ্চার নাম"
-                        android:textSize="@dimen/et_text"
-                        />
-                </android.support.design.widget.TextInputLayout>
-                <!--  gender Label -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:text="নবজাত শিশুর লিঙ্গ"
-                        android:gravity="center"
-                        android:textSize="@dimen/tv_body_small"
-                        android:layout_gravity="left"/>
-
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-                        <RadioButton android:id="@+id/rbMaleChild"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ছেলে "
-                            android:onClick="onRadioButtonClicked"
-                            android:textSize="@dimen/rb_text"
-
-                            />
-                        <RadioButton android:id="@+id/rbFemaleChild"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="মেয়ে"
-                            android:onClick="onRadioButtonClicked"
-                            android:textSize="@dimen/rb_text"
-                            android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-
-
-                    </RadioGroup>
-                </LinearLayout>
 
 
                 <!--   Label -->
@@ -147,11 +75,11 @@
                     android:layout_marginBottom="8dp"
                     app:hintTextAppearance="@style/TextLabel"
                     >
-                    <EditText android:id="@+id/etChildDateOfBirth"
+                    <EditText android:id="@+id/etDateOfVisit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="date"
-                        android:hint="জন্মের তারিখ"
+                        android:hint="ভিজিটের তারিখ"
                         android:textSize="@dimen/et_text"
                         android:focusable="false"
                         />
@@ -164,11 +92,11 @@
                     android:layout_marginBottom="8dp"
                     app:hintTextAppearance="@style/TextLabel"
                     >
-                    <EditText android:id="@+id/etChildBirthWeight"
+                    <EditText android:id="@+id/etChildWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:hint="জন্মের সময় ওজন (Kg)"
+                        android:hint="বাচ্চার ওজন (Pound)"
                         android:textSize="@dimen/et_text"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -180,11 +108,11 @@
                     android:layout_marginBottom="8dp"
                     app:hintTextAppearance="@style/TextLabel"
                     >
-                    <EditText android:id="@+id/etIdNumberOfChild"
+                    <EditText android:id="@+id/etChildHeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:hint="বাচ্চার আইডি নাম্বারঃ"
+                        android:inputType="number"
+                        android:hint="শিশুর উচ্চতা (cm)"
                         android:textSize="@dimen/et_text"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -211,13 +139,13 @@
                     android:gravity="center"/>
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_register"
+                    android:id="@+id/btn_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:padding="12dp"
-                    android:text="নিবন্ধন করুন"
+                    android:text="সংরক্ষণ করুন"
                     android:textSize="@dimen/btn_text"
                     android:layout_weight=".5"
                     android:gravity="center"/>
@@ -226,5 +154,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+
 </ScrollView>

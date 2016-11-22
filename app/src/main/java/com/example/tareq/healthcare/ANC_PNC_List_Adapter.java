@@ -1,5 +1,6 @@
 package com.example.tareq.healthcare;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,9 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -385,14 +384,19 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
                         if (healthServiceName.equals(GroupMother.ANC_1)){
                             helper.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+                            a_mother.setIsANC_1_Message_Delivered("true");
                         }else if (healthServiceName.equals(GroupMother.ANC_2)){
                             helper.set_ANC_2_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+                            a_mother.setIsANC_2_Message_Delivered("true");
                         }else if (healthServiceName.equals(GroupMother.ANC_3)){
                             helper.set_ANC_3_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+                            a_mother.setIsANC_3_Message_Delivered("true");
                         }else if (healthServiceName.equals(GroupMother.ANC_4)){
                             helper.set_ANC_4_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+                            a_mother.setIsANC_4_Message_Delivered("true");
                         }else if (healthServiceName.equals(GroupMother.PNC)){
                             helper.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"true");
+                            a_mother.setIsPNC_Message_Delivered("true");
                         }
 
                        //helper.setMessageStatus(a_mother.getMotherRowPrimaryKey(),"true");
@@ -417,14 +421,19 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
                         if (healthServiceName.equals(GroupMother.ANC_1)){
                             helper.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                            a_mother.setIsANC_1_Message_Delivered("false");
                         }else if (healthServiceName.equals(GroupMother.ANC_2)){
                             helper.set_ANC_2_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                            a_mother.setIsANC_2_Message_Delivered("false");
                         }else if (healthServiceName.equals(GroupMother.ANC_3)){
                             helper.set_ANC_3_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                            a_mother.setIsANC_3_Message_Delivered("false");
                         }else if (healthServiceName.equals(GroupMother.ANC_4)){
                             helper.set_ANC_4_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                            a_mother.setIsANC_4_Message_Delivered("false");
                         }else if (healthServiceName.equals(GroupMother.PNC)){
                             helper.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                            a_mother.setIsPNC_Message_Delivered("false");
                         }
 
 
@@ -432,7 +441,11 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
 
                        // holder.btn_change_status.setText("Msg  NO");
                        // holder.txt3.setText("Msg not Delivered");
-                        holder.btn_call_1.setVisibility(View.VISIBLE);
+                        if (a_mother.getMotherPhoneNumber().isEmpty()){
+                            holder.btn_call_1.setVisibility(View.INVISIBLE);
+                        }else {
+                            holder.btn_call_1.setVisibility(View.VISIBLE);
+                        }
                         if (  a_mother.getAlternativePhoneNumber().isEmpty()){
                             holder.btn_call_2.setVisibility(View.INVISIBLE);
                         }else {  holder.btn_call_2.setVisibility(View.VISIBLE);}
@@ -497,7 +510,8 @@ public class ANC_PNC_List_Adapter extends RecyclerView.Adapter<ANC_PNC_List_Adap
            public void onClick(View v) {
             Intent intent = new Intent(context, EditMotherActivity.class);
                intent.putExtra(EditMotherActivity.TAG,a_mother);
-               context.startActivity(intent);
+               ((Activity) context).startActivityForResult(intent,ANC_PNC_List_Activity.REQUEST_CODE_EDIT_MOTHER_ACTIVITY);/////////////
+               //context.startActivity(intent);
            }
        });
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {

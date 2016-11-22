@@ -1,25 +1,20 @@
 package com.example.tareq.healthcare;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ANC_PNC_List_Activity extends AppCompatActivity {
     final static String TAG = "ANC_PNC_List_Activity";
@@ -27,6 +22,10 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
     final static String DESIRE_CALLING_TIME_MORNING = "সকাল";
     final static String DESIRE_CALLING_TIME_NOON = "দুপুর ";
     final static String DESIRE_CALLING_TIME_EVENING = "সন্ধ্যা ";
+    final static int REQUEST_CODE_EDIT_MOTHER_ACTIVITY = 101;
+    final static int REQUEST_CODE_ADD_CHILD_ACTIVITY = 201;
+    final static int REQUEST_CODE_CHILD_FOLOW_UP_ACTIVITY = 222;
+
     static String ANC_PNC_STATE;
     TextView tvTitle;
     String healthServiceName = "";
@@ -119,9 +118,9 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Toast.makeText(getApplicationContext(),"onResume"   ,Toast.LENGTH_SHORT).show();
-        if (healthServiceName != null) {
-            new HeavyTaskExecutor().execute();
-        }
+//        if (healthServiceName != null) {
+//            new HeavyTaskExecutor().execute();
+//        }
 
         if (mListState != null){
             mLayoutManager.onRestoreInstanceState(mListState);
@@ -249,4 +248,30 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
         }
 
     }
-}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK){
+            if (requestCode == REQUEST_CODE_EDIT_MOTHER_ACTIVITY || requestCode == REQUEST_CODE_CHILD_FOLOW_UP_ACTIVITY){
+                if (data.getBooleanExtra(EditMotherActivity.TAG,false) || data.getBooleanExtra(ChildFollowUpActivity.TAG,false) ){
+                    if (healthServiceName != null) {
+                        new HeavyTaskExecutor().execute();
+                    }
+                }
+            }
+
+            if (requestCode == REQUEST_CODE_ADD_CHILD_ACTIVITY ){
+                if (data.getBooleanExtra(AddChildActivity.TAG,false)){
+                    if (healthServiceName != null) {
+                        new HeavyTaskExecutor().execute();
+                    }
+                }
+            }
+        }
+    }
+
+
+
+}  ///// class end

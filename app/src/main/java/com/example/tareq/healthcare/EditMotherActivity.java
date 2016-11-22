@@ -1,6 +1,7 @@
 package com.example.tareq.healthcare;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class EditMotherActivity extends AppCompatActivity {
     String pregnancyState = null, sexOfChild = null, desiredCallingTime = null;
 
     Mother mother;
+    boolean isEdited = false;///////////////////
 
     LinearLayout
             linearLayout_ANC_Messages,
@@ -58,6 +60,8 @@ public class EditMotherActivity extends AppCompatActivity {
 
         mother = (Mother) getIntent().getSerializableExtra(TAG);
         //Toast.makeText(this,mother.getMotherName(),Toast.LENGTH_SHORT).show();
+
+
         init();
         setTextFields();
 
@@ -76,10 +80,30 @@ public class EditMotherActivity extends AppCompatActivity {
 
         return valid;
     }
+
+    @Override
+    public void onBackPressed() {
+
+            Intent intent = new Intent();//////////////
+            intent.putExtra(TAG, isEdited );///////
+            setResult(RESULT_OK, intent);//////
+
+        finish();
+
+    }
+
+
     private void handleClickEvents() {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   // ===============================================    Back Button on Click
+
+                    Intent intent = new Intent();//////////////
+                    intent.putExtra(TAG, isEdited );///////
+
+                    setResult(RESULT_OK, intent);//////
+
+
                 finish();
 //                if (mLmpDateStr == null){
 //                    Toast.makeText(getApplicationContext(), mother.getLastMenstruationDate(), Toast.LENGTH_SHORT).show();
@@ -124,8 +148,9 @@ public class EditMotherActivity extends AppCompatActivity {
                     _mother.setMotherRowPrimaryKey(mother.getMotherRowPrimaryKey());
                     DatabaseHelper db = new DatabaseHelper(EditMotherActivity.this);   // store in db)
                   //  db.registerMother(mother);
-                    db.updateMother(_mother);
 
+                    db.updateMother(_mother);
+                    isEdited = true;    /////////////////
                 }
                 if (pregnancyState != null && pregnancyState.equals(PREGNANCY_STATE_POST_DELIVERY)) {
                     Child child = new Child(etMotherName.getText().toString(), etChildName.getText().toString(),
@@ -141,6 +166,7 @@ public class EditMotherActivity extends AppCompatActivity {
 
                     DatabaseHelper db = new DatabaseHelper(EditMotherActivity.this);   // store in db)
                    // db.registerMother(mother);
+                   isEdited = true;/////////////////
                         db.updateMother(_mother);
                 }
                 // if (pregnancyState != null && pregnancyState.equals("not known")){}
@@ -158,7 +184,7 @@ public class EditMotherActivity extends AppCompatActivity {
                 String[] strArray = lmp.split("/");
 
 
-                if (lmp != null){
+                if (!lmp.isEmpty()){
                     mYear =  Integer.parseInt(strArray[2]);
                     mMonth = Integer.parseInt(strArray[1])-1;
                     mDay =   Integer.parseInt(strArray[0]);
@@ -503,4 +529,6 @@ public class EditMotherActivity extends AppCompatActivity {
 
         return formate.format(probableEDD);
     }
+
+
 }

@@ -255,8 +255,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="বয়স অনুযায়ী  পারিবারিক বাড়তি খাবারের মেসেজ (৬মাস পূর্ণ - ১২ মাস পর্যন্ত)"
-                android:textSize="@dimen/tv_message_body" />
+                android:text="বয়স অনুযায়ী  পারিবারিক বাড়তি খাবারের মেসেজ"
+                android:textSize="@dimen/tv_message_body"
+                android:textStyle="bold"/> <!-- (৬মাস পূর্ণ - ১১ মাস পর্যন্ত) -->
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -477,7 +478,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="৯(পূর্ণ)-১১ মাস (পূর্ণ)"
+                android:text="৯ - ১১ মাস (পূর্ণ)"
                 android:textSize="@dimen/tv_message_header"
                 android:textStyle="bold" />
 
@@ -669,7 +670,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-
+<!--
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -684,7 +685,8 @@
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/activity_vertical_margin"
                 android:orientation="vertical">
-                <!-- row -->
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -708,7 +710,8 @@
                 </LinearLayout>
 
 
-                <!-- row -->
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -730,7 +733,8 @@
                         android:text="২৫০ মিঃলিঃ বাটির এক (১) বাটি।"
                         android:textSize="@dimen/tv_message_body" />
                 </LinearLayout>
-                <!-- row -->
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -752,7 +756,8 @@
                         android:textSize="@dimen/tv_message_body"
                         android:textStyle="bold" />
                 </LinearLayout>
-                <!-- row -->
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -774,7 +779,8 @@
                         android:text="৩ বার "
                         android:textSize="@dimen/tv_message_body" />
                 </LinearLayout>
-                <!-- row -->
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -798,7 +804,7 @@
                 </LinearLayout>
 
 
-                <!-- row -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -820,7 +826,7 @@
                         android:text="স্বাভাবিক।"
                         android:textSize="@dimen/tv_message_body" />
                 </LinearLayout>
-                <!-- row -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -842,7 +848,7 @@
                         android:textSize="@dimen/tv_message_body"
                         android:textStyle="bold" />
                 </LinearLayout>
-                <!-- row -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -866,7 +872,7 @@
                         android:textSize="@dimen/tv_message_body" />
                 </LinearLayout>
             </LinearLayout>
-
+        -->
 
         </LinearLayout>
 

@@ -8,8 +8,9 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -38,8 +39,9 @@
         <activity android:name=".MotherRegistrationActivity" />
         <activity android:name=".AddChildActivity" />
         <activity android:name=".Mother_Details_Activity" />
-        <activity android:name=".EditMotherActivity"></activity>
-        <activity android:name=".Activity_Sync"></activity>
+        <activity android:name=".EditMotherActivity" />
+        <activity android:name=".Activity_Sync" />
+        <activity android:name=".ChildFollowUpActivity"></activity>
     </application>
 
 </manifest>

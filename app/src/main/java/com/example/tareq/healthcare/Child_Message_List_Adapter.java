@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +68,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
         String total_tv_message_text = "";
 
 
-        if (a_mother.getAgeOfChild() > 0 && a_mother.getAgeOfChild() < 31) {//==============  0 - 30 days
+        if (a_mother.getAgeOfChild() >= 0 && a_mother.getAgeOfChild() < 15) {//==============  0 - 14 days
             if (a_mother.getIsChild_message_delivered_0_to_14_days().equals("true")) {
                 deliveryStatus = "হ্যাঁ";
                 holder.btn_call_1.setVisibility(View.INVISIBLE);
@@ -97,7 +95,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
             }
 
 
-        } else if (a_mother.getAgeOfChild() > 30 && a_mother.getAgeOfChild() < 180) {//==============  31 - 179 days  === 1,2,3 month
+        } else if (a_mother.getAgeOfChild() > 14 && a_mother.getAgeOfChild() < 180) {//==============  15 - 179 days  === 1,2,3 month
             if (a_mother.getIsChild_message_delivered_1_2_3_month().equals("true")) {
                 deliveryStatus = "হ্যাঁ";
                 holder.btn_call_1.setVisibility(View.INVISIBLE);
@@ -149,7 +147,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                     holder.btn_call_2.setVisibility(View.VISIBLE);
                 }
             }
-        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 366) { //==============  270 - 365 days === 9-12 month
+        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 331) { //==============  270 - 331 days === 9-12 month
 
             if (a_mother.getIsChild_message_delivered_9_to_12_month().equals("true")) {
                 deliveryStatus = "হ্যাঁ";
@@ -352,17 +350,21 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                     public void onClick(View v) {
                         DatabaseHelper helper = new DatabaseHelper(context);
 
-                        if (a_mother.getAgeOfChild() > 0 && a_mother.getAgeOfChild() < 31) {//==============  0 - 14 days
+                        if (a_mother.getAgeOfChild() >= 0 && a_mother.getAgeOfChild() < 15) {//==============  0 - 14 days
                             helper.setChild_0_To_14_Days_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
+                            a_mother.setIsChild_message_delivered_0_to_14_days("true");
 
-                        } else if (a_mother.getAgeOfChild() > 30 && a_mother.getAgeOfChild() < 180) {//==============  30 - 90 days  === 1,2,3 month
+                        } else if (a_mother.getAgeOfChild() > 14 && a_mother.getAgeOfChild() < 180) {//==============  15 - 90 days  === 1,2,3 month
                             helper.setChild_1_2_3_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
+                            a_mother.setIsChild_message_delivered_1_2_3_month("true");
 
                         } else if (a_mother.getAgeOfChild() > 179 && a_mother.getAgeOfChild() < 270) {//==============  180 - 240 days === 6-8 month
                             helper.setChild_6_To_8_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
+                            a_mother.setIsChild_message_delivered_6_to_8_month("true");
 
-                        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 366) { //==============  270 - 365 days === 9-12 month
+                        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 331) { //==============  270 - 330 days === 9-12 month
                             helper.setChild_9_To_12_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
+                            a_mother.setIsChild_message_delivered_9_to_12_month("true");
 
                         }
 
@@ -382,22 +384,30 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                     public void onClick(View v) {
                         DatabaseHelper helper = new DatabaseHelper(context);
 
-                        if (a_mother.getAgeOfChild() > 0 && a_mother.getAgeOfChild() < 15) {//==============  0 - 14 days
+                        if (a_mother.getAgeOfChild() >= 0 && a_mother.getAgeOfChild() < 15) {//==============  0 - 14 days
                             helper.setChild_0_To_14_Days_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
+                            a_mother.setIsChild_message_delivered_0_to_14_days("false");
 
-                        } else if (a_mother.getAgeOfChild() > 29 && a_mother.getAgeOfChild() < 91) {//==============  30 - 90 days  === 1,2,3 month
+                        } else if (a_mother.getAgeOfChild() > 14 && a_mother.getAgeOfChild() < 180) {//==============  15 - 90 days  === 1,2,3 month
                             helper.setChild_1_2_3_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
+                            a_mother.setIsChild_message_delivered_1_2_3_month("false");
 
-                        } else if (a_mother.getAgeOfChild() > 179 && a_mother.getAgeOfChild() < 241) {//==============  180 - 240 days === 6-8 month
+                        } else if (a_mother.getAgeOfChild() > 179 && a_mother.getAgeOfChild() < 270) {//==============  180 - 240 days === 6-8 month
                             helper.setChild_6_To_8_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
+                            a_mother.setIsChild_message_delivered_6_to_8_month("false");
 
-                        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 366) { //==============  270 - 365 days === 9-12 month
+                        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 331) { //==============  270 - 330 days === 9-12 month
                             helper.setChild_9_To_12_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
+                            a_mother.setIsChild_message_delivered_9_to_12_month("false");
 
                         }
 
 
-                        holder.btn_call_1.setVisibility(View.VISIBLE);
+                        if (a_mother.getMotherPhoneNumber().isEmpty()){
+                            holder.btn_call_1.setVisibility(View.INVISIBLE);
+                        }else {
+                            holder.btn_call_1.setVisibility(View.VISIBLE);
+                        }
                         if (a_mother.getAlternativePhoneNumber().isEmpty()) {
                             holder.btn_call_2.setVisibility(View.INVISIBLE);
                         } else {
@@ -422,7 +432,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                 View messageView = inflater.inflate(R.layout.messages_for_child, null);
 
 
-                if (a_mother.getAgeOfChild() > 0 && a_mother.getAgeOfChild() < 31) {//==============  0 - 14 days
+                if (a_mother.getAgeOfChild() >= 0 && a_mother.getAgeOfChild() < 15) {//==============  0 - 14 days
 
 
                     messageView.findViewById(R.id.linearLayout_child_message_0_to_14_days).setVisibility(View.VISIBLE);
@@ -434,7 +444,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                     messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months_diet).setVisibility(View.GONE);
 
 
-                } else if (a_mother.getAgeOfChild() > 30 && a_mother.getAgeOfChild() < 180) {//==============  30 - 90 days  === 1,2,3 month
+                } else if (a_mother.getAgeOfChild() > 14 && a_mother.getAgeOfChild() < 180) {//==============  15 - 90 days  === 1,2,3 month
                     messageView.findViewById(R.id.linearLayout_child_message_0_to_14_days).setVisibility(View.GONE);
                     messageView.findViewById(R.id.linearLayout_child_message_1st_2nd_3rd_month).setVisibility(View.VISIBLE);
                     messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months).setVisibility(View.GONE);
@@ -452,7 +462,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                     messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months).setVisibility(View.GONE);
                     messageView.findViewById(R.id.linearLayout_child_message_9_to_12_months_diet).setVisibility(View.GONE);
 
-                } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 366) { //==============  270 - 365 days === 9-12 month
+                } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 331) { //==============  270 - 330 days === 9-12 month
                     messageView.findViewById(R.id.linearLayout_child_message_0_to_14_days).setVisibility(View.GONE);
                     messageView.findViewById(R.id.linearLayout_child_message_1st_2nd_3rd_month).setVisibility(View.GONE);
                     messageView.findViewById(R.id.linearLayout_child_message_6_to_8_months).setVisibility(View.GONE);
@@ -494,8 +504,8 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditMotherActivity.class);
                 intent.putExtra(EditMotherActivity.TAG, a_mother);
-                //((Activity) context).startActivityForResult();
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent,ANC_PNC_List_Activity.REQUEST_CODE_EDIT_MOTHER_ACTIVITY);/////////////
+                //context.startActivity(intent);
             }
         });
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
@@ -564,7 +574,14 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
             }
         });
 
-//         holder.btchange.;
+         holder.btn_follow_up.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent intent = new Intent(context, ChildFollowUpActivity.class);
+                 intent.putExtra(ChildFollowUpActivity.TAG, a_mother);
+                 ((Activity) context).startActivityForResult(intent,ANC_PNC_List_Activity.REQUEST_CODE_CHILD_FOLOW_UP_ACTIVITY);/////////////
+             }
+         });
     }
 
 
@@ -577,7 +594,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_message, tvMotherName, tvEDD, tvHusbandName, tvAddress, tvDesireCallingTime, tvChildName;
-        AppCompatButton btn_delete, btn_Edit, btn_details, btn_message, btn_change_status, btn_call_1, btn_call_2;
+        AppCompatButton btn_delete, btn_Edit, btn_details, btn_message, btn_change_status, btn_call_1, btn_call_2,btn_follow_up;
 //        protected TextView vName;
 //        protected TextView txt2;
 //        protected TextView txt3;
@@ -618,6 +635,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
             btn_change_status = (AppCompatButton) itemView.findViewById(R.id.btn_change_status);
             btn_call_1 = (AppCompatButton) itemView.findViewById(R.id.btn_call_1);
             btn_call_2 = (AppCompatButton) itemView.findViewById(R.id.btn_call_2);
+            btn_follow_up = (AppCompatButton) itemView.findViewById(R.id.btn_follow_up);
 
 
         }

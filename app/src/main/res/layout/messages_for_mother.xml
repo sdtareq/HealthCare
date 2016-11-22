@@ -504,7 +504,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="প্রতিদিন প্রধান খাবার ছাড়াও মাকে অতিরিকÍ ২বার নাস্তা খেতে হবে"
+                        android:text="প্রতিদিন প্রধান খাবার ছাড়াও মাকে ২বার নাস্তা খেতে হবে"
                         android:textSize="@dimen/tv_message_body" />
                 </LinearLayout>
 

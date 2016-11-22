@@ -14,9 +14,11 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -25,11 +27,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected static final String TAG = "MainActivity";
     protected static final String PREFERENCE_KEY = "last_date";
     protected static final String PREFERENCE_LAST_EXPORT = "last_date";
+    protected static final int REQUEST_CODE_MOTHER_REGISTRATION_ACTIVITY = 301;
     protected boolean login_flag;
     DatabaseHelper db;
 
@@ -94,16 +99,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        Gson gson = new Gson();
-//         String table1 = gson.toJson(db.getAllTables2());
-//      //  String table1 = gson.toJson(db.getDbDef2());
+//        // String table1 = gson.toJson(db.getAllTables2());
+//        String table1 = gson.toJson(db.getDbDef2());
 //
 //        Toast.makeText(this,table1,Toast.LENGTH_LONG).show();
 //        exportDoc(table1);
 
 
+///////////////////////////////////////////////////////////////////////////////////////////
 
+         export_db();     //EXPORT DB
 
+///////////////////////////////////////////////////////////////////////////////////////////
 
+//        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//String imei = telephonyManager.getDeviceId();  /// GET IMEI NO
+//        exportDoc(imei);
 
         // temp end
 //
@@ -117,6 +128,46 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //============================================ e n d 1 ==========================================================
+
+    }
+
+    private void export_db() {
+
+
+
+
+
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File directory = new File(sd.getAbsolutePath() + "/Health Care");//=================== Name of the Folder
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            if (!directory.mkdirs()) {
+                Log.e(TAG, "======  Directory not created");
+            }
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath =  "/data/"+ "com.example.tareq.healthcare" +"/databases/"+DatabaseHelper.DATABASE_NAME;
+                String backupDBPath = DatabaseHelper.DATABASE_NAME;
+
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(directory, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    Toast.makeText(this, "DB Exported!", Toast.LENGTH_LONG).show();
+                }
+            }
+        } catch (Exception e) {
+        }
+
 
     }
 
@@ -142,7 +193,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
 //Now create the file in the above directory and write the contents into it
-            File file = new File(directory, "HC " + dateMonthYear + ".txt");  // ========================= Name of the File
+           // File file = new File(directory, "HC " + dateMonthYear + ".txt");  // ========================= Name of the File
+            File file = new File(directory, "HC_" + "IMEI" + ".txt");  // ========================= Name of the File
+
 
             FileOutputStream fOut = null;
             try {
@@ -251,7 +304,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MotherRegistrationActivity.class);
-                startActivity(intent);
+               startActivityForResult(intent,REQUEST_CODE_MOTHER_REGISTRATION_ACTIVITY);
+                // startActivity(intent);
             }
         });
 
@@ -421,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
 
 
-                if (theMother.getAgeOfChild() > 0 && theMother.getAgeOfChild() < 31) { //==============  0 - 14 days
+                if (theMother.getAgeOfChild() >= 0 && theMother.getAgeOfChild() < 15) { //==============  0 - 15 days
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_0_to_14_days());
                     if (isDelivered) {
                         child_message_delivered_0_to_14_days_delivered++;
@@ -429,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
                         child_message_delivered_0_to_14_days_remain++;
                     }
 
-                } else if (theMother.getAgeOfChild() > 30 && theMother.getAgeOfChild() < 180) {//==============  30 - 90 days  === 1,2,3 month
+                } else if (theMother.getAgeOfChild() > 14 && theMother.getAgeOfChild() < 180) {//==============  15 - 90 days  === 1,2,3 month
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_1_2_3_month());
 
                     if (isDelivered) {
@@ -448,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 
-                } else if (theMother.getAgeOfChild() > 269 && theMother.getAgeOfChild() < 366) {//==============  270 - 365 days === 9-12 month
+                } else if (theMother.getAgeOfChild() > 269 && theMother.getAgeOfChild() < 331) {//==============  270 - 330 days === 9-11 month
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_9_to_12_month());
 
                     if (isDelivered) {
@@ -569,13 +623,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 //Now create the file in the above directory and write the contents into it
-                File file = new File(directory, "HC " + dateMonthYear + ".csv");  // ========================= Name of the File
-//                FileOutputStream fOut = null;
-//                try {
-//                    fOut = new FileOutputStream(file);
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
+                File file = new File(directory, "HC_Mother_And_Child_" + dateMonthYear + ".csv");  // ========================= Name of the File
+
                 try {
 
                     if (file.createNewFile()) {
@@ -729,6 +778,87 @@ public class MainActivity extends AppCompatActivity {
 
                     result = false;
                 }
+
+
+
+
+
+
+
+
+                ///////////////////////////////////////////////////////////////////////
+
+
+                File fileFollowUp = new File(directory, "HC_Follow_Up_" + dateMonthYear + ".csv");  // ========================= Name of the File
+
+                try {
+
+                    if (fileFollowUp.createNewFile()) {
+                        Log.d(TAG, " ======== File is created!");
+                        Log.d(TAG, "csv =========   " + fileFollowUp.getAbsolutePath());
+                    } else {
+                        Log.d(TAG, "======= File already exists.");
+                    }
+
+                    CSVWriter csvWrite2 = new CSVWriter(new FileWriter(fileFollowUp));
+
+                    DatabaseHelper helper = new DatabaseHelper(MainActivity.this);
+                    SQLiteDatabase db = helper.getWritableDatabase();
+
+
+//
+                    String selectFollowUpTable = "SELECT  * FROM " +  DatabaseHelper.TABLE_CHILD_FOLLOW_UP ;
+
+                    //Cursor cursor = db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});
+
+
+                    // Cursor curCSV =  db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});  // query
+                    Cursor curCSV =  db.rawQuery(selectFollowUpTable,null);  // query
+                    csvWrite2.writeNext(curCSV.getColumnNames());
+
+                    while (curCSV.moveToNext())
+
+                    {
+
+                        String arrStr[] = {curCSV.getString(0), curCSV.getString(1), curCSV.getString(2), curCSV.getString(3),
+                                curCSV.getString(4), curCSV.getString(5), curCSV.getString(6), curCSV.getString(7)
+                        };
+
+                        csvWrite2.writeNext(arrStr);
+
+                    }
+
+
+
+
+                    csvWrite2.close();
+                    curCSV.close();
+
+        /*String data="";
+        data=readSavedData();
+        data= data.replace(",", ";");
+        writeData(data);*/
+
+                    result = true;
+
+                } catch (SQLException sqlEx) {
+                    Log.e(TAG, "======= " + sqlEx.getMessage(), sqlEx);
+
+                    result = false;
+
+                } catch (IOException e) {
+                    // e.printStackTrace();
+                    Log.e(TAG, "====== " + e.getMessage(), e);
+
+                    result = false;
+                }
+
+
+
+
+
+
+
             }    //==========================================================================
 
 
@@ -788,5 +918,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK){
+            if (requestCode == REQUEST_CODE_MOTHER_REGISTRATION_ACTIVITY){
+
+            }
+        }
     }
 }

@@ -85,7 +85,7 @@ public class GroupMother {
             if (a_mother.getPregnancyState()!= null && a_mother.getPregnancyState().equals(MotherRegistrationActivity.PREGNANCY_STATE_POST_DELIVERY)) { ///"post delivery" ============ Post Delivery
                 calcAgeOfChild(a_mother);
 
-                if (a_mother.getAgeOfChild() < 46 && a_mother.getAgeOfChild() > 0) { //// ========== 1 to 45 days
+                if (a_mother.getAgeOfChild() < 46 && a_mother.getAgeOfChild() >= 0) { //// ========== 1 to 45 days
 
                     if (!allGroupMap.containsKey(PNC)) {  //
                         allGroupMap.put(PNC, pnc); //
@@ -96,7 +96,7 @@ public class GroupMother {
 
                 }
 
-                if (a_mother.getAgeOfChild() < 366 && a_mother.getAgeOfChild() > 0){  /// ============  1 to 365 days
+                if (a_mother.getAgeOfChild() < 331 && a_mother.getAgeOfChild() >= 0){  /// ============  1 to 330 days
                     if (!allGroupMap.containsKey(CHILD_CARE_MESSAGE_STATUS)) {  //
                         allGroupMap.put(CHILD_CARE_MESSAGE_STATUS, childCareMessageStatusList); //
                     }
@@ -136,7 +136,7 @@ public class GroupMother {
                 setEDD(a_mother);
 
 
-                if (a_mother.getDaysOnPregnancy() < 11 && a_mother.getDaysOnPregnancy() > 5) {
+                if (a_mother.getDaysOnPregnancy() < 168 && a_mother.getDaysOnPregnancy() > 55) {
                     //groupKey = "ANC 1";
                     if (!allGroupMap.containsKey(ANC_1)) {
                         allGroupMap.put(ANC_1, anc1);
@@ -144,7 +144,7 @@ public class GroupMother {
 
                     allGroupMap.get(ANC_1).add(a_mother);
 
-                } else if (a_mother.getDaysOnPregnancy() < 16 && a_mother.getDaysOnPregnancy() > 10) {
+                } else if (a_mother.getDaysOnPregnancy() < 224 && a_mother.getDaysOnPregnancy() > 167) {
                     //groupKey = "ANC 2";
                     if (!allGroupMap.containsKey(ANC_2)) {
                         allGroupMap.put(ANC_2, anc2);
@@ -152,14 +152,14 @@ public class GroupMother {
 
                     allGroupMap.get(ANC_2).add(a_mother);
 
-                } else if (a_mother.getDaysOnPregnancy() < 21 && a_mother.getDaysOnPregnancy() > 15) {
+                } else if (a_mother.getDaysOnPregnancy() < 245 && a_mother.getDaysOnPregnancy() > 223) {
                    // groupKey = "ANC 3";
                     if (!allGroupMap.containsKey(ANC_3)) {
                         allGroupMap.put(ANC_3, anc3);
                     }
 
                     allGroupMap.get(ANC_3).add(a_mother);
-                } else if (a_mother.getDaysOnPregnancy() < 30 && a_mother.getDaysOnPregnancy() > 20) {
+                } else if (a_mother.getDaysOnPregnancy() < 291 && a_mother.getDaysOnPregnancy() > 244) {
                    // groupKey = "ANC 4";
                     if (!allGroupMap.containsKey(ANC_4)) {
                         allGroupMap.put(ANC_4, anc4);
@@ -186,7 +186,7 @@ public class GroupMother {
 
                /// =============================== Post Delivery
                 calcAgeOfChild(a_mother);
-            if (a_mother.getAgeOfChild() < 46 && a_mother.getAgeOfChild() > 0) { //// ========== 1 to 45 days
+            if (a_mother.getAgeOfChild() < 46 && a_mother.getAgeOfChild() >= 0) { //// ========== 1 to 45 days
 
                 if (!allGroupMap.containsKey(PNC)) {  //
                     allGroupMap.put(PNC, pnc); //
@@ -196,7 +196,7 @@ public class GroupMother {
 
 
             }
-                if (a_mother.getAgeOfChild() < 366 && a_mother.getAgeOfChild() > 0) {/// ============  1 to 365 days
+                if (a_mother.getAgeOfChild() < 331 && a_mother.getAgeOfChild() >= 0) {/// ============  1 to 330 days
                     if (!allGroupMap.containsKey(CHILD_CARE_MESSAGE_STATUS)) {  //
                         allGroupMap.put(CHILD_CARE_MESSAGE_STATUS, childCareMessageStatusList); //
                     }

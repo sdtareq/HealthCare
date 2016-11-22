@@ -1,5 +1,6 @@
 package com.example.tareq.healthcare;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,7 +22,8 @@ import java.util.List;
  * Created by TAREQ on 11/5/2016.
  */
 public class Pre_Delivery_Message_Adapter extends RecyclerView.Adapter<Pre_Delivery_Message_Adapter.ViewHolder>   {
-    String call;
+    String call = "";
+    String call_2 = "";
     List<Mother> motherList = new ArrayList<>();
     private Context context;
 
@@ -117,15 +119,33 @@ public class Pre_Delivery_Message_Adapter extends RecyclerView.Adapter<Pre_Deliv
 
         }
 
-        call = a_mother.getMotherPhoneNumber();
+        if (!a_mother.getMotherPhoneNumber().isEmpty()) {
+            call = a_mother.getMotherPhoneNumber();
+        }
+
         holder.btn_call_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+call));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + call));
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
 
+            }
+        });
+
+        if (!a_mother.getAlternativePhoneNumber().isEmpty()) {
+
+            call_2 = a_mother.getAlternativePhoneNumber();
+
+        }
+
+
+        holder.btn_call_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + call_2));//  =====================================================================
+                context.startActivity(intent);
             }
         });
 
@@ -208,7 +228,7 @@ public class Pre_Delivery_Message_Adapter extends RecyclerView.Adapter<Pre_Deliv
                     public void onClick(View v) {
                         DatabaseHelper helper = new DatabaseHelper(context);
                         helper.setPreDeliveryMessageStatus(a_mother.getMotherRowPrimaryKey(),"true");
-
+                        a_mother.setIsPreDelivery_Message_Delivered("true");
 
                         holder.btn_call_1.setVisibility(View.INVISIBLE);
                         holder.btn_call_2.setVisibility(View.INVISIBLE);
@@ -226,8 +246,12 @@ public class Pre_Delivery_Message_Adapter extends RecyclerView.Adapter<Pre_Deliv
                     public void onClick(View v) {
                         DatabaseHelper helper = new DatabaseHelper(context);
                         helper.setPreDeliveryMessageStatus(a_mother.getMotherRowPrimaryKey(),"false");
-
-                        holder.btn_call_1.setVisibility(View.VISIBLE);
+                        a_mother.setIsPreDelivery_Message_Delivered("false");
+                        if (a_mother.getMotherPhoneNumber().isEmpty()){
+                            holder.btn_call_1.setVisibility(View.INVISIBLE);
+                        }else {
+                            holder.btn_call_1.setVisibility(View.VISIBLE);
+                        }
                         if (  a_mother.getAlternativePhoneNumber().isEmpty()){
                             holder.btn_call_2.setVisibility(View.INVISIBLE);
                         }else {  holder.btn_call_2.setVisibility(View.VISIBLE);}
@@ -279,7 +303,8 @@ public class Pre_Delivery_Message_Adapter extends RecyclerView.Adapter<Pre_Deliv
                 Intent intent = new Intent(context, AddChildActivity.class);
                 intent.putExtra(AddChildActivity.MOTHER_NAME,a_mother.getMotherName());
                 intent.putExtra(AddChildActivity.MOTHER_ROW_ID,a_mother.getMotherRowPrimaryKey());
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent,ANC_PNC_List_Activity.REQUEST_CODE_ADD_CHILD_ACTIVITY);/////////////
+               // context.startActivity(intent);
             }
         });
         holder.btn_details.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +321,8 @@ public class Pre_Delivery_Message_Adapter extends RecyclerView.Adapter<Pre_Deliv
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditMotherActivity.class);
                 intent.putExtra(EditMotherActivity.TAG,a_mother);
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent,ANC_PNC_List_Activity.REQUEST_CODE_EDIT_MOTHER_ACTIVITY);/////////////
+                //context.startActivity(intent);
             }
         });
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {

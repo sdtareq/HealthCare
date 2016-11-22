@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -20,11 +21,11 @@ public class AddChildActivity extends AppCompatActivity {
     protected final static String MOTHER_ROW_ID = "mother row id";
     int mYear,mMonth,mDay;
 
-    String mMotherName, mMotherRowId , mSexOfChild,mChildDateOfBirth="";
+    String mMotherName, mMotherRowId , mSexOfChild="",mChildDateOfBirth="";
 
     EditText etChildName, etChildDateOfBirth, etChildBirthWeight, etIdNumberOfChild;
     AppCompatButton btn_register,btn_back;
-
+    boolean isEdited = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +35,8 @@ public class AddChildActivity extends AppCompatActivity {
         mMotherRowId = getIntent().getStringExtra(MOTHER_ROW_ID);
 
 
-        ((EditText) findViewById(R.id.etMotherName)).setHint(mMotherName);
-        ((EditText) findViewById(R.id.etMotherRowId)).setHint(mMotherRowId);
+        ((EditText) findViewById(R.id.etMotherName)).setText(mMotherName);
+        ((EditText) findViewById(R.id.etMotherRowId)).setText(mMotherRowId);
 
 
         init();
@@ -46,6 +47,11 @@ public class AddChildActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     btn_register.setEnabled(false);
+
+                    if (!validateChild()){
+                        btn_register.setEnabled(true);
+                        return;
+                    }
                     Child  child = new Child(mMotherName,etChildName.getText().toString(),
                             mChildDateOfBirth,mSexOfChild,etChildBirthWeight.getText().toString(),
                             etIdNumberOfChild.getText().toString());
@@ -53,8 +59,9 @@ public class AddChildActivity extends AppCompatActivity {
 
                     DatabaseHelper db = new DatabaseHelper(AddChildActivity.this);   // store in db)
                     db.registerChild(child);
-                    db.setPregnancyState(mMotherRowId,MessageActivity.POST_DELIVERY_DB,mChildDateOfBirth);
 
+                    db.setPregnancyState(mMotherRowId,MessageActivity.POST_DELIVERY_DB,mChildDateOfBirth);
+                    isEdited = true;/////////////////
             }
             });
 
@@ -66,6 +73,29 @@ public class AddChildActivity extends AppCompatActivity {
         }
 
     }
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent();//////////////
+        intent.putExtra(TAG, isEdited );///////
+        setResult(RESULT_OK, intent);//////
+
+        finish();
+
+    }
+
+    private boolean validateChild() {
+        boolean valid = true;
+        if (mChildDateOfBirth.isEmpty() || mSexOfChild.isEmpty() || etIdNumberOfChild.getText().toString().isEmpty()) {
+
+            Toast.makeText(this, "শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন", Toast.LENGTH_SHORT).show();
+            valid = false;
+
+        }
+
+        return valid;
+    }
+
 
     private void init() {
 
@@ -81,6 +111,11 @@ public class AddChildActivity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent = new Intent();//////////////
+                intent.putExtra(TAG, isEdited );///////
+
+                setResult(RESULT_OK, intent);//////
                 finish();
             }
         });

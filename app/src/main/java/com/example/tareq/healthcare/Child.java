@@ -16,7 +16,12 @@ public class Child implements Serializable {
     childBirthWeight,
     childId,
     idNumberOfChild,
-    childAge;
+    childAge,
+    childWeight,
+    childHeight,
+    childDateOfVisit;
+
+
 
 
     public Child(String childMotherName, String childMotherTableId, String childName, String childDateOfBirth, String sexOfChild, String childBirthWeight, String childId, String idNumberOfChild) {
@@ -33,17 +38,29 @@ public class Child implements Serializable {
     public Child() {
     }
 
-    public Child(String childName, String childDateOfBirth, String sexOfChild, String childBirthWeight, String childId, String idNumberOfChild, String childAge) {
+
+//    public Child(String childName, String childDateOfBirth, String sexOfChild, String childBirthWeight, String childId, String idNumberOfChild, String childAge) {
+//        this.childName = childName;
+//        this.childDateOfBirth = childDateOfBirth;
+//        this.sexOfChild = sexOfChild;
+//        this.childBirthWeight = childBirthWeight;
+//        this.childId = childId;
+//        this.idNumberOfChild = idNumberOfChild;
+//        this.childAge = childAge;
+//    }
+
+
+    public Child(String childName, String childMotherTableId, String childMotherName, String childId, String childWeight, String childHeight, String childDateOfVisit) {
         this.childName = childName;
-        this.childDateOfBirth = childDateOfBirth;
-        this.sexOfChild = sexOfChild;
-        this.childBirthWeight = childBirthWeight;
+        this.childMotherTableId = childMotherTableId;
+        this.childMotherName = childMotherName;
         this.childId = childId;
-        this.idNumberOfChild = idNumberOfChild;
-        this.childAge = childAge;
+        this.childWeight = childWeight;
+        this.childHeight = childHeight;
+        this.childDateOfVisit = childDateOfVisit;
     }
 
-    public Child(String childName, String childDateOfBirth, String sexOfChild, String childBirthWeight,   String idNumberOfChild) {
+    public Child(String childName, String childDateOfBirth, String sexOfChild, String childBirthWeight, String idNumberOfChild) {
         this.childName = childName;
         this.childDateOfBirth = childDateOfBirth;
         this.sexOfChild = sexOfChild;
@@ -51,6 +68,7 @@ public class Child implements Serializable {
 
         this.idNumberOfChild = idNumberOfChild;
     }
+
 
     public Child(String childMotherName, String childName, String childDateOfBirth, String sexOfChild, String childBirthWeight, String idNumberOfChild) {
         this.childMotherName = childMotherName;
@@ -131,5 +149,28 @@ public class Child implements Serializable {
 
     public void setChildMotherTableId(String childMotherTableId) {
         this.childMotherTableId = childMotherTableId;
+    }
+    public String getChildWeight() {
+        return childWeight;
+    }
+
+    public void setChildWeight(String childWeight) {
+        this.childWeight = childWeight;
+    }
+
+    public String getChildHeight() {
+        return childHeight;
+    }
+
+    public void setChildHeight(String childHeight) {
+        this.childHeight = childHeight;
+    }
+
+    public String getChildDateOfVisit() {
+        return childDateOfVisit;
+    }
+
+    public void setChildDateOfVisit(String childDateOfVisit) {
+        this.childDateOfVisit = childDateOfVisit;
     }
 }

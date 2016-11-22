@@ -384,7 +384,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 //                }
 
 
-                if (theMother.getAgeOfChild()>0 && theMother.getAgeOfChild()<31){ //==============  0 - 14 days
+                if (theMother.getAgeOfChild()>=0 && theMother.getAgeOfChild()<15){ //==============  0 - 14 days
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_0_to_14_days());
                     if (isDelivered) {
                         child_message_delivered_0_to_14_days_delivered++;
@@ -392,7 +392,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
                         child_message_delivered_0_to_14_days_remain++;
                     }
 
-                }else if(theMother.getAgeOfChild()>30 && theMother.getAgeOfChild()<180){//==============  30 - 90 days  === 1,2,3 month
+                }else if(theMother.getAgeOfChild()>14 && theMother.getAgeOfChild()<180){//==============  15 - 90 days  === 1,2,3 month
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_1_2_3_month());
 
                     if (isDelivered) {
@@ -411,7 +411,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
                     }
 
 
-                }else if(theMother.getAgeOfChild()>269 && theMother.getAgeOfChild()<366){//==============  270 - 365 days === 9-12 month
+                }else if(theMother.getAgeOfChild()>269 && theMother.getAgeOfChild()<331){//==============  270 - 330 days === 9-11 month
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_9_to_12_month());
 
                     if (isDelivered) {

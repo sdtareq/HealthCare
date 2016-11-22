@@ -37,7 +37,8 @@
         android:text="Show"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textSize="@dimen/btn_text"
-        android:id="@+id/btnShow"/>
+        android:id="@+id/btnShow"
+        android:visibility="gone"/>
 
 
 </LinearLayout>

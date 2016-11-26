@@ -424,7 +424,7 @@
                     <EditText android:id="@+id/etChildBirthWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:hint="জন্মের সময় ওজন (Kg)"
                         android:textSize="@dimen/et_text"
                         />

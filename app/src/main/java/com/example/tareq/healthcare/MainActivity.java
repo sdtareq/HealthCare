@@ -20,11 +20,16 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -99,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        Gson gson = new Gson();
-//        // String table1 = gson.toJson(db.getAllTables2());
-//        String table1 = gson.toJson(db.getDbDef2());
+//        String table1 = gson.toJson(db.getAllTables2());
+//       // String table1 = gson.toJson(db.getDbDef());
 //
 //        Toast.makeText(this,table1,Toast.LENGTH_LONG).show();
 //        exportDoc(table1);
@@ -108,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-         export_db();     //EXPORT DB
+          export_db();     //EXPORT DB
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -326,8 +331,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-     Toast.makeText(this, "বাহির হওয়ার জন্য দুইবার ব্যাক বাটন ক্লিক করুন", Toast.LENGTH_SHORT).show();
 
+     //Toast.makeText(this, "বাহির হওয়ার জন্য দুইবার ব্যাক বাটন ক্লিক করুন", Toast.LENGTH_SHORT).show();
+        showCustomToast("বাহির হওয়ার জন্য দুইবার ব্যাক বাটন ক্লিক করুন");
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -647,9 +653,10 @@ public class MainActivity extends AppCompatActivity {
 //                            + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_PREGNANCY_STATE + "=?";
 //
                     String selectAllMothersWithChild = "SELECT  * FROM " +  DatabaseHelper.TABLE_MOTHER
-                            + " INNER JOIN " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + " ON " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + "." + DatabaseHelper.MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID
-                            + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID + " INNER JOIN " + DatabaseHelper.TABLE_CHILD + " ON "
-                            + DatabaseHelper.TABLE_CHILD + "." + DatabaseHelper.CHILD_COLUMN_MOTHER_ID + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID ;
+                            + " INNER JOIN " + DatabaseHelper.TABLE_ANC_PNC_MSG + " ON " + DatabaseHelper.TABLE_ANC_PNC_MSG + "." + DatabaseHelper.ANC_PNC_MSG_DELIVERY_COL_MOTHER_COLUMN_ID
+                            + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID  + " INNER JOIN " + DatabaseHelper.TABLE_DELIVERY_AND_CHILD_MSG+ " ON " + DatabaseHelper.TABLE_DELIVERY_AND_CHILD_MSG
+                            + "." + DatabaseHelper.DELIVERY_AND_CHILD_MSG_COL_MOTHER_COLUMN_ID + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID
+                            + " INNER JOIN " + DatabaseHelper.TABLE_CHILD + " ON " + DatabaseHelper.TABLE_CHILD + "." + DatabaseHelper.CHILD_COLUMN_MOTHER_ID + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID ;
 
                     //Cursor cursor = db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});
 
@@ -661,40 +668,45 @@ public class MainActivity extends AppCompatActivity {
                     while (curCSV.moveToNext())
 
                     {
+                        String[] rowArray = new String[curCSV.getColumnNames().length];
+                        for (int i = 0; i < curCSV.getColumnNames().length;i++){
+                            rowArray[i] = curCSV.getString(i);
+                        }
 
-                        String arrStr[] = {curCSV.getString(0), curCSV.getString(1), curCSV.getString(2), curCSV.getString(3),
-                                curCSV.getString(4), curCSV.getString(5), curCSV.getString(6), curCSV.getString(7), curCSV.getString(8), curCSV.getString(9),
-                        curCSV.getString(10),
-                        curCSV.getString(11),
-                        curCSV.getString(12),
-                        curCSV.getString(13),
-                        curCSV.getString(14),
-                        curCSV.getString(15),
-                        curCSV.getString(16),
-                        curCSV.getString(17),
-                        curCSV.getString(18),
-                        curCSV.getString(19),
-                        curCSV.getString(20),
-                        curCSV.getString(21),
-                        curCSV.getString(22),
-                        curCSV.getString(23),
-                        curCSV.getString(24),
-                        curCSV.getString(25),
-                        curCSV.getString(26),
-                        curCSV.getString(27),
-                        curCSV.getString(28),
-                        curCSV.getString(29),
-                        curCSV.getString(30),
-                        curCSV.getString(31),
-                        curCSV.getString(32),
-                        curCSV.getString(33),
-                        curCSV.getString(34),
-                        curCSV.getString(35),
-                        curCSV.getString(36)
+//                        String arrStr[] = {curCSV.getString(0), curCSV.getString(1), curCSV.getString(2), curCSV.getString(3),
+//                                curCSV.getString(4), curCSV.getString(5), curCSV.getString(6), curCSV.getString(7), curCSV.getString(8), curCSV.getString(9),
+//                        curCSV.getString(10),
+//                        curCSV.getString(11),
+//                        curCSV.getString(12),
+//                        curCSV.getString(13),
+//                        curCSV.getString(14),
+//                        curCSV.getString(15),
+//                        curCSV.getString(16),
+//                        curCSV.getString(17),
+//                        curCSV.getString(18),
+//                        curCSV.getString(19),
+//                        curCSV.getString(20),
+//                        curCSV.getString(21),
+//                        curCSV.getString(22),
+//                        curCSV.getString(23),
+//                        curCSV.getString(24),
+//                        curCSV.getString(25),
+//                        curCSV.getString(26),
+//                        curCSV.getString(27),
+//                        curCSV.getString(28),
+//                        curCSV.getString(29),
+//                        curCSV.getString(30),
+//                        curCSV.getString(31),
+//                        curCSV.getString(32),
+//                        curCSV.getString(33),
+//                        curCSV.getString(34),
+//                        curCSV.getString(35),
+//                        curCSV.getString(36)
+//
+//                        };
 
-                        };
-
-                        csvWrite.writeNext(arrStr);
+                        //csvWrite.writeNext(arrStr);
+                        csvWrite.writeNext(rowArray);
 
                     }
 
@@ -703,8 +715,9 @@ public class MainActivity extends AppCompatActivity {
 
                     //===========================================================================================================================================
 
-                    String selectAllMothers  = "SELECT  * FROM " +  DatabaseHelper.TABLE_MOTHER
-                            + " INNER JOIN " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + " ON " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + "." + DatabaseHelper.MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID
+                    String selectAllMothers  = "SELECT  * FROM " +  DatabaseHelper.TABLE_MOTHER + " INNER JOIN " + DatabaseHelper.TABLE_ANC_PNC_MSG + " ON "
+                            + DatabaseHelper.TABLE_ANC_PNC_MSG+ "." + DatabaseHelper.ANC_PNC_MSG_DELIVERY_COL_MOTHER_COLUMN_ID+ " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID
+                            + " INNER JOIN " + DatabaseHelper.TABLE_DELIVERY_AND_CHILD_MSG+ " ON " + DatabaseHelper.TABLE_DELIVERY_AND_CHILD_MSG + "." + DatabaseHelper.DELIVERY_AND_CHILD_MSG_COL_MOTHER_COLUMN_ID
                             + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID+ " WHERE " + DatabaseHelper.TABLE_MOTHER+"."+DatabaseHelper.MOTHER_COLUMN_PREGNANCY_STATE
                             +"=?" ;
 
@@ -718,34 +731,42 @@ public class MainActivity extends AppCompatActivity {
                     while (curCSV2.moveToNext())
 
                     {
-
-                        String arrStr[] = {curCSV2.getString(0), curCSV2.getString(1), curCSV2.getString(2), curCSV2.getString(3),
-                                curCSV2.getString(4), curCSV2.getString(5), curCSV2.getString(6), curCSV2.getString(7), curCSV2.getString(8), curCSV2.getString(9),
-                                curCSV2.getString(10),
-                                curCSV2.getString(11),
-                                curCSV2.getString(12),
-                                curCSV2.getString(13),
-                                curCSV2.getString(14),
-                                curCSV2.getString(15),
-                                curCSV2.getString(16),
-                                curCSV2.getString(17),
-                                curCSV2.getString(18),
-                                curCSV2.getString(19),
-                                curCSV2.getString(20),
-                                curCSV2.getString(21),
-                                curCSV2.getString(22),
-                                curCSV2.getString(23),
-                                curCSV2.getString(24),
-                                curCSV2.getString(25),
-                                curCSV2.getString(26),
-                                curCSV2.getString(27),
-                                curCSV2.getString(28)
+                        String[] rowArray = new String[curCSV2.getColumnNames().length];
+                        for (int i = 0; i < curCSV2.getColumnNames().length;i++){
+                            rowArray[i] = curCSV2.getString(i);
+                        }
 
 
 
-
-                        };
-                        csvWrite.writeNext(arrStr);
+//
+//                        String arrStr[] = {curCSV2.getString(0), curCSV2.getString(1), curCSV2.getString(2), curCSV2.getString(3),
+//                                curCSV2.getString(4), curCSV2.getString(5), curCSV2.getString(6), curCSV2.getString(7), curCSV2.getString(8), curCSV2.getString(9),
+//                                curCSV2.getString(10),
+//                                curCSV2.getString(11),
+//                                curCSV2.getString(12),
+//                                curCSV2.getString(13),
+//                                curCSV2.getString(14),
+//                                curCSV2.getString(15),
+//                                curCSV2.getString(16),
+//                                curCSV2.getString(17),
+//                                curCSV2.getString(18),
+//                                curCSV2.getString(19),
+//                                curCSV2.getString(20),
+//                                curCSV2.getString(21),
+//                                curCSV2.getString(22),
+//                                curCSV2.getString(23),
+//                                curCSV2.getString(24),
+//                                curCSV2.getString(25),
+//                                curCSV2.getString(26),
+//                                curCSV2.getString(27),
+//                                curCSV2.getString(28)
+//
+//
+//
+//
+//                        };
+//                        csvWrite.writeNext(arrStr);
+                        csvWrite.writeNext(rowArray);
 
                     }
 
@@ -929,5 +950,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void showCustomToast(String text){
+        LayoutInflater inflater = getLayoutInflater();
+        View view= inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView textView = (TextView) view.findViewById(R.id.tvCustomToastText);
+        textView.setText(text);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM,0,0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
     }
 }

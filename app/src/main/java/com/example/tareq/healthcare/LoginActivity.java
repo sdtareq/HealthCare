@@ -6,10 +6,14 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -188,11 +192,27 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (userType == null) {
-
-            Toast.makeText(this, "লগইন টাইপ সিলেক্ট করুন ", Toast.LENGTH_SHORT).show();
+            showCustomToast("লগইন টাইপ সিলেক্ট করুন ");
+           // Toast.makeText(this, "লগইন টাইপ সিলেক্ট করুন ", Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
         return valid;
+    }
+
+
+
+    public void showCustomToast(String text){
+        LayoutInflater inflater = getLayoutInflater();
+        View view= inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView textView = (TextView) view.findViewById(R.id.tvCustomToastText);
+        textView.setText(text);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM,0,0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
     }
 }

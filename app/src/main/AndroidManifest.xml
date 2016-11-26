@@ -30,18 +30,18 @@
         </activity>
         <activity
             android:name=".MessageActivity"
-            android:label="মায়েদের মেসেজ দিন" />
+            android:label="মায়েদের মেসেজ দিন" android:icon="@drawable/call_mothers"/>
         <activity android:name=".All_Mother_List_Activity" />
         <activity
             android:name=".ANC_PNC_List_Activity"
-            android:label="মেসেজ দিন" />
-        <activity android:name=".Nutrition_Messages_Activity" />
-        <activity android:name=".MotherRegistrationActivity" />
-        <activity android:name=".AddChildActivity" />
-        <activity android:name=".Mother_Details_Activity" />
-        <activity android:name=".EditMotherActivity" />
-        <activity android:name=".Activity_Sync" />
-        <activity android:name=".ChildFollowUpActivity"></activity>
+            android:label="মেসেজ দিন" android:icon="@drawable/call_mothers"/>
+        <activity android:name=".Nutrition_Messages_Activity" android:icon="@drawable/nutrition_action_bar" />
+        <activity android:name=".MotherRegistrationActivity"  android:icon="@drawable/new_mother2"/>
+        <activity android:name=".AddChildActivity" android:icon="@drawable/call_mothers"/>
+        <activity android:name=".Mother_Details_Activity" android:icon="@drawable/call_mothers" />
+        <activity android:name=".EditMotherActivity" android:icon="@drawable/call_mothers"/>
+        <activity android:name=".Activity_Sync" android:icon="@drawable/basic_cloud"/>
+        <activity android:name=".ChildFollowUpActivity" android:icon="@drawable/call_mothers"/>
     </application>
 
 </manifest>

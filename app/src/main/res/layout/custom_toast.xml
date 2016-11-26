@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/custom_toast_container"
+    app:cardBackgroundColor="#F65314"
+    android:padding="25dp"
+    android:layout_marginBottom="16dp">
+
+
+        <TextView
+            android:id="@+id/tvCustomToastText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="toast"
+            android:textSize="@dimen/tv_header"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textStyle="bold"/>
+
+
+
+
+</android.support.v7.widget.CardView>

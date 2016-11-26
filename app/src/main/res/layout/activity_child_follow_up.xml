@@ -95,8 +95,8 @@
                     <EditText android:id="@+id/etChildWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="বাচ্চার ওজন (Pound)"
+                        android:inputType="numberDecimal"
+                        android:hint="বাচ্চার ওজন (Kg)"
                         android:textSize="@dimen/et_text"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -111,7 +111,7 @@
                     <EditText android:id="@+id/etChildHeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:hint="শিশুর উচ্চতা (cm)"
                         android:textSize="@dimen/et_text"
                         />

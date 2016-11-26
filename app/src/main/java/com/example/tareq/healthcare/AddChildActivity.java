@@ -6,11 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -62,6 +66,7 @@ public class AddChildActivity extends AppCompatActivity {
 
                     db.setPregnancyState(mMotherRowId,MessageActivity.POST_DELIVERY_DB,mChildDateOfBirth);
                     isEdited = true;/////////////////
+                 exitFromActivity();
             }
             });
 
@@ -76,19 +81,23 @@ public class AddChildActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        exitFromActivity();
+
+    }
+
+    public void exitFromActivity(){
         Intent intent = new Intent();//////////////
         intent.putExtra(TAG, isEdited );///////
         setResult(RESULT_OK, intent);//////
 
         finish();
-
     }
 
     private boolean validateChild() {
         boolean valid = true;
         if (mChildDateOfBirth.isEmpty() || mSexOfChild.isEmpty() || etIdNumberOfChild.getText().toString().isEmpty()) {
-
-            Toast.makeText(this, "শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন", Toast.LENGTH_SHORT).show();
+            showCustomToast("শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন");
+          // Toast.makeText(this, "শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন", Toast.LENGTH_SHORT).show();
             valid = false;
 
         }
@@ -111,12 +120,7 @@ public class AddChildActivity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent();//////////////
-                intent.putExtra(TAG, isEdited );///////
-
-                setResult(RESULT_OK, intent);//////
-                finish();
+exitFromActivity();
             }
         });
 
@@ -167,4 +171,17 @@ public class AddChildActivity extends AppCompatActivity {
         }
     }
 
+    public void showCustomToast(String text){
+        LayoutInflater inflater = getLayoutInflater();
+        View view= inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView textView = (TextView) view.findViewById(R.id.tvCustomToastText);
+        textView.setText(text);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM,0,0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
+    }
 }

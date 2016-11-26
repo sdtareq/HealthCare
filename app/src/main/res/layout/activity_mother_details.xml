@@ -396,21 +396,79 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
-            <!-- Container 3
+            <!-- Container 3 -->
             <LinearLayout
                 android:id="@+id/LinearLayout_Container_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:visibility="gone"
+               >
+
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="container 3"/>
+                    android:text="ফলো আপ"
+                    android:textSize="@dimen/tv_body"
+                    android:gravity="center"
+                    android:textStyle="bold"/>
+
+                <!--   Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    >
+                    <EditText android:id="@+id/etFollowUpLastDateOfVisit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:hint="ভিজিটের তারিখ"
+                        android:textSize="@dimen/et_text"
+                        android:focusable="false"
+                        />
+                </android.support.design.widget.TextInputLayout>
+                <!--   Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    >
+                    <EditText android:id="@+id/etFollowUpLastChildWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="বাচ্চার ওজন (Kg)"
+                        android:textSize="@dimen/et_text"
+                        android:focusable="false"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    >
+                    <EditText android:id="@+id/etFollowUpLastChildHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="শিশুর উচ্চতা (cm)"
+                        android:textSize="@dimen/et_text"
+                        android:focusable="false"
+                        />
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
-            -->
+
 
 
             <LinearLayout

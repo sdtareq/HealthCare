@@ -7,12 +7,16 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -53,13 +57,7 @@ public class MotherRegistrationActivity extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   // ===============================================    Back Button on Click
-                Intent intent = new Intent();//////////////
-                intent.putExtra(TAG, isEdited );///////
-
-                setResult(RESULT_OK, intent);//////
-
-
-                finish();
+               exitFromActivity();
                 //   Toast.makeText(getApplicationContext(), "c1: "+etC1.getText().toString()+"  c2:  "+etC2.getText().toString(), Toast.LENGTH_SHORT).show();
 
             }
@@ -81,7 +79,8 @@ public class MotherRegistrationActivity extends AppCompatActivity {
 
                 if (pregnancyState != null && pregnancyState.equals(PREGNANCY_STATE_PREGNANT)) {
                 if (mLmpDateStr.isEmpty()){
-                    Toast.makeText(getApplicationContext(),"মায়ের শেষ মাসিকের প্রথম দিনের তারিখ নির্বাচন করুন",Toast.LENGTH_SHORT).show();
+                    showCustomToast("মায়ের শেষ মাসিকের প্রথম দিনের তারিখ নির্বাচন করুন");
+                    //Toast.makeText(getApplicationContext(),"মায়ের শেষ মাসিকের প্রথম দিনের তারিখ নির্বাচন করুন",Toast.LENGTH_SHORT).show();
                     btn_register.setEnabled(true);
                     return;
                 }
@@ -118,7 +117,7 @@ if (!validateChild()){
                 }
                 // if (pregnancyState != null && pregnancyState.equals("not known")){}
 
-
+exitFromActivity();
             }
         });
 
@@ -127,18 +126,21 @@ if (!validateChild()){
     @Override
     public void onBackPressed() {
 
+        exitFromActivity();
+
+    }
+    public void exitFromActivity(){
         Intent intent = new Intent();//////////////
         intent.putExtra(TAG, isEdited );///////
         setResult(RESULT_OK, intent);//////
 
         finish();
-
     }
     private boolean validate() {
         boolean valid = true;
         if (etMotherName.getText().toString().isEmpty() || pregnancyState == null) {
-
-            Toast.makeText(this, "মায়ের নাম এবং মা প্রেগন্যান্ট অথবা শিশুর জন্ম হয়েছে নির্বাচন করুন", Toast.LENGTH_SHORT).show();
+            showCustomToast("মায়ের নাম এবং মা  র্গভবতী অথবা শিশুর জন্ম হয়েছে নির্বাচন করুন");
+            //Toast.makeText(this, "মায়ের নাম এবং মা প্রেগন্যান্ট অথবা শিশুর জন্ম হয়েছে নির্বাচন করুন", Toast.LENGTH_SHORT).show();
             valid = false;
 
         }
@@ -148,11 +150,16 @@ if (!validateChild()){
 
     private boolean validateChild() {
         boolean valid = true;
-        if (mChildDateOfBirth.isEmpty() || sexOfChild.isEmpty() || etIdNumberOfChild.getText().toString().isEmpty()) {
-
-            Toast.makeText(this, "শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন", Toast.LENGTH_SHORT).show();
+        if (mChildDateOfBirth.isEmpty() || sexOfChild.isEmpty()){ //|| etIdNumberOfChild.getText().toString().isEmpty()) {
+            showCustomToast("শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন ");
+            //showCustomToast("শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন");
+            //Toast.makeText(this, "শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন", Toast.LENGTH_SHORT).show();
             valid = false;
 
+        }
+
+        if ( etIdNumberOfChild.getText().toString().isEmpty()){
+            etIdNumberOfChild.setError("শিশুর আইডি নাম্বার নির্বাচন করুন");
         }
 
         return valid;
@@ -358,6 +365,20 @@ if (!validateChild()){
                     desiredCallingTime = DESIRE_CALLING_TIME_EVENING;
                 break;
         }
+    }
+
+    public void showCustomToast(String text){
+        LayoutInflater inflater = getLayoutInflater();
+        View view= inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView textView = (TextView) view.findViewById(R.id.tvCustomToastText);
+        textView.setText(text);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM,0,0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
     }
 
 }

@@ -1,37 +1,58 @@
 package com.example.tareq.healthcare;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.nfc.Tag;
+import android.os.Environment;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tareq.volleymultipart.AppHelper;
+import com.example.tareq.volleymultipart.VolleyMultipartRequest;
+import com.example.tareq.volleymultipart.VolleySingleton;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 public class Activity_Sync extends AppCompatActivity {
     final static String TAG  = "Activity_Sync";
-    Button btnSync,btnShow;
+    Button btnSync,btnShow,btn_parse_csv,btn_send_file;
     TextView tvSync;
     RequestQueue requestQueue;
     //String insertUrl = "http://10.0.3.2/sync/hello.php";
     // String insertUrl = "http://10.0.3.2/sync/show.php";
      String insertUrl = "http://10.0.3.2/sync/insertStudent.php";
+     String uploadFileUrl = "http://10.0.3.2/sync/upload.php";
 
     //String showUrl = "http://localhost/sync/insertStudent.php/";
     String showUrl = "http://10.0.3.2/sync/log_data.txt";
@@ -150,7 +171,7 @@ public class Activity_Sync extends AppCompatActivity {
 //                }){
 //                    @Override
 //                    public String getBodyContentType() {
-//                        return "application/json; charset=utf-8";
+//                        return "application/json; charset=utf-8";  /////////////////////////////////////////////
 //                    }
 //
 //                    @Override
@@ -242,7 +263,9 @@ public class Activity_Sync extends AppCompatActivity {
                     protected Map<String, String> getParams()
                     {
                         Map<String, String> params = new HashMap<String, String>();
-                        params.put("firstname", "test insersion");
+                        params.put("firstname", "rohim");
+                        params.put("lastname", "sadek");
+                        params.put("age", "20");
                         return params;
                     }
                 };
@@ -253,11 +276,123 @@ public class Activity_Sync extends AppCompatActivity {
         });
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        btn_parse_csv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String[]>  csvList ;
+                    csvList = readCsv(Activity_Sync.this);
+                for (String[] row: csvList
+                     ) {
+                    for (int i = 0; i<row.length;i++){
+                    Log.d(TAG, "=========" + row[i]+"   ");}
+                }
+
+            }
+        });
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        btn_send_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, uploadFileUrl, new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        String resultResponse = new String(response.data);
+                    tvSync.setText(resultResponse);
+                        // parse success output
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("api_token", "gh659gjhvdyudo973823tt9gvjf7i6ric75r76");
+                        params.put("name", "Angga");
+                        params.put("location", "Indonesia");
+                        params.put("about", "UI/UX Designer");
+                        params.put("contact", "angga@email.com");
+                        return params;
+                    }
+
+                    @Override
+                    protected Map<String, DataPart> getByteData() throws FileNotFoundException {
+                        Map<String, DataPart> params = new HashMap<>();
+                        // file name could found file base or direct access from real path
+                        // for now just get bitmap data from ImageView
+
+                        File data = Environment.getDataDirectory();
+                        String currentDBPath =  "/data/"+ "com.example.tareq.healthcare" +"/databases/"+DatabaseHelper.DATABASE_NAME;
+                        File currentDB = new File(data, currentDBPath);
+
+                        byte[] byteArray = new byte[(int)currentDB.length()];
+                        FileInputStream inputStream = new FileInputStream(currentDB);
+                        try {
+                            inputStream.read(byteArray);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        params.put("uploaded_file", new DataPart(DatabaseHelper.DATABASE_NAME,byteArray,"application/x-sqlite3") );
+                       // params.put("cover", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), mCoverImage.getDrawable()), "image/jpeg"));
+
+                        return params;
+                    }
+                };
+
+                VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+
+
+
+
+
+
+
+            }
+        });
 
 
 
     }
+
+    public final List<String[]> readCsv(Context context) {
+        List<String[]> questionList = new ArrayList<String[]>();
+        AssetManager assetManager = context.getAssets();
+        File sd = Environment.getExternalStorageDirectory();
+        File directory = new File(sd.getAbsolutePath() + "/Health Care/HC_Follow_Up_21-11-2016.csv");//=================== Name of the Folder
+        String path = directory.getAbsolutePath() ;
+        //File myfile =  new File("/sdcard/Health Care/HC_Follow_Up_21-11-2016.csv");
+
+Log.d(TAG,"========== path "+path);
+        try {
+            FileInputStream csvStream = new FileInputStream(directory); //assetManager.open(path);
+            BufferedReader csvStreamReader = new BufferedReader(new InputStreamReader(csvStream));
+            CSVReader csvReader = new CSVReader(csvStreamReader);
+            String[] line;
+
+            // throw away the header
+            csvReader.readNext();
+
+            while ((line = csvReader.readNext()) != null) {
+                questionList.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return questionList;
+    }
+
+
+
+
+
 
     private void process_logData(String log_dataString) throws JSONException {
 
@@ -270,11 +405,14 @@ public class Activity_Sync extends AppCompatActivity {
         JSONObject jsonObjectRowsAll = jsonObject.getJSONObject("rowsAll");
 
         String motherTable =  jsonObjectRowsAll.getString(DatabaseHelper.TABLE_MOTHER);
-        String messageTable = jsonObjectRowsAll.getString(DatabaseHelper.TABLE_MESSAGE_DELIVERY);
+        String ancPncMessageTable = jsonObjectRowsAll.getString(DatabaseHelper.TABLE_ANC_PNC_MSG);
+        String deliveryAndChildMessageTable = jsonObjectRowsAll.getString(DatabaseHelper.TABLE_DELIVERY_AND_CHILD_MSG);
         String childTable =   jsonObjectRowsAll.getString(DatabaseHelper.TABLE_CHILD);
+        //String childTable =   jsonObjectRowsAll.getString(DatabaseHelper.TABLE_CHILD);
 
         Log.d(TAG,"============= mother  "+ motherTable);
-        Log.d(TAG,"============= message  "+ messageTable);
+        Log.d(TAG,"============= message  "+ ancPncMessageTable);
+        Log.d(TAG,"============= message  "+ deliveryAndChildMessageTable);
         Log.d(TAG,"============= child  "+ childTable);
 
 
@@ -316,8 +454,8 @@ public class Activity_Sync extends AppCompatActivity {
         btnSync= (Button) findViewById(R.id.btnSync);
         btnShow = (Button) findViewById(R.id.btnShow);
                 tvSync= (TextView) findViewById(R.id.tvSync);
-
-
+        btn_parse_csv = (Button) findViewById(R.id.btn_parse_csv);
+        btn_send_file = (Button) findViewById(R.id.btn_send_file);
 
 
     }

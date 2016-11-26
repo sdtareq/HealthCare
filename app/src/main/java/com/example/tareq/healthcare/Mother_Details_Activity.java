@@ -8,15 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 public class Mother_Details_Activity extends AppCompatActivity {
     protected static final String TAG = "MotherDetailsActivity";
 
 
     EditText etMotherName, etHusbandName, etMotherAge, etPhoneNumber, etAddress, et_GIS_location, etAlternativePhoneNumber, etAlternativePhoneOwnerName, etDHIS_ID, etLMP;
-    EditText etChildName, etChildDateOfBirth, etChildBirthWeight, etIdNumberOfChild;
-    LinearLayout linearLayout_container_1, linearLayout_container_2, linearLayout_cotainer_3;
+    EditText etChildName, etChildDateOfBirth, etChildBirthWeight, etIdNumberOfChild,etFollowUpLastDateOfVisit,etFollowUpLastChildWeight,etFollowUpLastChildHeight;
+    LinearLayout linearLayout_container_1, linearLayout_container_2, linearLayout_container_3;
     Button btn_cancel ;
     RadioButton rbDesireTime_Morning,rbDesireTime_Noon,rbDesireTime_Evening,rbMaleChild,rbFemaleChild ;
     int mYear, mMonth, mDay;
@@ -34,6 +33,22 @@ public class Mother_Details_Activity extends AppCompatActivity {
         Mother mother = (Mother) getIntent().getSerializableExtra(TAG);
         //Toast.makeText(this,mother.getMotherName(),Toast.LENGTH_SHORT).show();
         init();
+
+        if (mother.getChild() != null){
+            DatabaseHelper db = new DatabaseHelper(this);
+            Child child = db.getLastFollowUp(mother.getMotherRowPrimaryKey());
+
+            if (child.getChildDateOfVisit() != null){
+                linearLayout_container_3.setVisibility(View.VISIBLE);
+                etFollowUpLastDateOfVisit.setText(child.getChildDateOfVisit());
+                etFollowUpLastChildWeight.setText(child.getChildWeight());
+                etFollowUpLastChildHeight.setText(child.getChildHeight());
+            }
+
+
+
+        }
+
 
 
 
@@ -116,11 +131,15 @@ rbDesireTime_Evening.setChecked(true);
 
         linearLayout_container_1 = (LinearLayout) findViewById(R.id.LinearLayout_Container_1);
         linearLayout_container_2 = (LinearLayout) findViewById(R.id.LinearLayout_Container_2);
+        linearLayout_container_3 = (LinearLayout) findViewById(R.id.LinearLayout_Container_3);
 
         etChildName        = (EditText) findViewById(R.id.etChildName);
         etChildDateOfBirth = (EditText) findViewById(R.id.etChildDateOfBirth);
         etChildBirthWeight = (EditText) findViewById(R.id.etChildBirthWeight);
         etIdNumberOfChild  = (EditText) findViewById(R.id.etIdNumberOfChild);
+        etFollowUpLastDateOfVisit = (EditText) findViewById(R.id.etFollowUpLastDateOfVisit);
+        etFollowUpLastChildHeight = (EditText) findViewById(R.id.etFollowUpLastChildHeight);
+        etFollowUpLastChildWeight = (EditText) findViewById(R.id.etFollowUpLastChildWeight);
 
 
     }

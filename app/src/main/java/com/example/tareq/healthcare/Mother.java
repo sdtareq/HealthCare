@@ -9,7 +9,16 @@ import java.util.List;
  * Created by TAREQ on 10/25/2016.
  */
 public class Mother implements Serializable {
+    String loginUserName;
     String motherRowPrimaryKey;
+    String anc_pnc_msg_column_id;
+    String anc_pnc_msg_sync_status;
+    String anc_pnc_msg_timeStamp;
+    String delivery_and_child_msg_column_id;
+    String delivery_and_child_msg_sync_status;
+    String delivery_and_child_msg_timeStamp;
+
+
 //  MOTHER
     String motherName;
     String husbandName;
@@ -516,5 +525,61 @@ public class Mother implements Serializable {
 
     public void setMotherEDD(String motherEDD) {
         this.motherEDD = motherEDD;
+    }
+
+    public String getLoginUserName() {
+        return loginUserName;
+    }
+
+    public void setLoginUserName(String loginUserName) {
+        this.loginUserName = loginUserName;
+    }
+
+    public String getAnc_pnc_msg_column_id() {
+        return anc_pnc_msg_column_id;
+    }
+
+    public void setAnc_pnc_msg_column_id(String anc_pnc_msg_column_id) {
+        this.anc_pnc_msg_column_id = anc_pnc_msg_column_id;
+    }
+
+    public String getDelivery_and_child_msg_column_id() {
+        return delivery_and_child_msg_column_id;
+    }
+
+    public void setDelivery_and_child_msg_column_id(String delivery_and_child_msg_column_id) {
+        this.delivery_and_child_msg_column_id = delivery_and_child_msg_column_id;
+    }
+
+    public String getAnc_pnc_msg_sync_status() {
+        return anc_pnc_msg_sync_status;
+    }
+
+    public void setAnc_pnc_msg_sync_status(String anc_pnc_msg_sync_status) {
+        this.anc_pnc_msg_sync_status = anc_pnc_msg_sync_status;
+    }
+
+    public String getDelivery_and_child_msg_sync_status() {
+        return delivery_and_child_msg_sync_status;
+    }
+
+    public void setDelivery_and_child_msg_sync_status(String delivery_and_child_msg_sync_status) {
+        this.delivery_and_child_msg_sync_status = delivery_and_child_msg_sync_status;
+    }
+
+    public String getAnc_pnc_msg_timeStamp() {
+        return anc_pnc_msg_timeStamp;
+    }
+
+    public void setAnc_pnc_msg_timeStamp(String anc_pnc_msg_timeStamp) {
+        this.anc_pnc_msg_timeStamp = anc_pnc_msg_timeStamp;
+    }
+
+    public String getDelivery_and_child_msg_timeStamp() {
+        return delivery_and_child_msg_timeStamp;
+    }
+
+    public void setDelivery_and_child_msg_timeStamp(String delivery_and_child_msg_timeStamp) {
+        this.delivery_and_child_msg_timeStamp = delivery_and_child_msg_timeStamp;
     }
 }

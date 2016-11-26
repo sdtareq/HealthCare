@@ -17,9 +17,11 @@ public class Child implements Serializable {
     childId,
     idNumberOfChild,
     childAge,
+    childFollowUpColumnId,
     childWeight,
     childHeight,
-    childDateOfVisit;
+    childDateOfVisit,
+    childFollowUpSyncStatus ;
 
 
 
@@ -172,5 +174,21 @@ public class Child implements Serializable {
 
     public void setChildDateOfVisit(String childDateOfVisit) {
         this.childDateOfVisit = childDateOfVisit;
+    }
+
+    public String getChildFollowUpColumnId() {
+        return childFollowUpColumnId;
+    }
+
+    public void setChildFollowUpColumnId(String childFollowUpColumnId) {
+        this.childFollowUpColumnId = childFollowUpColumnId;
+    }
+
+    public String getChildFollowUpSyncStatus() {
+        return childFollowUpSyncStatus;
+    }
+
+    public void setChildFollowUpSyncStatus(String childFollowUpSyncStatus) {
+        this.childFollowUpSyncStatus = childFollowUpSyncStatus;
     }
 }

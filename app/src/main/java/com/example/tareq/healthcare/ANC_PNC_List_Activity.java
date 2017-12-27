@@ -19,6 +19,8 @@ import java.util.List;
 public class ANC_PNC_List_Activity extends AppCompatActivity {
     final static String TAG = "ANC_PNC_List_Activity";
     final static String LIST_STATE_KEY = "recycler_state";
+    final static String MOTHER_PRIMARY_KEY = "mother_primary_key";
+    final static String MOTHER_PRIMARY_KEY_NOT_AVAILABLE = "mother_key_not_available";
     final static String DESIRE_CALLING_TIME_MORNING = "সকাল";
     final static String DESIRE_CALLING_TIME_NOON = "দুপুর ";
     final static String DESIRE_CALLING_TIME_EVENING = "সন্ধ্যা ";
@@ -29,6 +31,7 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
     static String ANC_PNC_STATE;
     TextView tvTitle;
     String healthServiceName = "";
+    String motherPrimaryKey = "";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -45,6 +48,8 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
         if (savedInstanceState != null) {
             healthServiceName = savedInstanceState.getString(TAG);
             ANC_PNC_STATE= healthServiceName;
+
+           motherPrimaryKey = savedInstanceState.getString(MOTHER_PRIMARY_KEY);
         }
 
         init();
@@ -59,6 +64,16 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
     private void init() {
         progressDialog =
                 new ProgressDialog(ANC_PNC_List_Activity.this);
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null){
+            if (extras.containsKey(MOTHER_PRIMARY_KEY)){
+                motherPrimaryKey = extras.getString(MOTHER_PRIMARY_KEY);
+            }else {
+                motherPrimaryKey = MOTHER_PRIMARY_KEY_NOT_AVAILABLE;
+            }
+        }
+
         healthServiceName = getIntent().getStringExtra(MessageActivity.HEALTH_SEARVICE_NAME); //========================== init service name;
         tvTitle = (TextView) findViewById(R.id.tvListTitle);
 
@@ -98,6 +113,12 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(TAG,healthServiceName);
+        if (!motherPrimaryKey.isEmpty()){
+            outState.putString(MOTHER_PRIMARY_KEY,motherPrimaryKey);
+        }else {
+            outState.putString(MOTHER_PRIMARY_KEY,MOTHER_PRIMARY_KEY_NOT_AVAILABLE);
+            Log.d(TAG, "================ Mother primary key is null");
+        }
 
         mListState = mLayoutManager.onSaveInstanceState();// Save list state
         outState.putParcelable(LIST_STATE_KEY,mListState);
@@ -128,15 +149,7 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
 
     }
 
-    //    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        if (healthServiceName != null) {
-//            new HeavyTaskExecutor().execute();
-//        }
-//
-//        Toast.makeText(getApplicationContext(),"health service name: "+ healthServiceName,Toast.LENGTH_SHORT).show();
-//    }
+
 
     @Override
     protected void onPause() {
@@ -177,7 +190,7 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
 
             // Map<String, Integer> allStat = new HashMap<>();
 
-            GroupMother groupMother = new GroupMother();
+            GroupMother groupMother = new GroupMother(ANC_PNC_List_Activity.this);
 
 
 
@@ -194,12 +207,56 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
                    motherList.addAll(anc4);
                }
 
+                /////////////////////////////////
+                if (!motherList.isEmpty()  && !motherPrimaryKey.equals(MOTHER_PRIMARY_KEY_NOT_AVAILABLE)){
+                    Mother theMother = null;
+                    for (Mother aMother: motherList
+                         ) {
+                        if (aMother.getMotherRowPrimaryKey().equals(motherPrimaryKey)){
+                          theMother = aMother;
+                            break;
+                        }
+                    }
+
+                    if (theMother != null){
+                        motherList.clear();
+                        motherList.add(theMother);
+                    }
+
+
+                }
+
+                ////////////////////////////////////////////////
+
             }else if (healthServiceName.equals(GroupMother.CHILD_CARE_MESSAGE_STATUS) ||  healthServiceName.equals(GroupMother.PNC)){
                 groupMother.filterMothersHavingChild(db.getAllMotherswithChild());
                 if (groupMother.allGroupMap.get(healthServiceName) != null) {
 
                     motherList = groupMother.allGroupMap.get(healthServiceName);
                 }
+
+                /////////////////////////////////
+                if (!motherList.isEmpty()  && !motherPrimaryKey.equals(MOTHER_PRIMARY_KEY_NOT_AVAILABLE)){
+                    Mother theMother = null;
+                    for (Mother aMother: motherList
+                            ) {
+                        if (aMother.getMotherRowPrimaryKey().equals(motherPrimaryKey)){
+                            theMother = aMother;
+                            break;
+                        }
+                    }
+
+                    if (theMother != null){
+                        motherList.clear();
+                        motherList.add(theMother);
+                    }
+
+
+                }
+
+                ////////////////////////////////////////////////
+
+
 
             } else {
                 groupMother.doGrouping(db.getAllMothers()); //------------------------ Grouping list of mothers
@@ -208,10 +265,30 @@ public class ANC_PNC_List_Activity extends AppCompatActivity {
                     motherList = groupMother.allGroupMap.get(healthServiceName);
                 }
 
+                /////////////////////////////////
+                if (!motherList.isEmpty()  && !motherPrimaryKey.equals(MOTHER_PRIMARY_KEY_NOT_AVAILABLE)){
+                    Mother theMother = null;
+                    for (Mother aMother: motherList
+                            ) {
+                        if (aMother.getMotherRowPrimaryKey().equals(motherPrimaryKey)){
+                            theMother = aMother;
+                            break;
+                        }
+                    }
+
+                    if (theMother != null){
+                        motherList.clear();
+                        motherList.add(theMother);
+                    }
+
+
+                }
+
+                ////////////////////////////////////////////////
             }
 
             Log.d(TAG, "=============== mother list size  " + motherList.size());
-            if (motherList.size() > 0) {
+            if (motherList.size() > 1) {
                 Collections.sort(motherList, Mother.motherNameComparator);
             }
 

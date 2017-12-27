@@ -107,12 +107,7 @@ public class EditMotherActivity extends AppCompatActivity {
             public void onClick(View v) {   // ===============================================    Back Button on Click
 
                  exitFromActivity();
-//                if (mLmpDateStr == null){
-//                    Toast.makeText(getApplicationContext(), mother.getLastMenstruationDate(), Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(getApplicationContext(),"not null "+mother.getLastMenstruationDate(), Toast.LENGTH_SHORT).show();
-//                }
-//                Toast.makeText(getApplicationContext(), "mLmpDataStr: "+ mLmpDateStr, Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -148,6 +143,7 @@ public class EditMotherActivity extends AppCompatActivity {
                             et_GIS_location.getText().toString(),etAlternativePhoneNumber.getText().toString(),etAlternativePhoneOwnerName.getText().toString(),etDHIS_ID.getText().toString(),mLmpDateStr,
                             pregnancyState);
                     _mother.setMotherRowPrimaryKey(mother.getMotherRowPrimaryKey());
+                    _mother.setLoginUserName(((MyApplication)EditMotherActivity.this.getApplication()).getLoginUserName());
                     DatabaseHelper db = new DatabaseHelper(EditMotherActivity.this);   // store in db)
                   //  db.registerMother(mother);
 
@@ -164,6 +160,7 @@ public class EditMotherActivity extends AppCompatActivity {
                             pregnancyState,child);
                     _mother.setDeliveryDate(mChildDateOfBirth);
                     _mother.setMotherRowPrimaryKey(mother.getMotherRowPrimaryKey());
+                    _mother.setLoginUserName(((MyApplication)EditMotherActivity.this.getApplication()).getLoginUserName());
 
 
                     DatabaseHelper db = new DatabaseHelper(EditMotherActivity.this);   // store in db)
@@ -212,26 +209,7 @@ public class EditMotherActivity extends AppCompatActivity {
         etEDD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //To show current date in the datepicker
-//                Calendar mcurrentDate = Calendar.getInstance();
-//                mYear = mcurrentDate.get(Calendar.YEAR);
-//                mMonth = mcurrentDate.get(Calendar.MONTH);
-//                mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-//                String lmp = mother.getLastMenstruationDate();//=====================
-//                DateFormat formate = new SimpleDateFormat("dd/MM/yyyy");
-//                Calendar calender = Calendar.getInstance();
-//
-//                Date lmpDate = null;
-//                try {
-//                    lmpDate = formate.parse(lmp);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                calender.setTime(lmpDate);
-//                calender.add(Calendar.DATE, + 280);
-//                Date probableEDD = calender.getTime();
-//                formate.format(probableEDD); //===========================
+
 
 
 
@@ -260,13 +238,7 @@ public class EditMotherActivity extends AppCompatActivity {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-//                        Date date = new Date();
-//                        final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-//                        if (futureDate != null) {
-//                            //int diffInDays = (int) ((date.getTime() - oldDate.getTime()) / DAY_IN_MILLIS);
-//                            int diffInDays = (int) ((date.getTime() - oldDate.getTime()) / DAY_IN_MILLIS);
-//                            //mother.setDaysOnPregnancy(diffInDays);
-//                        }
+
                         Calendar calender = Calendar.getInstance();
                         calender.setTime(futureDate);
                         calender.add(Calendar.DATE, - 280);
@@ -286,10 +258,7 @@ public class EditMotherActivity extends AppCompatActivity {
         etChildDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Calendar mcurrentDate = Calendar.getInstance();
-//                mYear = mcurrentDate.get(Calendar.YEAR);
-//                mMonth = mcurrentDate.get(Calendar.MONTH);
-//                mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
 
 
                 String childDateOfBirh = mother.getDeliveryDate();
@@ -361,8 +330,9 @@ public class EditMotherActivity extends AppCompatActivity {
                 etChildBirthWeight.setText(mother.getChild().getChildBirthWeight());
             }
             if (mother.getChild().getIdNumberOfChild() != null) {
+                etIdNumberOfChild.setText(mother.getChild().getIdNumberOfChild());
             }
-            etIdNumberOfChild.setText(mother.getChild().getIdNumberOfChild());
+
             if (mother.getChild().sexOfChild != null && mother.getChild().sexOfChild.equals(MotherRegistrationActivity.SEX_OF_CHILD_MALE)) {
                 rbMaleChild.setChecked(true);
             }
@@ -464,15 +434,7 @@ public class EditMotherActivity extends AppCompatActivity {
                 linearLayout_container_2.setVisibility(View.VISIBLE);
                 //   linearLayout_container_3.setVisibility(View.GONE);
                 break;
-//            case R.id.rbNotKnown:
-//                if (checked)
-//                   // userType = "type 3";
-            //pregnancyState = "not known";
-//                    //Toast.makeText(this, "type 1", Toast.LENGTH_SHORT).show();
-//                linearLayout_container_1.setVisibility(View.GONE);
-//                linearLayout_container_2.setVisibility(View.GONE);
-//                linearLayout_container_3.setVisibility(View.VISIBLE);
-//                break;
+
             case R.id.rbLMP:
                 if (checked)
                     textInputLayout_LMP.setVisibility(View.VISIBLE);

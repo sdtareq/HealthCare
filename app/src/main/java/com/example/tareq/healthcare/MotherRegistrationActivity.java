@@ -58,7 +58,7 @@ public class MotherRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {   // ===============================================    Back Button on Click
                exitFromActivity();
-                //   Toast.makeText(getApplicationContext(), "c1: "+etC1.getText().toString()+"  c2:  "+etC2.getText().toString(), Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -72,7 +72,7 @@ public class MotherRegistrationActivity extends AppCompatActivity {
 
                 if (!validate()) {
 
-                    //Toast.makeText(getApplicationContext(), "Not Valid Registration", Toast.LENGTH_SHORT).show();
+
                     return;
                 }
                 btn_register.setEnabled(false);
@@ -80,15 +80,16 @@ public class MotherRegistrationActivity extends AppCompatActivity {
                 if (pregnancyState != null && pregnancyState.equals(PREGNANCY_STATE_PREGNANT)) {
                 if (mLmpDateStr.isEmpty()){
                     showCustomToast("মায়ের শেষ মাসিকের প্রথম দিনের তারিখ নির্বাচন করুন");
-                    //Toast.makeText(getApplicationContext(),"মায়ের শেষ মাসিকের প্রথম দিনের তারিখ নির্বাচন করুন",Toast.LENGTH_SHORT).show();
+
                     btn_register.setEnabled(true);
                     return;
                 }
 
 
-                    mother = new Mother(etMotherName.getText().toString(),etHusbandName.getText().toString(),etPhoneNumber.getText().toString(),etMotherAge.getText().toString(),desiredCallingTime,etAddress.getText().toString(),
-                            et_GIS_location.getText().toString(),etAlternativePhoneNumber.getText().toString(),etAlternativePhoneOwnerName.getText().toString(),etDHIS_ID.getText().toString(),mLmpDateStr,
-                            pregnancyState);
+                    mother = new Mother(etMotherName.getText().toString(),etHusbandName.getText().toString(),etPhoneNumber.getText().toString(),etMotherAge.getText().toString(),
+                            desiredCallingTime,etAddress.getText().toString(), et_GIS_location.getText().toString(),etAlternativePhoneNumber.getText().toString(),
+                            etAlternativePhoneOwnerName.getText().toString(),etDHIS_ID.getText().toString(),mLmpDateStr,pregnancyState);
+                    mother.setLoginUserName(MainActivity.user_name);
 
                     DatabaseHelper db = new DatabaseHelper(MotherRegistrationActivity.this);   // store in db)
                     db.registerMother(mother);
@@ -109,6 +110,7 @@ if (!validateChild()){
                             et_GIS_location.getText().toString(),etAlternativePhoneNumber.getText().toString(),etAlternativePhoneOwnerName.getText().toString(),etDHIS_ID.getText().toString(),mLmpDateStr,
                             pregnancyState,child);
                     mother.setDeliveryDate(mChildDateOfBirth);
+                    mother.setLoginUserName(MainActivity.user_name);
 
 
                     DatabaseHelper db = new DatabaseHelper(MotherRegistrationActivity.this);   // store in db)
@@ -139,8 +141,15 @@ exitFromActivity();
     private boolean validate() {
         boolean valid = true;
         if (etMotherName.getText().toString().isEmpty() || pregnancyState == null) {
-            showCustomToast("মায়ের নাম এবং মা  র্গভবতী অথবা শিশুর জন্ম হয়েছে নির্বাচন করুন");
-            //Toast.makeText(this, "মায়ের নাম এবং মা প্রেগন্যান্ট অথবা শিশুর জন্ম হয়েছে নির্বাচন করুন", Toast.LENGTH_SHORT).show();
+
+            if (etMotherName.getText().toString().isEmpty()){
+                showCustomToast("মায়ের নাম নির্বাচন করুন");
+                etMotherName.setError("");
+            }else if (pregnancyState == null){
+                showCustomToast("মা  র্গভবতী অথবা শিশুর জন্ম হয়েছে নির্বাচন করুন");
+
+            }
+
             valid = false;
 
         }
@@ -151,16 +160,18 @@ exitFromActivity();
     private boolean validateChild() {
         boolean valid = true;
         if (mChildDateOfBirth.isEmpty() || sexOfChild.isEmpty()){ //|| etIdNumberOfChild.getText().toString().isEmpty()) {
-            showCustomToast("শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন ");
-            //showCustomToast("শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন");
-            //Toast.makeText(this, "শিশুর জন্ম তারিখ এবং শিশুটি ছেলে না মেয়ে নির্বাচন করুন এবং শিশুর আইডি নাম্বার নির্বাচন করুন", Toast.LENGTH_SHORT).show();
+
+            if (mChildDateOfBirth.isEmpty() ){
+                showCustomToast("শিশুর জন্ম তারিখ নির্বাচন করুন ");
+            }else if (sexOfChild.isEmpty()){
+                showCustomToast("শিশুটি ছেলে না মেয়ে নির্বাচন করুন ");
+            }
+
             valid = false;
 
         }
 
-        if ( etIdNumberOfChild.getText().toString().isEmpty()){
-            etIdNumberOfChild.setError("শিশুর আইডি নাম্বার নির্বাচন করুন");
-        }
+
 
         return valid;
     }
@@ -193,9 +204,7 @@ exitFromActivity();
         etChildBirthWeight = (EditText) findViewById(R.id.etChildBirthWeight);
         etIdNumberOfChild = (EditText) findViewById(R.id.etIdNumberOfChild);
 
-        //temp
-        //etC1 = (EditText) findViewById(R.id.etContainer_1);
-        //etC2 = (EditText) findViewById(R.id.etContainer_2);
+
 
         etLMP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,9 +241,7 @@ exitFromActivity();
                 DatePickerDialog mDatePicker = new DatePickerDialog(MotherRegistrationActivity.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         // TODO Auto-generated method stub
-                       // mLmpDateStr = String.valueOf(selectedday) + "/" + String.valueOf(selectedmonth + 1) + "/" + String.valueOf(selectedyear);
-                        //Toast.makeText(getApplicationContext(),mLmpDateStr,Toast.LENGTH_SHORT).show();
-                       // etLMP.setText("LMP: " + mLmpDateStr);
+
                     String futureDateString =  selectedday+"/"+(selectedmonth+1) + "/"+selectedyear;
                         Date futureDate = null;
                         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -245,13 +252,7 @@ exitFromActivity();
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-//                        Date date = new Date();
-//                        final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-//                        if (futureDate != null) {
-//                            //int diffInDays = (int) ((date.getTime() - oldDate.getTime()) / DAY_IN_MILLIS);
-//                            int diffInDays = (int) ((date.getTime() - oldDate.getTime()) / DAY_IN_MILLIS);
-//                            //mother.setDaysOnPregnancy(diffInDays);
-//                        }
+//
                         Calendar calender = Calendar.getInstance();
                         calender.setTime(futureDate);
                         calender.add(Calendar.DATE, - 280);
@@ -259,7 +260,6 @@ exitFromActivity();
                         String tempDate = dateFormat.format(probableLMP);
                         mLmpDateStr =tempDate;
                         etEDD.setText(futureDateString);
-                        Toast.makeText(getApplicationContext(),mLmpDateStr,Toast.LENGTH_LONG).show();
 
                     }
                 }, mYear, mMonth, mDay);
@@ -318,15 +318,7 @@ exitFromActivity();
                 linearLayout_container_2.setVisibility(View.VISIBLE);
                 //   linearLayout_container_3.setVisibility(View.GONE);
                 break;
-//            case R.id.rbNotKnown:
-//                if (checked)
-//                   // userType = "type 3";
-            //pregnancyState = "not known";
-//                    //Toast.makeText(this, "type 1", Toast.LENGTH_SHORT).show();
-//                linearLayout_container_1.setVisibility(View.GONE);
-//                linearLayout_container_2.setVisibility(View.GONE);
-//                linearLayout_container_3.setVisibility(View.VISIBLE);
-//                break;
+
             case R.id.rbLMP:
                 if (checked)
                     textInputLayout_LMP.setVisibility(View.VISIBLE);

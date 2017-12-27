@@ -73,6 +73,10 @@ public class Mother implements Serializable {
 
 
     String runningHealthService;
+    String runningHealthServiceBangla="";
+    String runningHealthServiceBangla2="";
+
+
     List<String> numberOfHealthServicesReceived = new ArrayList<>();
     int daysOnPregnancy, ageOfChild;
 
@@ -581,5 +585,21 @@ public class Mother implements Serializable {
 
     public void setDelivery_and_child_msg_timeStamp(String delivery_and_child_msg_timeStamp) {
         this.delivery_and_child_msg_timeStamp = delivery_and_child_msg_timeStamp;
+    }
+
+    public String getRunningHealthServiceBangla() {
+        return runningHealthServiceBangla;
+    }
+
+    public void setRunningHealthServiceBangla(String runningHealthServiceBangla) {
+        this.runningHealthServiceBangla = runningHealthServiceBangla;
+    }
+
+    public String getRunningHealthServiceBangla2() {
+        return runningHealthServiceBangla2;
+    }
+
+    public void setRunningHealthServiceBangla2(String runningHealthServiceBangla2) {
+        this.runningHealthServiceBangla2 = runningHealthServiceBangla2;
     }
 }

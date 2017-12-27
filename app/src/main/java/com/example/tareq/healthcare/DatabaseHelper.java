@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by TAREQ on 10/23/2016.
@@ -21,9 +22,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final Context context;
 
     private static final String TAG = "DatabaseHelper";
+    String  syncStatusFalse = "false"; //======================================================================== set Sync Status ------
+    String statusDead = "dead";
 
-
-    private static final int DATABASE_VERSION = 33;
+    private static final int DATABASE_VERSION = 40;
 
 
     // Database Name
@@ -113,10 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     protected static final String CHILD_COLUMN_DATE_OF_BIRTH = "child_date_of_birth";    //----------------------------/5
     protected static final String CHILD_COLUMN_BIRTH_WEIGHT = "child_weight";    //----------------------------/6
     protected static final String CHILD_COLUMN_ID_NUMBER_OF_CHILD = "id_number_of_child";  // ----- 7
-//    private static final String CHILD_COLUMN_IS_CHILD_BORN ="is_child_born";  //----- -------------
-//    private static final String CHILD_COLUMN_CHILD_BIRTHDAY ="child_birthday";  //------ ----- ---
-//    private static final String CHILD_COLUMN_PHONE_NUMBER ="phone_number";  //------ ----- ---
-//    private static final String CHILD_COLUMN_MOTHER_ADDRESS ="mother_address";  //------ ----- ---
+
     //-------------------------  child table  end ------------------------------
 
 
@@ -125,18 +124,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     protected static final String TABLE_CHILD_FOLLOW_UP = "table_child_follow_up";
     protected static final String CHILD_FOLLOW_UP_COL_ID            = "_id";           //----------------------------0
-    protected static final String CHILD_FOLLOW_UP_COL_MOTHER_ID     = "mother_tbl_id";           //----------------------------1
+    protected static final String CHILD_FOLLOW_UP_COL_MOTHER_ID     = "mother_id";           //----------------------------1
     protected static final String CHILD_FOLLOW_UP_COL_MOTHER_NAME   = "child_mother_name";           //----------------------------2
     protected static final String CHILD_FOLLOW_UP_COL_CHILD_NAME    = "child_name"; //----------------------------3
     protected static final String CHILD_FOLLOW_UP_COL_CHILD_TABLE_ID = "child_table_id"; //-------------------------------- ---4
     protected static final String CHILD_FOLLOW_UP_COL_DATE_OF_VISIT = "date_of_visit";    //----------------------------/5
-    protected static final String CHILD_FOLLOW_UP_COL_CHILD_WEIGHT  = "child_weight";    //----------------------------/6
-    protected static final String CHILD_FOLLOW_UP_COL_CHILD_HEIGHT   = "child_height";  // ----- 7
-    protected static final String CHILD_FOLLOW_UP_COL_SYNC_STATUS   = "sync_status";  // ----- 7
-    protected static final String CHILD_FOLLOW_UP_COL_TIMESTAMP ="created_at";  //----- -------------8
-//    private static final String CHILD_COLUMN_CHILD_BIRTHDAY ="child_birthday";  //------ ----- ---
-//    private static final String CHILD_COLUMN_PHONE_NUMBER ="phone_number";  //------ ----- ---
-//    private static final String CHILD_COLUMN_MOTHER_ADDRESS ="mother_address";  //------ ----- ---
+    protected static final String CHILD_FOLLOW_UP_COL_AGE_OF_CHILD_IN_MONTH = "age_of_child_in_month";    //----------------------------/6
+    protected static final String CHILD_FOLLOW_UP_COL_CHILD_WEIGHT  = "child_weight";    //----------------------------/7
+    protected static final String CHILD_FOLLOW_UP_COL_CHILD_HEIGHT   = "child_height";  // ----- 8
+    protected static final String CHILD_FOLLOW_UP_COL_SYNC_STATUS   = "sync_status";  // ----- 9
+    protected static final String CHILD_FOLLOW_UP_COL_TIMESTAMP ="created_at";  //----- -------------10
+
     //-------------------------  child follow up table  end ------------------------------
     //  ====================== All  Tables end ===========================
 
@@ -147,6 +145,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
+
+
 
 //=============================    Constructor end  ================================
 
@@ -196,7 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ANC_PNC_MSG_DELIVERY_COL_IS_PNC_MSG_DELIVERED      + " TEXT , "
                 + ANC_PNC_MSG_DELIVERY_COL_IS_MOTHER_DEAD           + " TEXT , "
                 + ANC_PNC_MSG_DELIVERY_COL_SYNC_STATUS                + " TEXT , "
-                + ANC_PNC_MSG_DELIVERY_COL_TIMESTAMP                 + " DATETIME DEFAULT CURRENT_TIMESTAMP "
+                + ANC_PNC_MSG_DELIVERY_COL_TIMESTAMP                 + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                 + ")";
 
         String CREATE_DELIVERY_AND_CHILD_MESSAGE_TABLE = "CREATE TABLE " + TABLE_DELIVERY_AND_CHILD_MSG    //-------------------   Create Table for DELIVERY AND CHILD MESSAGE
@@ -209,7 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DELIVERY_AND_CHILD_MSG_COL_IS_CHILD_6_TO_8_MONTH_MSG_DELIVERED    + " TEXT , "
                 + DELIVERY_AND_CHILD_MSG_COL_IS_CHILD_9_T0_12_MONTH_MSG_DELIVERED      + " TEXT , "
                 + DELIVERY_AND_CHILD_MSG_COL_SYNC_STATUS                            + " TEXT , "
-                + DELIVERY_AND_CHILD_MSG_COL_TIMESTAMP                              + " DATETIME DEFAULT CURRENT_TIMESTAMP "
+                + DELIVERY_AND_CHILD_MSG_COL_TIMESTAMP                              + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                 + ")";
 
         String CREATE_CHILD_TABLE = "CREATE TABLE " + TABLE_CHILD    //-------------------   Create Table for Child
@@ -233,6 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + CHILD_FOLLOW_UP_COL_CHILD_NAME    +  " TEXT , "
                 + CHILD_FOLLOW_UP_COL_CHILD_TABLE_ID + " TEXT , "
                 + CHILD_FOLLOW_UP_COL_DATE_OF_VISIT      + " TEXT , "
+                + CHILD_FOLLOW_UP_COL_AGE_OF_CHILD_IN_MONTH     + " TEXT , "
                 + CHILD_FOLLOW_UP_COL_CHILD_WEIGHT    + " TEXT , "
                 + CHILD_FOLLOW_UP_COL_CHILD_HEIGHT       + " TEXT ,"
                 + CHILD_FOLLOW_UP_COL_SYNC_STATUS       + " TEXT ,"
@@ -283,29 +284,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void addAdmin() {                                // -------------------================   add admin  start ---------------
 
-        String userName = "admin", userPassword = "admin", userType = "test";
+        //String userName = "admin", userPassword = "admin", userType = "test";
+        List<User> userList = new ArrayList<>();
+
+        userList.add(new User("admin","admin","test"));
+
+        userList.add(new User("1CHCP","1CHCP","CHCP"));
+        userList.add(new User("2CHCP","2CHCP","CHCP"));
+
+        userList.add(new User("1FWA","1FWA","FWA"));
+        userList.add(new User("2FWA","2FWA","FWA"));
+
+        userList.add(new User("1HA","1HA","HA"));
+        userList.add(new User("2HA","2HA","HA"));
 
         SQLiteDatabase db = super.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(USER_COLUMN_NAME, userName);
-        values.put(USER_COLUMN_PASSWORD, userPassword);
-        values.put(USER_COLUMN_TYPE, userType);
+
+        for (User user:userList
+             ) {
+
+            ContentValues values = new ContentValues();
+            values.put(USER_COLUMN_NAME, user.getUserName());
+            values.put(USER_COLUMN_PASSWORD, user.getUserPassword());
+            values.put(USER_COLUMN_TYPE, user.getUserType());
 
 
-        long newRowId = 0;
+            long newRowId = 0;
 
 
-        try {
-            // Inserting Row
-            db.insertOrThrow(TABLE_LOGIN, null, values);
+            try {
+                // Inserting Row
+                db.insertOrThrow(TABLE_LOGIN, null, values);
 
-        } catch (Exception e) {
-
-
-            Log.d(TAG, "Duplicate Primary key at addAdmin()");
+            } catch (Exception e) {
 
 
+                Log.d(TAG, "Duplicate Primary key at addAdmin()");
+
+
+            }
         }
+
         db.close(); // Closing database connection
         Log.d(TAG, "Successfully inserted");
     }                                                   // -------------------=================   add admin end ---------------
@@ -337,6 +356,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return child;
     }
 
+    public boolean isLoginUserTableEmpty(){
+        SQLiteDatabase db = super.getReadableDatabase();
+        String query = "SELECT * FROM "+ TABLE_LOGIN;
+        Cursor cursor = db.rawQuery(query,null);
+
+        if (cursor != null && cursor.moveToFirst()){
+            db.close();
+            Log.d(TAG,"Login Table contains Values");
+            return false;
+        }
+
+        Log.d(TAG, "============= LoginTable Is Empty");
+        db.close();
+        return true;
+    }
     public boolean isMotherTableEmpty() {     // ------------------- ======================= Check mother table is empty or not start ---------------
 
 
@@ -361,16 +395,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
      public void addChildFollowUp(Child child){
 
-         String  childFollowUpTableId = generateUniqueId(),
+         String  childFollowUpTableId,
                  childTableId           = child.getChildId(),
                  childMotherName        = child.getChildMotherName(),
                  childMotherId           = child.getChildMotherTableId(),
                  childName              = child.getChildName(),
                  childDateOfVisit           = child.getChildDateOfVisit(),
+                 childAge                = child.getChildAge(),
                  childWeight            = child.getChildWeight(),
                  childHeight            = child.getChildHeight();
 
-
+if(child.getChildFollowUpColumnId() != null){
+    childFollowUpTableId = child.getChildFollowUpColumnId();
+}else {
+    childFollowUpTableId = generateUniqueId();
+}
 
 
          SQLiteDatabase db = super.getWritableDatabase();
@@ -383,6 +422,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          values.put(CHILD_FOLLOW_UP_COL_CHILD_NAME   , childName       );
          values.put(CHILD_FOLLOW_UP_COL_CHILD_TABLE_ID, childTableId           );
          values.put(CHILD_FOLLOW_UP_COL_DATE_OF_VISIT, childDateOfVisit    );
+         values.put(CHILD_FOLLOW_UP_COL_AGE_OF_CHILD_IN_MONTH, childAge  );
          values.put(CHILD_FOLLOW_UP_COL_CHILD_WEIGHT , childWeight         );
          values.put(CHILD_FOLLOW_UP_COL_CHILD_HEIGHT , childHeight         );
 
@@ -398,6 +438,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
          }
+
+         String whereMother = MOTHER_COLUMN_ID + " =? ";
+         ContentValues valuesMother = new ContentValues();
+         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+         valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
+         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{childMotherId});
+
 
 
          db.close(); // Closing database connection
@@ -423,37 +470,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String DHIS_ID                   = mother.getDHIS_ID();
         String lastMenstruationDate      = mother.getLastMenstruationDate();
         String pregnancyState            = mother.getPregnancyState();
-        String loginUserName            ;
+        String loginUserName            = ((MyApplication)context.getApplicationContext()).getLoginUserName();
         String deliveryDate               ;
-        String syncStatus = "false";
 
 
-//        String motherName = mother.getMotherName(), lastMenstruationDate,
-//                isMessageDelivered, isChildMessageDelivered, isPreDeliveryMessageDelivered, isChildBorn, deliveryDate, pregnancyState, motherPhoneNumber = mother.getMotherPhoneNumber(),
-//                motherAddress = mother.getMotherAddress(), motherAge = mother.getMotherAge();
+        String syncStatus;
+        if(mother.getSyncStatus() != null){
+            syncStatus = mother.getSyncStatus();
+        }else{
+            syncStatus = "false";
+        }
 
-//        if (mother.getIsMessageDelivered() != null) {
-//            isMessageDelivered = mother.getIsMessageDelivered();
-//        } else {
-//            isMessageDelivered = "false";
-//        }
-//
-//        if (mother.getIsChildMessageDelivered() != null) {
-//            isChildMessageDelivered = mother.getIsChildMessageDelivered();
-//        } else {
-//            isChildMessageDelivered = "false";
-//        }
-//        if (mother.getIsPreDelivery_Message_Delivered() != null) {
-//            isPreDeliveryMessageDelivered = mother.getIsPreDelivery_Message_Delivered();
-//        } else {
-//            isPreDeliveryMessageDelivered = "false";
-//        }
-//
-//        if (mother.getIsChildBorn() != null) {
-//            isChildBorn = mother.getIsChildBorn();
-//        } else {
-//            isChildBorn = "false";
-//        }
+
+
+
+
+
 //
         if (mother.getDeliveryDate() != null) {
             deliveryDate = mother.getDeliveryDate();
@@ -468,28 +500,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }else {
             motherRowId = generateUniqueId();
         }
-        if (mother.getLoginUserName() != null){
-            loginUserName = mother.getLoginUserName();
-        }else {
+        if (mother.getLoginUserName()== null){//=========================================================================
             loginUserName = "Empty";
         }
 
 
 //
-//        if (mother.getPregnancyState() != null) {
-//            pregnancyState = mother.getPregnancyState();
-//
-//        } else {
-//            pregnancyState = "false";
-//        }
-//        if (mother.getLastMenstruationDate() != null) {
-//            lastMenstruationDate = mother.getLastMenstruationDate();
-//
-//        } else {
-//            lastMenstruationDate = "false";
-//        }
 
-        // Toast.makeText(context, " phone no "+motherPhoneNumber+"   address: "+motherAddress, Toast.LENGTH_SHORT).show();
 
         SQLiteDatabase db = super.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -515,6 +532,8 @@ if (!motherRowId.isEmpty()){
     values.put(MOTHER_COLUMN_LOGIN_USER_NAME  ,loginUserName  );
     values.put(MOTHER_COLUMN_DELIVERY_DATE  ,deliveryDate  );
     values.put(MOTHER_COLUMN_SYNC_STATUS  ,syncStatus  );
+    values.put(MOTHER_COLUMN_TIMESTAMP  ,getTimeStamp()  );
+
 
 
 
@@ -537,6 +556,7 @@ if (!motherRowId.isEmpty()){
         Log.d(TAG, " ==============  " + loginUserName);
         Log.d(TAG, "  =============  " + deliveryDate);
         Log.d(TAG, " ==============  " + syncStatus);
+        Log.d(TAG, " ==============  " + getTimeStamp());
 
 
         long newRowId = 0;
@@ -597,6 +617,12 @@ if (mother.getMotherRowPrimaryKey() == null){
         return idString;
     }
     // -------------------  generate Unique Id end ---------------
+
+    private String getTimeStamp(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return simpleDateFormat.format(date);
+    }
     // -------------------  add motehr in anc pnc message table start ---------------
     public void add_mother_in_anc_pnc_msg_table(Mother mother){
         String anc_pnc_msg_delivery_col_id;
@@ -609,13 +635,13 @@ if (mother.getMotherRowPrimaryKey() == null){
         String isMotherDead               ;
         String sync_status                ;
 
-        if (mother.getIsANC_1_Message_Delivered()  == null ){ isANC_1_Message_Delivered   = "false";}else {isANC_1_Message_Delivered   = mother.getIsANC_1_Message_Delivered() ;}
-        if (mother.getIsANC_2_Message_Delivered()  == null ){ isANC_2_Message_Delivered   = "false";}else {isANC_2_Message_Delivered   = mother.getIsANC_2_Message_Delivered() ;}
-        if (mother.getIsANC_3_Message_Delivered()  == null ){ isANC_3_Message_Delivered   = "false";}else {isANC_3_Message_Delivered   = mother.getIsANC_3_Message_Delivered() ;}
-        if (mother.getIsANC_4_Message_Delivered()  == null ){ isANC_4_Message_Delivered   = "false";}else {isANC_4_Message_Delivered   = mother.getIsANC_4_Message_Delivered() ;}
-        if (mother.getIsPNC_Message_Delivered()    == null ){ isPNC_Message_Delivered     = "false";}else {isPNC_Message_Delivered     = mother.getIsPNC_Message_Delivered() ;}
-        if (mother.getIsMotherDead()               == null ){ isMotherDead                = "false";}else {isMotherDead                = mother.getIsMotherDead() ;}
-        if (mother.getAnc_pnc_msg_sync_status()    == null ){ sync_status                 = "false";}else {sync_status                 = mother.getAnc_pnc_msg_sync_status() ;}
+        if (mother.getIsANC_1_Message_Delivered()  == null ){ isANC_1_Message_Delivered   = "";}else {isANC_1_Message_Delivered   = mother.getIsANC_1_Message_Delivered() ;}
+        if (mother.getIsANC_2_Message_Delivered()  == null ){ isANC_2_Message_Delivered   = "";}else {isANC_2_Message_Delivered   = mother.getIsANC_2_Message_Delivered() ;}
+        if (mother.getIsANC_3_Message_Delivered()  == null ){ isANC_3_Message_Delivered   = "";}else {isANC_3_Message_Delivered   = mother.getIsANC_3_Message_Delivered() ;}
+        if (mother.getIsANC_4_Message_Delivered()  == null ){ isANC_4_Message_Delivered   = "";}else {isANC_4_Message_Delivered   = mother.getIsANC_4_Message_Delivered() ;}
+        if (mother.getIsPNC_Message_Delivered()    == null ){ isPNC_Message_Delivered     = "";}else {isPNC_Message_Delivered     = mother.getIsPNC_Message_Delivered() ;}
+        if (mother.getIsMotherDead()               == null ){ isMotherDead                = "";}else {isMotherDead                = mother.getIsMotherDead() ;}
+        if (mother.getAnc_pnc_msg_sync_status()    == null ){ sync_status                 = "";}else {sync_status                 = mother.getAnc_pnc_msg_sync_status() ;}
 
 
         if (mother.getAnc_pnc_msg_column_id() == null){
@@ -670,12 +696,12 @@ if (mother.getMotherRowPrimaryKey() == null){
         String isChild_message_delivered_9_to_12_month  ;
         String sync_status                              ;
 
-        if (mother.getIsPreDelivery_Message_Delivered() == null){isPreDelivery_Message_Delivered           = "false"; }else { isPreDelivery_Message_Delivered       =mother.getIsPreDelivery_Message_Delivered() ;}
-        if (mother.getIsChild_message_delivered_0_to_14_days() == null){isChild_message_delivered_0_to_14_days    = "false"; }else { isChild_message_delivered_0_to_14_days       =mother.getIsChild_message_delivered_0_to_14_days() ;}
-        if (mother.getIsChild_message_delivered_1_2_3_month() == null){isChild_message_delivered_1_2_3_month     = "false"; }else { isChild_message_delivered_1_2_3_month        =mother.getIsChild_message_delivered_1_2_3_month() ;}
-        if (mother.getIsChild_message_delivered_6_to_8_month() == null){isChild_message_delivered_6_to_8_month    = "false"; }else { isChild_message_delivered_6_to_8_month       =mother.getIsChild_message_delivered_6_to_8_month() ;}
-        if (mother.getIsChild_message_delivered_9_to_12_month() == null){isChild_message_delivered_9_to_12_month   = "false"; }else { isChild_message_delivered_9_to_12_month      =mother.getIsChild_message_delivered_9_to_12_month() ;}
-        if (mother.getDelivery_and_child_msg_sync_status() == null){sync_status                               = "false"; }else { sync_status                                  =mother.getDelivery_and_child_msg_sync_status() ;}
+        if (mother.getIsPreDelivery_Message_Delivered() == null){isPreDelivery_Message_Delivered                  = ""; }else { isPreDelivery_Message_Delivered       =mother.getIsPreDelivery_Message_Delivered() ;}
+        if (mother.getIsChild_message_delivered_0_to_14_days() == null){isChild_message_delivered_0_to_14_days    = ""; }else { isChild_message_delivered_0_to_14_days       =mother.getIsChild_message_delivered_0_to_14_days() ;}
+        if (mother.getIsChild_message_delivered_1_2_3_month() == null){isChild_message_delivered_1_2_3_month      = ""; }else { isChild_message_delivered_1_2_3_month        =mother.getIsChild_message_delivered_1_2_3_month() ;}
+        if (mother.getIsChild_message_delivered_6_to_8_month() == null){isChild_message_delivered_6_to_8_month    = ""; }else { isChild_message_delivered_6_to_8_month       =mother.getIsChild_message_delivered_6_to_8_month() ;}
+        if (mother.getIsChild_message_delivered_9_to_12_month() == null){isChild_message_delivered_9_to_12_month  = ""; }else { isChild_message_delivered_9_to_12_month      =mother.getIsChild_message_delivered_9_to_12_month() ;}
+        if (mother.getDelivery_and_child_msg_sync_status() == null){sync_status                                   = ""; }else { sync_status                                  =mother.getDelivery_and_child_msg_sync_status() ;}
 
         if (mother.getDelivery_and_child_msg_column_id() == null){
             delivery_and_child_msg_col_id = generateUniqueId();
@@ -730,7 +756,7 @@ if (mother.getMotherRowPrimaryKey() == null){
 
                 idNumberOfChild = child.getIdNumberOfChild();
 
-        if (child.getChildId() == null){
+        if (child.getChildId() != null){
         childColumnId = child.getChildId();
     }else {
             childColumnId = generateUniqueId();
@@ -761,6 +787,12 @@ if (mother.getMotherRowPrimaryKey() == null){
 
         }
 
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{childMotherId});
+        Log.d(TAG, "========== Child mother table id = "+childMotherId);
 
         db.close(); // Closing database connection
         Log.d(TAG, "Child Successfully inserted");
@@ -791,28 +823,67 @@ if (mother.getMotherRowPrimaryKey() == null){
 
 
     public void deleteMother(Mother mother){
-        SQLiteDatabase database = this.getWritableDatabase();
+//        SQLiteDatabase database = this.getWritableDatabase();
+//
+         String motherRowId = mother.getMotherRowPrimaryKey();
+//        Log.d(TAG, "=======================  "+motherRowId);
+//
 
-        String motherRowId = mother.getMotherRowPrimaryKey();
-        Log.d(TAG, "=======================  "+motherRowId);
 
-        database.execSQL("DELETE FROM " + TABLE_MOTHER + " WHERE " + MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
-        database.execSQL("DELETE FROM " + TABLE_ANC_PNC_MSG + " WHERE " + ANC_PNC_MSG_DELIVERY_COL_MOTHER_COLUMN_ID+ " = '" + motherRowId + "'");
-        database.execSQL("DELETE FROM " + TABLE_DELIVERY_AND_CHILD_MSG + " WHERE " + DELIVERY_AND_CHILD_MSG_COL_MOTHER_COLUMN_ID + " = '" + motherRowId + "'");
-        if (mother.getChild() != null){
-            database.execSQL("DELETE FROM " + TABLE_CHILD + " WHERE " + CHILD_COLUMN_MOTHER_ID + "= '" + motherRowId + "'");
-        }
-        //Close the database
-        database.close();
+
+        SQLiteDatabase db = super.getWritableDatabase();
+
+//========================= set sync status false in mother Table
+        String whereMother = MOTHER_COLUMN_ID + " =? ";
+        ContentValues valuesMother = new ContentValues();
+        valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_PREGNANCY_STATE, statusDead );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
+        db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{motherRowId});
+        db.close();
 
 
     }
     // -------------------   update mother end ---------------
+    public void clearChildFollowUpTable(){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL("DELETE FROM " + TABLE_CHILD_FOLLOW_UP  );
+        //Close the database
+        database.close();
+    }
+    public void clearDeliveryAndChildMsgTable(){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL("DELETE FROM " + TABLE_DELIVERY_AND_CHILD_MSG  );
+        //Close the database
+        database.close();
+    }
+    public void clearAncPncMsgTable(){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL("DELETE FROM " + TABLE_ANC_PNC_MSG );
+        //Close the database
+        database.close();
+    }
+    public void clearChildTable(){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL("DELETE FROM " + TABLE_CHILD  );
+        //Close the database
+        database.close();
+    }
+    public void clearMotherTable(){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL("DELETE FROM " + TABLE_MOTHER  );
+        //Close the database
+        database.close();
+    }
+
 
     public boolean isValidUser(User user) {              //  ------------------ Check Valid user or not start----------
         String userName = user.getUserName(),
                 userPassword = user.getUserPassword(),
                 userType = user.getUserType();
+        Log.d(TAG,"============ user name:  "+userName);
+        Log.d(TAG,"============ password:  "+userPassword);
+        Log.d(TAG,"============ user type:  "+userType);
 
         String where = USER_COLUMN_NAME + " =? AND " + USER_COLUMN_PASSWORD + " =? AND " + USER_COLUMN_TYPE + " =? ";
 
@@ -825,10 +896,6 @@ if (mother.getMotherRowPrimaryKey() == null){
             return false;
         }
 
-        if (cursor.moveToFirst()) {
-            MainActivity.user_primary_key = String.valueOf(cursor.getInt(0));
-            MainActivity.user_name = userName;
-        }
 
 
         cursor.close();
@@ -837,7 +904,7 @@ if (mother.getMotherRowPrimaryKey() == null){
     }                                                 //  ------------------ Check Valid user or not  end ----------
 
 
-    public List<Mother> getAllMothers() {                 //  ------------------ get List of All Mothers  start ----------
+                                                                                                                                                                                                                                                 public List<Mother> getAllMothers() {                 //  ------------------ get List of All Mothers  start ----------
         String mother_column_id                     ;
         String motherName                           ;
         String husbandName                          ;
@@ -1109,10 +1176,171 @@ if (mother.getMotherRowPrimaryKey() == null){
         return allMothers;
     }                                                  //  ------------------ get List of All Mothers with Child  end ----------
 
+
+
+
+    public List<Mother> getAllMothersWithOrWithoutChild() {                 //  ------------------ get List of All Mothers  with or without Child start ----------
+        String mother_column_id                     ;
+        String motherName                           ;
+        String husbandName                          ;
+        String motherAge                            ;
+        String motherPhoneNumber                    ;
+        String desiredCallingTime                   ;
+        String motherAddress                        ;
+        String GIS_Location                         ;
+        String alternativePhoneNumber               ;
+        String alternativePhoneOwnerName            ;
+        String DHIS_ID                              ;
+        String lastMenstruationDate                 ;
+        String pregnancyState                       ;
+        String deliveryDate                         ;
+        String loginUserName                        ;
+        String syncStatus                           ;
+        String timeStamp                            ;
+
+
+        String anc_pnc_msg_column_id                     ;
+        String isANC_1_Message_Delivered                 ;
+        String isANC_2_Message_Delivered                 ;
+        String isANC_3_Message_Delivered                 ;
+        String isANC_4_Message_Delivered                 ;
+        String isPNC_Message_Delivered                   ;
+        String isMotherDead                              ;
+        String anc_pnc_msg_sync_status                   ;
+        String anc_pnc_msg_timeStamp                     ;
+
+
+
+        String delivery_and_child_msg_column_id          ;
+        String isPreDelivery_Message_Delivered           ;
+        String isChild_message_delivered_0_to_14_days    ;
+        String isChild_message_delivered_1_2_3_month     ;
+        String isChild_message_delivered_6_to_8_month    ;
+        String isChild_message_delivered_9_to_12_month   ;
+        String delivery_and_child_msg_sync_status        ;
+        String delivery_and_child_msg_timeStamp          ;
+
+
+
+        String  childColumnId                            ;
+        String  childName                                ;
+        String  sexOfChild                               ;
+        String  childDateOfBirth                         ;
+        String  childBirthWeight                         ;
+        String  idNumberOfChild                          ;
+
+
+        List<Mother> allMothers = new ArrayList<>();
+
+//        String selectAllMothersWithChild = "SELECT  * FROM " + TABLE_MOTHER + " INNER JOIN " + TABLE_CHILD + " ON " + TABLE_CHILD + "." + CHILD_COLUMN_MOTHER_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID + " WHERE "
+//                + TABLE_MOTHER + "." + MOTHER_COLUMN_PREGNANCY_STATE + "=?";
+
+        String selectAllMothersWithChild = "SELECT  * FROM " + TABLE_MOTHER + " LEFT JOIN " + TABLE_ANC_PNC_MSG + " ON " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID + " = " + TABLE_ANC_PNC_MSG
+                + "." + ANC_PNC_MSG_DELIVERY_COL_MOTHER_COLUMN_ID + " LEFT JOIN " + TABLE_DELIVERY_AND_CHILD_MSG + " ON " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID + " = " + TABLE_DELIVERY_AND_CHILD_MSG
+                + "." + DELIVERY_AND_CHILD_MSG_COL_MOTHER_COLUMN_ID+ " LEFT JOIN " + TABLE_CHILD + " ON " + TABLE_CHILD + "." + CHILD_COLUMN_MOTHER_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID;
+                //+" WHERE " + TABLE_MOTHER + "." + MOTHER_COLUMN_PREGNANCY_STATE + "=?";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectAllMothersWithChild, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            do {
+//                String motherName, lastMenstruationDate, motherAge, isMessageDelivered, isChildMessageDelivered, isPreDeliveryMessageDelivered, pregnancyState, isChildBorn, childBirthday,
+//                        motherRowPrimaryKey, motherPhoneNumber, motherAddress, childColumnId, childMotherId, childMotherName, childName, sexOfChild, childDateOfBirh, childBirthWeight, idNumberOfChild;
+
+                mother_column_id           = cursor.getString(0 );
+                motherName                 = cursor.getString(1 );
+                husbandName                = cursor.getString(2 );
+                motherAge                  = cursor.getString(3 );
+                motherPhoneNumber          = cursor.getString(4 );
+                desiredCallingTime         = cursor.getString(5 );
+                motherAddress              = cursor.getString(6 );
+                GIS_Location               = cursor.getString(7 );
+                alternativePhoneNumber     = cursor.getString(8 );
+                alternativePhoneOwnerName  = cursor.getString(9 );
+                DHIS_ID                    = cursor.getString(10);
+                lastMenstruationDate       = cursor.getString(11);
+                pregnancyState             = cursor.getString(12);
+                deliveryDate               = cursor.getString(13);
+                loginUserName              = cursor.getString(14);
+                syncStatus                 = cursor.getString(15);
+                timeStamp                  = cursor.getString(16);
+
+                anc_pnc_msg_column_id      = cursor.getString(17) ;
+                isANC_1_Message_Delivered  = cursor.getString(19) ;
+                isANC_2_Message_Delivered  = cursor.getString(20) ;
+                isANC_3_Message_Delivered  = cursor.getString(21) ;
+                isANC_4_Message_Delivered  = cursor.getString(22) ;
+                isPNC_Message_Delivered    = cursor.getString(23) ;
+                isMotherDead               = cursor.getString(24) ;
+                anc_pnc_msg_sync_status    = cursor.getString(25) ;
+                anc_pnc_msg_timeStamp      = cursor.getString(26) ;
+
+                delivery_and_child_msg_column_id        = cursor.getString(27);
+                isPreDelivery_Message_Delivered         = cursor.getString(29);
+                isChild_message_delivered_0_to_14_days  = cursor.getString(30);
+                isChild_message_delivered_1_2_3_month   = cursor.getString(31);
+                isChild_message_delivered_6_to_8_month  = cursor.getString(32);
+                isChild_message_delivered_9_to_12_month = cursor.getString(33);
+                delivery_and_child_msg_sync_status      = cursor.getString(34);
+                delivery_and_child_msg_timeStamp        = cursor.getString(35);
+
+
+                childColumnId                               = cursor.getString(36);
+                childName                                   = cursor.getString(39);
+                sexOfChild                                  = cursor.getString(40);
+                childDateOfBirth                            = cursor.getString(41);
+                childBirthWeight                            = cursor.getString(42);
+                idNumberOfChild                             = cursor.getString(43);
+
+
+
+
+
+                Child child = new Child(motherName, mother_column_id, childName,childDateOfBirth, sexOfChild, childBirthWeight, childColumnId, idNumberOfChild);
+
+                Mother item = new Mother(mother_column_id,motherName,husbandName,motherAge,motherPhoneNumber,desiredCallingTime,motherAddress,GIS_Location,alternativePhoneOwnerName,
+                        alternativePhoneNumber,DHIS_ID,lastMenstruationDate,pregnancyState,deliveryDate,isANC_1_Message_Delivered,isANC_2_Message_Delivered,isANC_3_Message_Delivered,isANC_4_Message_Delivered,
+                        isPreDelivery_Message_Delivered,isPNC_Message_Delivered,isChild_message_delivered_0_to_14_days,isChild_message_delivered_1_2_3_month,isChild_message_delivered_6_to_8_month,
+                        isChild_message_delivered_9_to_12_month,isMotherDead);
+                item.setSyncStatus(syncStatus);
+                item.setTimeStamp(timeStamp);
+                item.setChild(child);
+                item.setLoginUserName(loginUserName)    ;
+                item.setAnc_pnc_msg_column_id(anc_pnc_msg_column_id);
+                item.setAnc_pnc_msg_sync_status(anc_pnc_msg_sync_status);
+                item.setAnc_pnc_msg_timeStamp(anc_pnc_msg_timeStamp);
+                item.setDelivery_and_child_msg_column_id(delivery_and_child_msg_column_id);
+                item.setDelivery_and_child_msg_sync_status(delivery_and_child_msg_sync_status);
+                item.setDelivery_and_child_msg_timeStamp(delivery_and_child_msg_timeStamp);
+
+
+
+                allMothers.add(item);
+
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+
+        return allMothers;
+    }                                                  //  ------------------ get List of All Mothers with or without Child  end ----------
+
+
+
+
+
+
+
+
+
+
     //  ------------------ set message status for a Mothers  start ----------
 
 
-    String syncStatusFalse = "false"; //======================================================================== set Sync Status ------
+
 
 
     public void setMessageStatus(String primaryKey, String status) {
@@ -1148,6 +1376,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1163,6 +1392,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1178,6 +1408,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1193,6 +1424,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1209,6 +1441,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
 
@@ -1229,6 +1462,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
 
@@ -1246,6 +1480,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1262,6 +1497,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1278,6 +1514,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1294,6 +1531,7 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
@@ -1310,158 +1548,13 @@ if (mother.getMotherRowPrimaryKey() == null){
         String whereMother = MOTHER_COLUMN_ID + " =? ";
         ContentValues valuesMother = new ContentValues();
         valuesMother.put(MOTHER_COLUMN_SYNC_STATUS, syncStatusFalse );
+        valuesMother.put(MOTHER_COLUMN_TIMESTAMP, getTimeStamp() );
         db.update(TABLE_MOTHER, valuesMother, whereMother, new String[]{primaryKey});
         db.close();
     }
 
 
 
-
-//    public    HashMap<String ,List<HashMap<String ,String>>> getAllTables(){// =========================== get all tables
-//       // List<HashMap<String,HashMap<String ,String >>> allTableList = new ArrayList<>();
-//         List<HashMap<String, List<HashMap<String,String>>>> allTableList = new ArrayList<>();
-//        //HashMap<String ,List<HashMap<String ,String>>> tableMap = new HashMap<>();
-//        HashMap<String ,List<HashMap<String ,String>>> all_table_map = new LinkedHashMap<>();
-//        List<String> tableName = new ArrayList<>();
-//        SQLiteDatabase database = super.getWritableDatabase();
-//        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-//
-//
-//        if (c.moveToFirst()) {
-//            while ( !c.isAfterLast() ) {
-//
-//                tableName.add(c.getString(0)); // table names
-//
-//                c.moveToNext();
-//            }
-//        }
-////============================================================================================================================================
-//        Cursor cursorMotherTable = database.rawQuery("SELECT * FROM "+tableName.get(2)+" WHERE "
-//                + MOTHER_COLUMN_SYNC_STATUS + "=?", new String[] {"false"});  // mother table
-//        String[] motherColumnNamesArray = cursorMotherTable.getColumnNames();
-//
-//        HashMap<String ,List<HashMap<String ,String>>> table_map = new HashMap<>();
-//        List<HashMap<String ,String>> tableRow = new ArrayList<>();
-//         if (cursorMotherTable.moveToFirst()) {
-//            while ( !cursorMotherTable.isAfterLast() ) {
-//                HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//                colValue.put(motherColumnNamesArray[0], cursorMotherTable.getString(0));
-//                colValue.put(motherColumnNamesArray[1], cursorMotherTable.getString(1));
-//                colValue.put(motherColumnNamesArray[2], cursorMotherTable.getString(2));
-//                colValue.put(motherColumnNamesArray[3], cursorMotherTable.getString(3));
-//                colValue.put(motherColumnNamesArray[4], cursorMotherTable.getString(4));
-//                colValue.put(motherColumnNamesArray[5], cursorMotherTable.getString(5));
-//                colValue.put(motherColumnNamesArray[6], cursorMotherTable.getString(6));
-//                colValue.put(motherColumnNamesArray[7], cursorMotherTable.getString(7));
-//                colValue.put(motherColumnNamesArray[8], cursorMotherTable.getString(8));
-//                colValue.put(motherColumnNamesArray[9], cursorMotherTable.getString(9));
-//                colValue.put(motherColumnNamesArray[10],cursorMotherTable.getString(10));
-//                colValue.put(motherColumnNamesArray[11],cursorMotherTable.getString(11));
-//                colValue.put(motherColumnNamesArray[12],cursorMotherTable.getString(12));
-//                colValue.put(motherColumnNamesArray[13],cursorMotherTable.getString(13));
-//                colValue.put(motherColumnNamesArray[14],cursorMotherTable.getString(14));
-//                colValue.put(motherColumnNamesArray[15],cursorMotherTable.getString(15));
-//
-//
-//
-//                tableRow.add(colValue);
-//                cursorMotherTable.moveToNext();
-//            }
-//        }
-//        cursorMotherTable.close();
-//        //table_map.put(tableName.get(2),tableRow);
-//       all_table_map.put(tableName.get(2),tableRow);
-//
-//             //allTableList.add(table_map);////============================================
-//
-////===================================================================================================================================================================
-////============================================================================================================================================
-////        "SELECT  * FROM " + TABLE_MOTHER + " INNER JOIN " + TABLE_CHILD + " ON " + TABLE_CHILD + "." + CHILD_COLUMN_MOTHER_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID
-////                + " INNER JOIN " + TABLE_MESSAGE_DELIVERY + " ON " + TABLE_MESSAGE_DELIVERY + "." + MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID + " = " + TABLE_MOTHER + "." + MOTHER_COLUMN_ID +" WHERE "
-////                + TABLE_MOTHER + "." + MOTHER_COLUMN_PREGNANCY_STATE + "=?";
-//        String queryMessageTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(3)+ " ON " +tableName.get(3)+"."+ MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID
-//                +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
-//
-//        Cursor cursorMessageTable = database.rawQuery(queryMessageTable, new String[]{"false"});  // message table
-//        String[] messageColumnNamesArray = cursorMessageTable.getColumnNames();
-//
-//         HashMap<String ,List<HashMap<String ,String>>> table_message_map = new HashMap<>();
-//         List<HashMap<String ,String>> tableMessageRow = new ArrayList<>();
-//        if (cursorMessageTable.moveToFirst()) {
-//            while ( !cursorMessageTable.isAfterLast() ) {
-//                HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//                colValue.put(messageColumnNamesArray[16], cursorMessageTable.getString(16));
-//                colValue.put(messageColumnNamesArray[17], cursorMessageTable.getString(17));
-//                colValue.put(messageColumnNamesArray[18], cursorMessageTable.getString(18));
-//                colValue.put(messageColumnNamesArray[19], cursorMessageTable.getString(19));
-//                colValue.put(messageColumnNamesArray[20], cursorMessageTable.getString(20));
-//                colValue.put(messageColumnNamesArray[21], cursorMessageTable.getString(21));
-//                colValue.put(messageColumnNamesArray[22], cursorMessageTable.getString(22));
-//                colValue.put(messageColumnNamesArray[23], cursorMessageTable.getString(23));
-//                colValue.put(messageColumnNamesArray[24], cursorMessageTable.getString(24));
-//                colValue.put(messageColumnNamesArray[25], cursorMessageTable.getString(25));
-//                colValue.put(messageColumnNamesArray[26], cursorMessageTable.getString(26));
-//                colValue.put(messageColumnNamesArray[27], cursorMessageTable.getString(27));
-//                colValue.put(messageColumnNamesArray[28], cursorMessageTable.getString(28));
-//
-//
-//
-//
-//                tableMessageRow.add(colValue);
-//                cursorMessageTable.moveToNext();
-//            }
-//        }
-//        cursorMessageTable.close();
-//       // table_message_map.put(tableName.get(3),tableMessageRow);
-//        all_table_map.put(tableName.get(3),tableMessageRow);
-//        //allTableList.add(table_message_map);////============================================
-//
-////===================================================================================================================================================================
-//        //============================================================================================================================================
-//        String queryChildTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(4)+ " ON " +tableName.get(4)+"."+ CHILD_COLUMN_MOTHER_ID
-//                +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
-//        Cursor cursorChildTable = database.rawQuery(queryChildTable, new String[] {"false"});  // Child table
-//        String[] childColumnNamesArray = cursorChildTable.getColumnNames();
-//
-//        HashMap<String ,List<HashMap<String ,String>>> table_child_map = new HashMap<>();
-//        List<HashMap<String ,String>> tableChildRow = new ArrayList<>();
-//        if (cursorChildTable.moveToFirst()) {
-//            while (!cursorChildTable.isAfterLast()) {
-//                HashMap<String, String> colValue = new LinkedHashMap<>();
-//
-//
-//                colValue.put(childColumnNamesArray[16], cursorChildTable.getString(16));
-//                colValue.put(childColumnNamesArray[17], cursorChildTable.getString(17));
-//                colValue.put(childColumnNamesArray[18], cursorChildTable.getString(18));
-//                colValue.put(childColumnNamesArray[19], cursorChildTable.getString(19));
-//                colValue.put(childColumnNamesArray[20], cursorChildTable.getString(20));
-//                colValue.put(childColumnNamesArray[21], cursorChildTable.getString(21));
-//                colValue.put(childColumnNamesArray[22], cursorChildTable.getString(22));
-//               // colValue.put(childColumnNamesArray[23], cursorChildTable.getString(23));
-//
-//
-//                tableChildRow.add(colValue);
-//                cursorChildTable.moveToNext();
-//
-//            }
-//        }
-//        cursorChildTable.close();
-//
-//       // table_child_map.put(tableName.get(4),tableChildRow);
-//       all_table_map.put(tableName.get(4),tableChildRow);
-//        //allTableList.add(table_child_map);////============================================
-//
-////===================================================================================================================================================================
-//
-//        database.close();
-//
-//        return all_table_map;
-//    }
-//
 
 
 
@@ -1507,26 +1600,6 @@ if (mother.getMotherRowPrimaryKey() == null){
                     motherAllRows += t + cursorMotherTable.getString(i);
                 }
 
-
-//                HashMap<String ,String> colValue = new LinkedHashMap<>();
-//
-//
-//                colValue.put(motherColumnNamesArray[0], cursorMotherTable.getString(0));
-//                colValue.put(motherColumnNamesArray[1], cursorMotherTable.getString(1));
-//                colValue.put(motherColumnNamesArray[2], cursorMotherTable.getString(2));
-//                colValue.put(motherColumnNamesArray[3], cursorMotherTable.getString(3));
-//                colValue.put(motherColumnNamesArray[4], cursorMotherTable.getString(4));
-//                colValue.put(motherColumnNamesArray[5], cursorMotherTable.getString(5));
-//                colValue.put(motherColumnNamesArray[6], cursorMotherTable.getString(6));
-//                colValue.put(motherColumnNamesArray[7], cursorMotherTable.getString(7));
-//                colValue.put(motherColumnNamesArray[8], cursorMotherTable.getString(8));
-//                colValue.put(motherColumnNamesArray[9], cursorMotherTable.getString(9));
-//                colValue.put(motherColumnNamesArray[10],cursorMotherTable.getString(10));
-//                colValue.put(motherColumnNamesArray[11],cursorMotherTable.getString(11));
-//                colValue.put(motherColumnNamesArray[12],cursorMotherTable.getString(12));
-//                colValue.put(motherColumnNamesArray[13],cursorMotherTable.getString(13));
-//                colValue.put(motherColumnNamesArray[14],cursorMotherTable.getString(14));
-//                colValue.put(motherColumnNamesArray[15],cursorMotherTable.getString(15));
 
 
 
@@ -1578,20 +1651,6 @@ if (mother.getMotherRowPrimaryKey() == null){
 
         tableNameAndRows_map.put(tableName.get(3),ancPncMessageAllRows);
 
-//                colValue.put(messageColumnNamesArray[16], cursorMessageTable.getString(16));
-//                colValue.put(messageColumnNamesArray[17], cursorMessageTable.getString(17));
-//                colValue.put(messageColumnNamesArray[18], cursorMessageTable.getString(18));
-//                colValue.put(messageColumnNamesArray[19], cursorMessageTable.getString(19));
-//                colValue.put(messageColumnNamesArray[20], cursorMessageTable.getString(20));
-//                colValue.put(messageColumnNamesArray[21], cursorMessageTable.getString(21));
-//                colValue.put(messageColumnNamesArray[22], cursorMessageTable.getString(22));
-//                colValue.put(messageColumnNamesArray[23], cursorMessageTable.getString(23));
-//                colValue.put(messageColumnNamesArray[24], cursorMessageTable.getString(24));
-//                colValue.put(messageColumnNamesArray[25], cursorMessageTable.getString(25));
-//                colValue.put(messageColumnNamesArray[26], cursorMessageTable.getString(26));
-//                colValue.put(messageColumnNamesArray[27], cursorMessageTable.getString(27));
-//                colValue.put(messageColumnNamesArray[28], cursorMessageTable.getString(28));
-
 ////===================================================================================================================================================================
 
 
@@ -1632,19 +1691,6 @@ if (mother.getMotherRowPrimaryKey() == null){
 
         tableNameAndRows_map.put(tableName.get(4),deliveryAndChildMessageAllRows);
 
-//                colValue.put(messageColumnNamesArray[16], cursorMessageTable.getString(16));
-//                colValue.put(messageColumnNamesArray[17], cursorMessageTable.getString(17));
-//                colValue.put(messageColumnNamesArray[18], cursorMessageTable.getString(18));
-//                colValue.put(messageColumnNamesArray[19], cursorMessageTable.getString(19));
-//                colValue.put(messageColumnNamesArray[20], cursorMessageTable.getString(20));
-//                colValue.put(messageColumnNamesArray[21], cursorMessageTable.getString(21));
-//                colValue.put(messageColumnNamesArray[22], cursorMessageTable.getString(22));
-//                colValue.put(messageColumnNamesArray[23], cursorMessageTable.getString(23));
-//                colValue.put(messageColumnNamesArray[24], cursorMessageTable.getString(24));
-//                colValue.put(messageColumnNamesArray[25], cursorMessageTable.getString(25));
-//                colValue.put(messageColumnNamesArray[26], cursorMessageTable.getString(26));
-//                colValue.put(messageColumnNamesArray[27], cursorMessageTable.getString(27));
-//                colValue.put(messageColumnNamesArray[28], cursorMessageTable.getString(28));
 
 ////===================================================================================================================================================================
 //        //============================================================================================================================================
@@ -1682,23 +1728,14 @@ if (mother.getMotherRowPrimaryKey() == null){
 
         tableNameAndRows_map.put(tableName.get(5),ChildAllRows);
 
-//                colValue.put(childColumnNamesArray[16], cursorChildTable.getString(16));
-//                colValue.put(childColumnNamesArray[17], cursorChildTable.getString(17));
-//                colValue.put(childColumnNamesArray[18], cursorChildTable.getString(18));
-//                colValue.put(childColumnNamesArray[19], cursorChildTable.getString(19));
-//                colValue.put(childColumnNamesArray[20], cursorChildTable.getString(20));
-//                colValue.put(childColumnNamesArray[21], cursorChildTable.getString(21));
-//                colValue.put(childColumnNamesArray[22], cursorChildTable.getString(22));
-//                colValue.put(childColumnNamesArray[23], cursorChildTable.getString(23));
-//
-//
+
 
 ////===================================================================================================================================================================
 //        //============================================================================================================================================
         String queryChildFollowUpTable = "SELECT * FROM "+tableName.get(2)+" INNER JOIN "+ tableName.get(6)+ " ON " +tableName.get(6)+"."+ CHILD_FOLLOW_UP_COL_MOTHER_ID
                 +" = "+tableName.get(2)+"."+MOTHER_COLUMN_ID+" WHERE "+ tableName.get(2)+"."+MOTHER_COLUMN_SYNC_STATUS+"=?";
         Cursor cursorChildFollowUpTable = database.rawQuery(queryChildFollowUpTable, new String[] {"false"});  // Child Follow Up table
-        String[] childFollowUpColumnNamesArray = cursorChildTable.getColumnNames();
+        String[] childFollowUpColumnNamesArray = cursorChildFollowUpTable.getColumnNames();
 
 
         String ChildFollowUpAllRows = "" ;
@@ -1745,47 +1782,48 @@ if (mother.getMotherRowPrimaryKey() == null){
 
 
 
-    public      HashMap<String,   HashMap<String , HashMap<String ,String>>> getDbDef() {   //////////============================================//////////////////////////////////////
-        List<HashMap<String, List<HashMap<String, HashMap<String, String>>>>> dbDef_List = new ArrayList<>();
-        HashMap<String, HashMap<String, HashMap<String, String>>> dbDef_hashMap = new HashMap<>();
-        HashMap<String, HashMap<String, String>> allTablesMap = new LinkedHashMap<>();
-
-        List<String> tableName = new ArrayList<>();
-        SQLiteDatabase database = super.getWritableDatabase();
-        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-
-
-        if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-
-                tableName.add(c.getString(0)); // table names
-
-                c.moveToNext();
-            }
-        }
-
-        Cursor cursor;
-        ////////////////
-        for (int i = 1  ; i<tableName.size();i++){
-            cursor = database.rawQuery("SELECT * FROM "+tableName.get(i),null);
-            String[] columnNames = cursor.getColumnNames();
-            if (cursor.moveToFirst()){
-                HashMap<String ,String > colValue = new LinkedHashMap<>();
-                for (int j = 0; j<columnNames.length;j++){
-                    colValue.put(columnNames[j],   (cursor.getType(j )==1) ? "INTEGER":"TEXT");
-                }
-                allTablesMap.put(tableName.get(i),colValue);
-            }
-        }
-
-        //////////////
-
-        dbDef_hashMap.put("dbDef",allTablesMap);
-        //dbDef_List.add(dbDef_hashMap);
-
-      return dbDef_hashMap;
-
-    }
+//    public      HashMap<String,   HashMap<String , HashMap<String ,String>>> getDbDef() {   //////////============================================//////////////////////////////////////
+//        List<HashMap<String, List<HashMap<String, HashMap<String, String>>>>> dbDef_List = new ArrayList<>();
+//        HashMap<String, HashMap<String, HashMap<String, String>>> dbDef_hashMap = new HashMap<>();
+//        HashMap<String, HashMap<String, String>> allTablesMap = new LinkedHashMap<>();
+//
+//        List<String> tableName = new ArrayList<>();
+//        SQLiteDatabase database = super.getWritableDatabase();
+//        Cursor c = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+//
+//
+//        if (c.moveToFirst()) {
+//            while (!c.isAfterLast()) {
+//
+//                tableName.add(c.getString(0)); // table names
+//
+//                c.moveToNext();
+//            }
+//        }
+//
+//        Cursor cursor;
+//        ////////////////
+//        for (int i = 1  ; i<tableName.size();i++){
+//            cursor = database.rawQuery("SELECT * FROM "+tableName.get(i),null);
+//            String[] columnNames = cursor.getColumnNames();
+//            if (cursor.moveToFirst()){
+//                HashMap<String ,String > colValue = new LinkedHashMap<>();
+//
+//                for (int j = 0; j<columnNames.length;j++){
+//                    colValue.put(columnNames[j],   (cursor.getType(j )==1) ? "INTEGER":"TEXT");
+//                }
+//                allTablesMap.put(tableName.get(i),colValue);
+//            }
+//        }
+//
+//        //////////////
+//
+//        dbDef_hashMap.put("dbDef",allTablesMap);
+//        //dbDef_List.add(dbDef_hashMap);
+//
+//      return dbDef_hashMap;
+//
+//    }
 
 
 
@@ -1823,33 +1861,15 @@ if (mother.getMotherRowPrimaryKey() == null){
 
 
             for (int i = 0; i<motherColumnNamesArray.length;i++){
+                if (i== motherColumnNamesArray.length-1){
+                    colValue.put(motherColumnNamesArray[i],   "DATETIME");
+                    continue;
+                }
                 colValue.put(motherColumnNamesArray[i],   (cursorMotherTable.getType(i )==1) ? "INTEGER":"TEXT");
             }
 
 
-//            colValue.put(motherColumnNamesArray[0],   (cursorMotherTable.getType(0 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[1],   (cursorMotherTable.getType(1 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[2],   (cursorMotherTable.getType(2 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[3],   (cursorMotherTable.getType(3 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[4],   (cursorMotherTable.getType(4 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[5],   (cursorMotherTable.getType(5 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[6],   (cursorMotherTable.getType(6 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[7],   (cursorMotherTable.getType(7 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[8],   (cursorMotherTable.getType(8 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[9],   (cursorMotherTable.getType(9 )==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[10],  (cursorMotherTable.getType(10)==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[11],  (cursorMotherTable.getType(11)==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[12],  (cursorMotherTable.getType(12)==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[13],  (cursorMotherTable.getType(13)==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[14],  (cursorMotherTable.getType(14)==1) ? "INTEGER":"TEXT");
-//            colValue.put(motherColumnNamesArray[15],  (cursorMotherTable.getType(15)==1) ? "INTEGER":"TEXT");
 
-
-
-           // tableMotherRow.add(colValue);
-            //   cursorMotherTable.moveToNext();
-            // }
-            //table_mother_map.put(tableName.get(2),colValue);
             allTablesMap.put(tableName.get(2),colValue);
         }
 
@@ -1868,28 +1888,14 @@ if (mother.getMotherRowPrimaryKey() == null){
 
             HashMap<String ,String> colValue = new LinkedHashMap<>();
 for (int i = 0;i <ancPncMessageColumnNamesArray.length;i++){
+    if (i == ancPncMessageColumnNamesArray.length-1){
+        colValue.put(ancPncMessageColumnNamesArray[i],   "DATETIME");
+        continue;
+    }
     colValue.put(ancPncMessageColumnNamesArray[i],  (cursorAncPncMessageTable.getType(i )==1) ? "INTEGER": "TEXT");
 }
 
-//            colValue.put(messageColumnNamesArray[0],  (cursorMessageTable.getType(0 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[1],  (cursorMessageTable.getType(1 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[2],  (cursorMessageTable.getType(2 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[3],  (cursorMessageTable.getType(3 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[4],  (cursorMessageTable.getType(4 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[5],  (cursorMessageTable.getType(5 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[6],  (cursorMessageTable.getType(6 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[7],  (cursorMessageTable.getType(7 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[8],  (cursorMessageTable.getType(8 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[9],  (cursorMessageTable.getType(9 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[10], (cursorMessageTable.getType(10)==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[11], (cursorMessageTable.getType(11)==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[12], (cursorMessageTable.getType(12)==1) ? "INTEGER": "TEXT");
 
-
-
-
-           // tableMessageRow.add(colValue);
-            //table_message_map.put(tableName.get(3),colValue);
             allTablesMap.put(tableName.get(3),colValue);
         }
 
@@ -1909,28 +1915,14 @@ for (int i = 0;i <ancPncMessageColumnNamesArray.length;i++){
 
             HashMap<String ,String> colValue = new LinkedHashMap<>();
             for (int i = 0;i < deliveryAndChildMessageColumnNamesArray.length;i++){
+                if (i==deliveryAndChildMessageColumnNamesArray.length-1){
+                    colValue.put(deliveryAndChildMessageColumnNamesArray[i],   "DATETIME");
+                    continue;
+                }
                 colValue.put(deliveryAndChildMessageColumnNamesArray[i],  (cursorDeliveryAndChildMessageTable.getType(i )==1) ? "INTEGER": "TEXT");
             }
 
-//            colValue.put(messageColumnNamesArray[0],  (cursorMessageTable.getType(0 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[1],  (cursorMessageTable.getType(1 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[2],  (cursorMessageTable.getType(2 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[3],  (cursorMessageTable.getType(3 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[4],  (cursorMessageTable.getType(4 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[5],  (cursorMessageTable.getType(5 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[6],  (cursorMessageTable.getType(6 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[7],  (cursorMessageTable.getType(7 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[8],  (cursorMessageTable.getType(8 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[9],  (cursorMessageTable.getType(9 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[10], (cursorMessageTable.getType(10)==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[11], (cursorMessageTable.getType(11)==1) ? "INTEGER": "TEXT");
-//            colValue.put(messageColumnNamesArray[12], (cursorMessageTable.getType(12)==1) ? "INTEGER": "TEXT");
 
-
-
-
-            // tableMessageRow.add(colValue);
-            //table_message_map.put(tableName.get(3),colValue);
             allTablesMap.put(tableName.get(4),colValue);
         }
 
@@ -1949,14 +1941,11 @@ for (int i = 0;i <ancPncMessageColumnNamesArray.length;i++){
             HashMap<String ,String> colValue = new LinkedHashMap<>();
 
 
-            colValue.put(childColumnNamesArray[0],  (cursorChildTable.getType(0 )==1) ? "INTEGER": "TEXT");
-            colValue.put(childColumnNamesArray[1],  (cursorChildTable.getType(1 )==1) ? "INTEGER": "TEXT");
-            colValue.put(childColumnNamesArray[2],  (cursorChildTable.getType(2 )==1) ? "INTEGER": "TEXT");
-            colValue.put(childColumnNamesArray[3],  (cursorChildTable.getType(3 )==1) ? "INTEGER": "TEXT");
-            colValue.put(childColumnNamesArray[4],  (cursorChildTable.getType(4 )==1) ? "INTEGER": "TEXT");
-            colValue.put(childColumnNamesArray[5],  (cursorChildTable.getType(5 )==1) ? "INTEGER": "TEXT");
-            colValue.put(childColumnNamesArray[6],  (cursorChildTable.getType(6 )==1) ? "INTEGER": "TEXT");
-            colValue.put(childColumnNamesArray[7],  (cursorChildTable.getType(7 )==1) ? "INTEGER": "TEXT");
+            for (int i = 0; i<childColumnNamesArray.length;i++){
+
+                colValue.put(childColumnNamesArray[i],  (cursorChildTable.getType(i)==1) ? "INTEGER": "TEXT");
+            }
+
 
 
 
@@ -1980,21 +1969,12 @@ for (int i = 0;i <ancPncMessageColumnNamesArray.length;i++){
 
 
             for (int i = 0; i<childFollowUpColumnNamesArray.length;i++){
+                if (i == childFollowUpColumnNamesArray.length-1){
+                    colValue.put(childFollowUpColumnNamesArray[i],   "DATETIME");
+                    continue;
+                }
                 colValue.put(childFollowUpColumnNamesArray[i],  (cursorChildFollowUpTable.getType(i)==1) ? "INTEGER": "TEXT");
             }
-
-//            colValue.put(childColumnNamesArray[0],  (cursorChildTable.getType(0 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[1],  (cursorChildTable.getType(1 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[2],  (cursorChildTable.getType(2 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[3],  (cursorChildTable.getType(3 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[4],  (cursorChildTable.getType(4 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[5],  (cursorChildTable.getType(5 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[6],  (cursorChildTable.getType(6 )==1) ? "INTEGER": "TEXT");
-//            colValue.put(childColumnNamesArray[7],  (cursorChildTable.getType(7 )==1) ? "INTEGER": "TEXT");
-
-
-
-
 
 
             allTablesMap.put(tableName.get(6),colValue);

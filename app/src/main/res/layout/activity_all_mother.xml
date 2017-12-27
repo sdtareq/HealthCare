@@ -12,8 +12,9 @@
         android:id="@+id/tvListTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="মায়েদের লিস্ট"
         android:gravity="center"
+        android:textSize="@dimen/tv_body"
         />
 
     <android.support.v7.widget.RecyclerView

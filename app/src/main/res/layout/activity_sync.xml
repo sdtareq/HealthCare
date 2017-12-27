@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sync"
+        android:text="সিঙ্ক"
         android:id="@+id/tvSync"
         android:textSize="@dimen/tv_header"
         android:gravity="center"
@@ -32,10 +32,21 @@
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Start Sync"
+    android:text="সিঙ্ক করুন"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:textSize="@dimen/btn_text"
     android:id="@+id/btnSync"/>
+
+        <Button
+            android:id="@+id/btnAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Admin"
+            android:textSize="@dimen/btn_text2"
+            android:visibility="gone"
+
+            />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +54,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textSize="@dimen/btn_text"
         android:id="@+id/btnShow"
+        android:visibility="gone"
          />
 
     <Button
@@ -52,6 +64,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textSize="@dimen/btn_text"
         android:id="@+id/btn_parse_csv"
+        android:visibility="gone"
         />
     <Button
         android:layout_width="match_parent"
@@ -60,6 +73,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textSize="@dimen/btn_text"
         android:id="@+id/btn_send_file"
+        android:visibility="gone"
         />
 </LinearLayout>
 </ScrollView>

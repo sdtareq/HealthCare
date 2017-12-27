@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:hint=""
+                    android:hint="মায়ের নামঃ"
                     android:textSize="@dimen/et_text"
                     android:focusable="false"
                     />
@@ -55,6 +55,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 app:hintTextAppearance="@style/TextLabel"
+                android:visibility="gone"
                 >
                 <EditText android:id="@+id/etMotherRowId"
                     android:layout_width="match_parent"
@@ -80,7 +81,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="শিশু নিবন্ধন"
-                    android:textSize="@dimen/tv_body"/>
+                    android:textSize="@dimen/tv_body"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:textStyle="bold"
+                    />
 
                 <!-- name Label -->
                 <android.support.design.widget.TextInputLayout
@@ -110,7 +114,7 @@
                         android:layout_marginBottom="24dp"
                         android:text="নবজাত শিশুর লিঙ্গ"
                         android:gravity="center"
-                        android:textSize="@dimen/tv_body_small"
+                        android:textSize="@dimen/tv_body"
                         android:layout_gravity="left"/>
 
                     <RadioGroup

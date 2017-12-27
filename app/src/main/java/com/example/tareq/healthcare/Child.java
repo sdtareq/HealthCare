@@ -21,7 +21,7 @@ public class Child implements Serializable {
     childWeight,
     childHeight,
     childDateOfVisit,
-    childFollowUpSyncStatus ;
+    childFollowUpSyncStatus;
 
 
 
@@ -41,15 +41,7 @@ public class Child implements Serializable {
     }
 
 
-//    public Child(String childName, String childDateOfBirth, String sexOfChild, String childBirthWeight, String childId, String idNumberOfChild, String childAge) {
-//        this.childName = childName;
-//        this.childDateOfBirth = childDateOfBirth;
-//        this.sexOfChild = sexOfChild;
-//        this.childBirthWeight = childBirthWeight;
-//        this.childId = childId;
-//        this.idNumberOfChild = idNumberOfChild;
-//        this.childAge = childAge;
-//    }
+
 
 
     public Child(String childName, String childMotherTableId, String childMotherName, String childId, String childWeight, String childHeight, String childDateOfVisit) {

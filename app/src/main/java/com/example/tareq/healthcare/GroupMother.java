@@ -1,5 +1,7 @@
 package com.example.tareq.healthcare;
 
+import android.content.Context;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +15,8 @@ import java.util.Map;
 /**
  * Created by TAREQ on 10/25/2016.
  */
-public class GroupMother {
+public class GroupMother   {
+    Context context;
     protected static final String ANC_1 = "ANC 1";
     protected static final String ANC_2 = "ANC 2";
     protected static final String ANC_3 = "ANC 3";
@@ -35,7 +38,13 @@ public class GroupMother {
 
     String groupKey = "";
 
+    DatabaseHelper db  ;
 
+
+    public GroupMother(Context context){
+        this.context = context;
+        db = new DatabaseHelper(context);
+    }
     public void calcDays(Mother mother) {
 
         Date oldDate = null;
@@ -90,7 +99,11 @@ public class GroupMother {
                     if (!allGroupMap.containsKey(PNC)) {  //
                         allGroupMap.put(PNC, pnc); //
                     }
-
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (a_mother.getIsPNC_Message_Delivered()==null){
+                        a_mother.setIsPNC_Message_Delivered("false");
+                        db.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                    }
                     allGroupMap.get(PNC).add(a_mother); //
 
 
@@ -101,32 +114,11 @@ public class GroupMother {
                         allGroupMap.put(CHILD_CARE_MESSAGE_STATUS, childCareMessageStatusList); //
                     }
 
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+
                     allGroupMap.get(CHILD_CARE_MESSAGE_STATUS).add(a_mother); //
                 }
 
-//                else if (a_mother.getAgeOfChild() < 16 && a_mother.getAgeOfChild() > 10) {
-//                    groupKey = "PNC 2";
-//                    if (!allGroupMap.containsKey(groupKey)) {
-//                        allGroupMap.put(groupKey, pnc2);
-//                    }
-//
-//                    allGroupMap.get(groupKey).add(a_mother);
-//
-//                } else if (a_mother.getAgeOfChild() < 21 && a_mother.getAgeOfChild() > 15) {
-//                    groupKey = "PNC 3";
-//                    if (!allGroupMap.containsKey(groupKey)) {
-//                        allGroupMap.put(groupKey, pnc3);
-//                    }
-//
-//                    allGroupMap.get(groupKey).add(a_mother);
-//                } else if (a_mother.getAgeOfChild() < 27 && a_mother.getAgeOfChild() > 20) {
-//                    groupKey = "PNC 4";
-//                    if (!allGroupMap.containsKey(groupKey)) {
-//                        allGroupMap.put(groupKey, pnc4);
-//                    }
-//
-//                    allGroupMap.get(groupKey).add(a_mother);
-//                }
 
 
 
@@ -142,12 +134,22 @@ public class GroupMother {
                         allGroupMap.put(ANC_1, anc1);
                     }
 
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (a_mother.getIsANC_1_Message_Delivered()==null){
+                        a_mother.setIsANC_1_Message_Delivered("false");
+                        db.set_ANC_1_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                    }
                     allGroupMap.get(ANC_1).add(a_mother);
 
                 } else if (a_mother.getDaysOnPregnancy() < 224 && a_mother.getDaysOnPregnancy() > 167) {
                     //groupKey = "ANC 2";
                     if (!allGroupMap.containsKey(ANC_2)) {
                         allGroupMap.put(ANC_2, anc2);
+                    }
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (a_mother.getIsANC_2_Message_Delivered()==null){
+                        a_mother.setIsANC_2_Message_Delivered("false");
+                        db.set_ANC_2_message_status(a_mother.getMotherRowPrimaryKey(),"false");
                     }
 
                     allGroupMap.get(ANC_2).add(a_mother);
@@ -157,12 +159,22 @@ public class GroupMother {
                     if (!allGroupMap.containsKey(ANC_3)) {
                         allGroupMap.put(ANC_3, anc3);
                     }
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (a_mother.getIsANC_3_Message_Delivered()==null){
+                        a_mother.setIsANC_3_Message_Delivered("false");
+                        db.set_ANC_3_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                    }
 
                     allGroupMap.get(ANC_3).add(a_mother);
                 } else if (a_mother.getDaysOnPregnancy() < 291 && a_mother.getDaysOnPregnancy() > 244) {
                    // groupKey = "ANC 4";
                     if (!allGroupMap.containsKey(ANC_4)) {
                         allGroupMap.put(ANC_4, anc4);
+                    }
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (a_mother.getIsANC_4_Message_Delivered()==null){
+                        a_mother.setIsANC_4_Message_Delivered("false");
+                        db.set_ANC_4_message_status(a_mother.getMotherRowPrimaryKey(),"false");
                     }
 
                     allGroupMap.get(ANC_4).add(a_mother);
@@ -191,7 +203,11 @@ public class GroupMother {
                 if (!allGroupMap.containsKey(PNC)) {  //
                     allGroupMap.put(PNC, pnc); //
                 }
-
+                // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                if (a_mother.getIsPNC_Message_Delivered().isEmpty()){
+                    a_mother.setIsPNC_Message_Delivered("false");
+                    db.set_PNC_message_status(a_mother.getMotherRowPrimaryKey(),"false");
+                }
                 allGroupMap.get(PNC).add(a_mother); //
 
 

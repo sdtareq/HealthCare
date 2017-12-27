@@ -49,8 +49,10 @@ public class ChildFollowUpActivity extends AppCompatActivity {
 
         init( );
         etMotherName.setText(mother.getMotherName());
+       // int ageOfChildInMonths = Math.abs(calcAgeOfChild(mother)/30);
+        int ageOfChildInMonths = Math.abs(mother.getAgeOfChild()/30);
 
-        etChildAge.setText(String.valueOf(calcAgeOfChild(mother)) );
+        etChildAge.setText(String.valueOf(ageOfChildInMonths) );
 //etChildAge.setVisibility(View.GONE);
 
 
@@ -77,7 +79,7 @@ public class ChildFollowUpActivity extends AppCompatActivity {
                         // TODO Auto-generated method stub
                         mChildDateOfVisit = String.valueOf(selectedday)+ "/" +String.valueOf(selectedmonth+1)+ "/" +String.valueOf(selectedyear);
                         //  Toast.makeText(getApplicationContext(),mChildDateOfBirth,Toast.LENGTH_SHORT).show();
-                        etDateOfVisit.setText("জন্মের তারিখ: "+mChildDateOfVisit);
+                        etDateOfVisit.setText(mChildDateOfVisit);
 
 
                     }
@@ -98,9 +100,10 @@ public class ChildFollowUpActivity extends AppCompatActivity {
                         btn_add.setEnabled(true);
                         return;
                     }
+                    int ageOfChildInMonths = Math.abs(mother.getAgeOfChild()/30);
                     Child  child = new Child(mother.getChild().getChildName(),mother.getMotherRowPrimaryKey(),mother.getMotherName(),mother.getChild().getChildId(),
                             etChildWeight.getText().toString(),etChildHeight.getText().toString(),mChildDateOfVisit);
-
+                    child.setChildAge(String.valueOf(ageOfChildInMonths));
 
                     DatabaseHelper db = new DatabaseHelper(ChildFollowUpActivity.this);   // store in db)
                     db.addChildFollowUp(child);

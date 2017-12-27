@@ -52,28 +52,31 @@
             <RadioButton android:id="@+id/rbType1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Type 1"
+                android:text="CHCP"
                 android:onClick="onRadioButtonClicked"
                 android:textSize="@dimen/rb_text"
                 />
             <RadioButton android:id="@+id/rbType2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Type 2"
+                android:text="FWA"
                 android:onClick="onRadioButtonClicked"
-                android:textSize="@dimen/rb_text"/>
+                android:textSize="@dimen/rb_text"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
             <RadioButton android:id="@+id/rbType3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Type 3"
+                android:text="HA"
                 android:onClick="onRadioButtonClicked"
-                android:textSize="@dimen/rb_text"/>
+                android:textSize="@dimen/rb_text"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
             <RadioButton android:id="@+id/rbType4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test"
+                android:text="Admin"
                 android:onClick="onRadioButtonClicked"
-                android:textSize="@dimen/rb_text"/>
+                android:textSize="@dimen/rb_text"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
         </RadioGroup>
 
         <!-- Email Label -->
@@ -116,7 +119,10 @@
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:text="লগ-ইন করুন"
-            android:textSize="@dimen/btn_text"/>
+            android:textSize="@dimen/btn_text"
+            android:shadowRadius="2"
+
+            />
 
 
     </LinearLayout>

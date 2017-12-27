@@ -22,8 +22,13 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +46,7 @@ import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,12 +57,16 @@ import java.util.concurrent.atomic.AtomicLong;
 import au.com.bytecode.opencsv.CSVWriter;
 
 public class MainActivity extends AppCompatActivity {
-    protected static String user_primary_key;
-    protected static String user_name;
+    //protected static final String user_primary_key;
+    protected static String user_name ="";
+    protected static final String ADMIN_STRING = "admin";
     protected static final String TAG = "MainActivity";
     protected static final String PREFERENCE_KEY = "last_date";
+    protected static final String SYNC_PREFERENCE_KEY = "sync_last_date";
     protected static final String PREFERENCE_LAST_EXPORT = "last_date";
+    protected static final String PREFERENCE_LAST_SYNC = "sync_last_date";
     protected static final int REQUEST_CODE_MOTHER_REGISTRATION_ACTIVITY = 301;
+    protected static final int REQUEST_CODE_SYNC_ACTIVITY = 401;
     protected boolean login_flag;
     DatabaseHelper db;
 
@@ -68,7 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tvMessageRemain,
             tvMessageDelivered,
-            tvMessageTotal, tvLastExportDate;
+            tvMessageTotal,
+            tvLastExportDate,
+            tvLastSyncDate;
+
 
     android.support.v7.widget.CardView card;
 
@@ -82,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             login_flag = savedInstanceState.getBoolean(TAG);
+
         } else {
             login_flag = true;
         }
@@ -90,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
 //============================================ s t a r t  1 ==========================================================
         //Log - in First
         //=================== First Go to Login Page
-//         if (login_flag){
-//             Intent intent = new Intent(this, LoginActivity.class);
-//             startActivity(intent);
-//         }
+         if (login_flag){
+             Intent intent = new Intent(this, LoginActivity.class);
+             startActivity(intent);
+         }
 
 
         db = new DatabaseHelper(this);
@@ -103,17 +117,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        Gson gson = new Gson();
-//        String table1 = gson.toJson(db.getAllTables2());
-//       // String table1 = gson.toJson(db.getDbDef());
+   //      Gson gson = new Gson();
+//      String table1 = gson.toJson(db.getAllTables2());
+     //   String table1 = gson.toJson(db.getDbDef2());
 //
-//        Toast.makeText(this,table1,Toast.LENGTH_LONG).show();
-//        exportDoc(table1);
+       // Toast.makeText(this,table1,Toast.LENGTH_LONG).show();
+        // exportDoc(table1);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-          export_db();     //EXPORT DB
+         //export_db();     //EXPORT DB
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -124,7 +138,10 @@ public class MainActivity extends AppCompatActivity {
         // temp end
 //
         init();
+        defineSharedPref();
+        setClickEvents();
 
+        Log.d(TAG, "==============================    user Name  " + ((MyApplication)this.getApplication()).getLoginUserName());
 
         if (!db.isMotherTableEmpty()) {
             new HeavyTaskExecutor().execute();
@@ -135,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
         //============================================ e n d 1 ==========================================================
 
     }
+
+
+
 
     private void export_db() {
 
@@ -198,8 +218,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
 //Now create the file in the above directory and write the contents into it
-           // File file = new File(directory, "HC " + dateMonthYear + ".txt");  // ========================= Name of the File
-            File file = new File(directory, "HC_" + "IMEI" + ".txt");  // ========================= Name of the File
+            File file = new File(directory, "HC " + dateMonthYear + ".txt");  // ========================= Name of the File
+           // File file = new File(directory, "HC_" + "IMEI" + ".txt");  // ========================= Name of the File
 
 
             FileOutputStream fOut = null;
@@ -234,28 +254,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(TAG, false);
 
+
         super.onSaveInstanceState(outState);
     }
 
-    private void init() {
 
-        progressDialog =
-                new ProgressDialog(MainActivity.this);
-
-        SharedPreferences sharedPref = getSharedPreferences(
-                PREFERENCE_KEY, Context.MODE_PRIVATE);                                                                    // ================  Shared Preference initialize
-
-
-        tvMessageRemain = (TextView) findViewById(R.id.tvMessageRemain);
-        tvMessageDelivered = (TextView) findViewById(R.id.tvMessageDelivered);
-        tvMessageTotal = (TextView) findViewById(R.id.tvMessageTotal);
-        tvLastExportDate = (TextView) findViewById(R.id.tvExportDate);
-
-        String lastExportDate = sharedPref.getString(PREFERENCE_LAST_EXPORT, "Date");
-        if (lastExportDate != null) {
-            tvLastExportDate.setText(lastExportDate);
-        }
-
+    private void setClickEvents() {
         card = (CardView) findViewById(R.id.card_view_message);
         card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.card_view_help_line).setOnClickListener(new View.OnClickListener() {  // =================  Call Help Line
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {    //===================================== Emergency Call
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:345678888"));
                 startActivity(intent);
             }
@@ -283,9 +287,10 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.card_view_sync).setOnClickListener(new View.OnClickListener() {  // =================  Call Help Line
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {        // ===================================== Go to Sync Activity
                 Intent intent = new Intent(MainActivity.this, Activity_Sync.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE_SYNC_ACTIVITY);
+                //startActivity(intent);
             }
         });
 
@@ -307,14 +312,46 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.card_view_mother_register).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {   //  ========================================= Go to Mother Registration Activity
                 Intent intent = new Intent(MainActivity.this, MotherRegistrationActivity.class);
-               startActivityForResult(intent,REQUEST_CODE_MOTHER_REGISTRATION_ACTIVITY);
+                startActivityForResult(intent,REQUEST_CODE_MOTHER_REGISTRATION_ACTIVITY);
                 // startActivity(intent);
             }
         });
 
-        Log.d(TAG, "user primary key: " + user_primary_key + "  user Name  " + user_name);
+        findViewById(R.id.card_view_all_mother).setOnClickListener(new View.OnClickListener() {  //======  Go to all mother activity
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, All_Mother_List_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+
+    }
+
+    private void defineSharedPref() {
+        SharedPreferences syncSharedPref = getSharedPreferences(SYNC_PREFERENCE_KEY,Context.MODE_PRIVATE);
+        String lastSyncDate = syncSharedPref.getString(PREFERENCE_LAST_SYNC,"Date");
+        tvLastSyncDate.setText(lastSyncDate);
+
+
+        SharedPreferences sharedPref = getSharedPreferences( PREFERENCE_KEY, Context.MODE_PRIVATE);        // ================  Shared Preference initialize
+        String lastExportDate = sharedPref.getString(PREFERENCE_LAST_EXPORT, "Date");
+        tvLastExportDate.setText(lastExportDate);
+    }
+
+    private void init() {
+
+        progressDialog =
+                new ProgressDialog(MainActivity.this);
+
+        tvMessageRemain = (TextView) findViewById(R.id.tvMessageRemain);
+        tvMessageDelivered = (TextView) findViewById(R.id.tvMessageDelivered);
+        tvMessageTotal = (TextView) findViewById(R.id.tvMessageTotal);
+        tvLastExportDate = (TextView) findViewById(R.id.tvExportDate);
+        tvLastSyncDate = (TextView) findViewById(R.id.tvLastSyncDate);
+
     }
 
 
@@ -394,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
 
             Map<String, Integer> allStat = new HashMap<>();
 
-            GroupMother groupMother = new GroupMother();
+            GroupMother groupMother = new GroupMother(MainActivity.this);
             groupMother.doGrouping(db.getAllMothers()); //------------------------ put list of mothers
 
             Log.d(TAG, String.valueOf(groupMother.anc1.size()));
@@ -472,16 +509,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             for (Mother theMother : groupMother.childCareMessageStatusList) {
-//                boolean isDelivered = Boolean.parseBoolean(theMother.getIsChildMessageDelivered());
-//
-//                if (isDelivered) {
-//                    child_message_delivered++;
-//                } else {
-//                    child_message_remain++;
-//                }
 
 
                 if (theMother.getAgeOfChild() >= 0 && theMother.getAgeOfChild() < 15) { //==============  0 - 15 days
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (theMother.getIsChild_message_delivered_0_to_14_days().isEmpty()){
+                        theMother.setIsChild_message_delivered_0_to_14_days("false");
+                        db.setChild_0_To_14_Days_message_delivery_status(theMother.getMotherRowPrimaryKey(),"false");
+                    }
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_0_to_14_days());
                     if (isDelivered) {
                         child_message_delivered_0_to_14_days_delivered++;
@@ -490,6 +525,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } else if (theMother.getAgeOfChild() > 14 && theMother.getAgeOfChild() < 180) {//==============  15 - 90 days  === 1,2,3 month
+
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (theMother.getIsChild_message_delivered_1_2_3_month().isEmpty()){
+                        theMother.setIsChild_message_delivered_1_2_3_month("false");
+                        db.setChild_1_2_3_month_message_delivery_status(theMother.getMotherRowPrimaryKey(),"false");
+                    }
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_1_2_3_month());
 
                     if (isDelivered) {
@@ -499,6 +540,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } else if (theMother.getAgeOfChild() >179 && theMother.getAgeOfChild() < 270) {//==============  180 - 240 days === 6-8 month
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (theMother.getIsChild_message_delivered_6_to_8_month().isEmpty()){
+                        theMother.setIsChild_message_delivered_6_to_8_month("false");
+                        db.setChild_6_To_8_month_message_delivery_status(theMother.getMotherRowPrimaryKey(),"false");
+                    }
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_6_to_8_month());
 
                     if (isDelivered) {
@@ -509,6 +555,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } else if (theMother.getAgeOfChild() > 269 && theMother.getAgeOfChild() < 331) {//==============  270 - 330 days === 9-11 month
+                    // if message delivery status null set initial value "false" as message status for both the object and update it inside database
+                    if (theMother.getIsChild_message_delivered_9_to_12_month().isEmpty()){
+                        theMother.setIsChild_message_delivered_9_to_12_month("false");
+                        db.setChild_9_To_12_month_message_delivery_status(theMother.getMotherRowPrimaryKey(),"false");
+                    }
                     boolean isDelivered = Boolean.parseBoolean(theMother.getIsChild_message_delivered_9_to_12_month());
 
                     if (isDelivered) {
@@ -518,24 +569,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-//            for (Mother theMother : groupMother.pnc3) {
-//                boolean isDelivered = Boolean.parseBoolean(theMother.getIsMessageDelivered());
-//
-//                if (isDelivered) {
-//                    pnc3_delivered++;
-//                } else {
-//                    pnc3_remain++;
-//                }
-//            }
-//            for (Mother theMother : groupMother.pnc4) {
-//                boolean isDelivered = Boolean.parseBoolean(theMother.getIsMessageDelivered());
-//
-//                if (isDelivered) {
-//                    pnc4_delivered++;
-//                } else {
-//                    pnc4_remain++;
-//                }
-//            }
 
 
             // calculate total delivered mes, total needed to deliver and total message
@@ -601,12 +634,7 @@ public class MainActivity extends AppCompatActivity {
 
             boolean result = false;
 
-//            DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-//
-//            Map<String, Integer> allStat = new HashMap<>();
-//
-//            GroupMother groupMother = new GroupMother();
-//            groupMother.doGrouping(db.getAllMothers()); //------------------------ put list of mothers
+
 
 
             if (isExternalStorageReadable() || isExternalStorageWritable()) {  //====================================
@@ -645,12 +673,7 @@ public class MainActivity extends AppCompatActivity {
                     DatabaseHelper helper = new DatabaseHelper(MainActivity.this);
                     SQLiteDatabase db = helper.getWritableDatabase();
 
-                  // Cursor curCSV = db.rawQuery("select * from table_child", null);  // query
-//                    String selectAllMothersWithChild = "SELECT  * FROM " +  DatabaseHelper.TABLE_MOTHER
-//                            + " INNER JOIN " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + " ON " + DatabaseHelper.TABLE_MESSAGE_DELIVERY + "." + DatabaseHelper.MESSAGE_DELIVERY_COL_MOTHER_COLUMN_ID
-//                            + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID + " INNER JOIN " + DatabaseHelper.TABLE_CHILD + " ON "
-//                            + DatabaseHelper.TABLE_CHILD + "." + DatabaseHelper.CHILD_COLUMN_MOTHER_ID + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID+" WHERE "
-//                            + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_PREGNANCY_STATE + "=?";
+
 //
                     String selectAllMothersWithChild = "SELECT  * FROM " +  DatabaseHelper.TABLE_MOTHER
                             + " INNER JOIN " + DatabaseHelper.TABLE_ANC_PNC_MSG + " ON " + DatabaseHelper.TABLE_ANC_PNC_MSG + "." + DatabaseHelper.ANC_PNC_MSG_DELIVERY_COL_MOTHER_COLUMN_ID
@@ -658,54 +681,61 @@ public class MainActivity extends AppCompatActivity {
                             + "." + DatabaseHelper.DELIVERY_AND_CHILD_MSG_COL_MOTHER_COLUMN_ID + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID
                             + " INNER JOIN " + DatabaseHelper.TABLE_CHILD + " ON " + DatabaseHelper.TABLE_CHILD + "." + DatabaseHelper.CHILD_COLUMN_MOTHER_ID + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID ;
 
-                    //Cursor cursor = db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});
 
-
-                   // Cursor curCSV =  db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});  // query
                     Cursor curCSV =  db.rawQuery(selectAllMothersWithChild,null);  // query
-                    csvWrite.writeNext(curCSV.getColumnNames());
+
+                    // create proper csv column title
+                    String[] columnNameArray= curCSV.getColumnNames();
+                    Log.d(TAG, "====== original column names = "+ Arrays.asList(columnNameArray));
+                    List<String> columnNamesList = new ArrayList<>(Arrays.asList(columnNameArray));
+                              columnNamesList.removeAll(Arrays.asList(DatabaseHelper.MOTHER_COLUMN_ID,
+                                      DatabaseHelper.CHILD_COLUMN_MOTHER_ID,
+                                      DatabaseHelper.MOTHER_COLUMN_SYNC_STATUS,
+                                      DatabaseHelper.MOTHER_COLUMN_GIS_LOCATION,
+                                      DatabaseHelper.MOTHER_COLUMN_PREGNANCY_STATE,
+                                      DatabaseHelper.MOTHER_COLUMN_TIMESTAMP));
+                    columnNamesList.add(0,DatabaseHelper.MOTHER_COLUMN_ID);
+
+                        Log.d(TAG, "  ======= ==== === =  column names === "+columnNamesList);
+
+
+
+
+                   // csvWrite.writeNext(curCSV.getColumnNames());
+                    String[] columnNameModifiedArray =  columnNamesList.toArray(new String[columnNamesList.size()]);
+                    csvWrite.writeNext(columnNameModifiedArray);  // modified column names assign to  csv  column names
+
+                    Integer[] positionsToBeSkipped = {7,15,16,17,18,25,26,27,28,34,35,36,37}; // positions need to be hide
+
+                    List<Integer> positionsToBeSkippedList = Arrays.asList(positionsToBeSkipped) ; // convert to List for better usability
+
 
                     while (curCSV.moveToNext())
 
                     {
                         String[] rowArray = new String[curCSV.getColumnNames().length];
-                        for (int i = 0; i < curCSV.getColumnNames().length;i++){
-                            rowArray[i] = curCSV.getString(i);
+                        for (int i = 0,j = 0; i < curCSV.getColumnNames().length;i++){
+                            if (positionsToBeSkippedList.contains(i)){
+                                Log.d(TAG, " ==== i is "+i);
+                                continue;
+                            }
+
+                            String value = curCSV.getString(i);
+
+                            switch (value){
+                                case "false": rowArray[j] = "No";
+                                    break;
+                                case "true": rowArray[j] = "Yes";
+                                    break;
+                                default:
+                                    rowArray[j] = value;
+                                    break;
+                            }
+
+                            j++;
                         }
 
-//                        String arrStr[] = {curCSV.getString(0), curCSV.getString(1), curCSV.getString(2), curCSV.getString(3),
-//                                curCSV.getString(4), curCSV.getString(5), curCSV.getString(6), curCSV.getString(7), curCSV.getString(8), curCSV.getString(9),
-//                        curCSV.getString(10),
-//                        curCSV.getString(11),
-//                        curCSV.getString(12),
-//                        curCSV.getString(13),
-//                        curCSV.getString(14),
-//                        curCSV.getString(15),
-//                        curCSV.getString(16),
-//                        curCSV.getString(17),
-//                        curCSV.getString(18),
-//                        curCSV.getString(19),
-//                        curCSV.getString(20),
-//                        curCSV.getString(21),
-//                        curCSV.getString(22),
-//                        curCSV.getString(23),
-//                        curCSV.getString(24),
-//                        curCSV.getString(25),
-//                        curCSV.getString(26),
-//                        curCSV.getString(27),
-//                        curCSV.getString(28),
-//                        curCSV.getString(29),
-//                        curCSV.getString(30),
-//                        curCSV.getString(31),
-//                        curCSV.getString(32),
-//                        curCSV.getString(33),
-//                        curCSV.getString(34),
-//                        curCSV.getString(35),
-//                        curCSV.getString(36)
-//
-//                        };
 
-                        //csvWrite.writeNext(arrStr);
                         csvWrite.writeNext(rowArray);
 
                     }
@@ -721,51 +751,38 @@ public class MainActivity extends AppCompatActivity {
                             + " = " + DatabaseHelper.TABLE_MOTHER + "." + DatabaseHelper.MOTHER_COLUMN_ID+ " WHERE " + DatabaseHelper.TABLE_MOTHER+"."+DatabaseHelper.MOTHER_COLUMN_PREGNANCY_STATE
                             +"=?" ;
 
-                    //Cursor cursor = db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});
 
-
-                    // Cursor curCSV =  db.rawQuery(selectAllMothersWithChild, new String[]{"post delivery"});  // query
                     Cursor curCSV2 =  db.rawQuery(selectAllMothers ,new String[]{"pregnant"});  // query
-                     //csvWrite.writeNext(curCSV.getColumnNames());
+
 
                     while (curCSV2.moveToNext())
 
                     {
                         String[] rowArray = new String[curCSV2.getColumnNames().length];
-                        for (int i = 0; i < curCSV2.getColumnNames().length;i++){
-                            rowArray[i] = curCSV2.getString(i);
+                        for (int i = 0,j= 0; i < curCSV2.getColumnNames().length;i++){
+                            if (positionsToBeSkippedList.contains(i)){
+                                Log.d(TAG, " ==== i is "+i);
+                                continue;
+                            }
+                            String value = curCSV2.getString(i);
+
+                            switch (value){
+                                case "false": rowArray[j] = "No";
+                                    break;
+                                case "true": rowArray[j] = "Yes";
+                                    break;
+                                default:
+                                    rowArray[j] = value;
+                                    break;
+                            }
+
+                          //  rowArray[j] = curCSV2.getString(i);
+                            j++;
                         }
 
 
 
-//
-//                        String arrStr[] = {curCSV2.getString(0), curCSV2.getString(1), curCSV2.getString(2), curCSV2.getString(3),
-//                                curCSV2.getString(4), curCSV2.getString(5), curCSV2.getString(6), curCSV2.getString(7), curCSV2.getString(8), curCSV2.getString(9),
-//                                curCSV2.getString(10),
-//                                curCSV2.getString(11),
-//                                curCSV2.getString(12),
-//                                curCSV2.getString(13),
-//                                curCSV2.getString(14),
-//                                curCSV2.getString(15),
-//                                curCSV2.getString(16),
-//                                curCSV2.getString(17),
-//                                curCSV2.getString(18),
-//                                curCSV2.getString(19),
-//                                curCSV2.getString(20),
-//                                curCSV2.getString(21),
-//                                curCSV2.getString(22),
-//                                curCSV2.getString(23),
-//                                curCSV2.getString(24),
-//                                curCSV2.getString(25),
-//                                curCSV2.getString(26),
-//                                curCSV2.getString(27),
-//                                curCSV2.getString(28)
-//
-//
-//
-//
-//                        };
-//                        csvWrite.writeNext(arrStr);
+
                         csvWrite.writeNext(rowArray);
 
                     }
@@ -781,10 +798,7 @@ public class MainActivity extends AppCompatActivity {
                     csvWrite.close();
                     curCSV.close();
                     curCSV2.close();
-        /*String data="";
-        data=readSavedData();
-        data= data.replace(",", ";");
-        writeData(data);*/
+
 
                     result = true;
 
@@ -855,10 +869,7 @@ public class MainActivity extends AppCompatActivity {
                     csvWrite2.close();
                     curCSV.close();
 
-        /*String data="";
-        data=readSavedData();
-        data= data.replace(",", ";");
-        writeData(data);*/
+
 
                     result = true;
 
@@ -873,9 +884,6 @@ public class MainActivity extends AppCompatActivity {
 
                     result = false;
                 }
-
-
-
 
 
 
@@ -949,6 +957,25 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == REQUEST_CODE_MOTHER_REGISTRATION_ACTIVITY){
 
             }
+
+            if(requestCode == REQUEST_CODE_SYNC_ACTIVITY){
+                String syncDate = data.getStringExtra(Activity_Sync.TAG);
+                Log.d(TAG, "sync Date is : "+syncDate);
+                //Toast.makeText(getApplicationContext(),"sync Data is : "+ syncDate,Toast.LENGTH_SHORT).show();
+                if (!syncDate.isEmpty()){
+                    SharedPreferences sharedPref = getSharedPreferences(SYNC_PREFERENCE_KEY, Context.MODE_PRIVATE);// =====================   store date in shared preferences
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(PREFERENCE_LAST_SYNC, syncDate);
+                    editor.commit();
+
+                   tvLastSyncDate.setText(syncDate);
+                }else {
+                    Log.d(TAG, "Sync date is empty");
+                    //Toast.makeText(getApplicationContext(),"sync Data is empty",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
         }
     }
 
@@ -965,4 +992,6 @@ public class MainActivity extends AppCompatActivity {
         toast.setView(view);
         toast.show();
     }
+
+
 }

@@ -81,6 +81,7 @@
                         android:textSize="30sp"
                         android:gravity="center"
                         android:paddingTop="8dp"
+
                         />
                     <TextView
                         android:id="@+id/tvMessageRemain"

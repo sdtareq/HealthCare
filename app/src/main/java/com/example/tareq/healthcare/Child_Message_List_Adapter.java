@@ -175,9 +175,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
             }
         }
 
-        //if (!a_mother.getChild().getChildName().isEmpty()  ){
-        // Toast.makeText(context,a_mother.getChild().getChildName(),Toast.LENGTH_LONG).show();
-        //String childName= "বাচ্চার নামঃ "+a_mother.getChild().getChildName();
+
 
 
         holder.tvChildName.setVisibility(View.GONE);
@@ -201,15 +199,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
         }
 
 
-//        if (Boolean.parseBoolean(a_mother.getIsChildMessageDelivered())){
-//            holder.btnCall.setVisibility(View.INVISIBLE);
-//            holder.ivYesNO.setImageResource(R.drawable.yes);
-//            holder.txt3.setText("Msg Delivered:  "+ deliveryStatus);
-//        }else {
-//            holder.txt3.setText("Msg Delivered:  "+ deliveryStatus);
-//            holder.ivYesNO.setImageResource(R.drawable.no);
-//            holder.btnCall.setVisibility(View.VISIBLE);
-//        }
+
 
         if (!a_mother.getMotherPhoneNumber().isEmpty()) {
             call = a_mother.getMotherPhoneNumber();
@@ -236,7 +226,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
         holder.btn_call_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + call_2));//  =====================================================================
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + call_2));//  ========== ====
                 context.startActivity(intent);
             }
         });
@@ -261,79 +251,14 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                 tv_message_body.setText(" যদি দিয়ে থাকেন “হ্যাঁ” ক্লিক করুন। \n" +
                         " যদি না দিয়ে থাকেন “না” ক্লিক করুন।\n" +
                         " বাহির হওয়ার জন্য “বাতিল করুন” ক্লিক করুন।");
-                btn_message_cancel.setText("বাতিল করুন");
+                btn_message_cancel.setText("ফিরে যাই");
                 btn_message_yes.setText("হ্যাঁ ");
                 btn_message_no.setText("না ");
 
                 builder.setView(view);
 
 
-//                builder.setPositiveButton("", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        DatabaseHelper helper = new DatabaseHelper(context);
-//
-//                        if (a_mother.getAgeOfChild() > 0 && a_mother.getAgeOfChild() < 31) {//==============  0 - 14 days
-//                            helper.setChild_0_To_14_Days_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
-//
-//                        } else if (a_mother.getAgeOfChild() > 30 && a_mother.getAgeOfChild() < 180) {//==============  30 - 90 days  === 1,2,3 month
-//                            helper.setChild_1_2_3_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
-//
-//                        } else if (a_mother.getAgeOfChild() > 179 && a_mother.getAgeOfChild() < 270) {//==============  180 - 240 days === 6-8 month
-//                            helper.setChild_6_To_8_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
-//
-//                        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 366) { //==============  270 - 365 days === 9-12 month
-//                            helper.setChild_9_To_12_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "true");
-//
-//                        }
-//
-//                        holder.btn_call_1.setVisibility(View.INVISIBLE);
-//                        holder.btn_call_2.setVisibility(View.INVISIBLE);
-//
-//                        holder.ivYesNO.setImageResource(R.drawable.yes);
-//                        String deliveryStatusNO = "হ্যাঁ";
-//                        String total_tv_message_text = messageText + deliveryStatusNO;
-//                        holder.tv_message.setText(total_tv_message_text);
-//                    }
-//                });
-//                builder.setNegativeButton("", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        DatabaseHelper helper = new DatabaseHelper(context);
-//
-//                        if (a_mother.getAgeOfChild() > 0 && a_mother.getAgeOfChild() < 15) {//==============  0 - 14 days
-//                            helper.setChild_0_To_14_Days_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
-//
-//                        } else if (a_mother.getAgeOfChild() > 29 && a_mother.getAgeOfChild() < 91) {//==============  30 - 90 days  === 1,2,3 month
-//                            helper.setChild_1_2_3_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
-//
-//                        } else if (a_mother.getAgeOfChild() > 179 && a_mother.getAgeOfChild() < 241) {//==============  180 - 240 days === 6-8 month
-//                            helper.setChild_6_To_8_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
-//
-//                        } else if (a_mother.getAgeOfChild() > 269 && a_mother.getAgeOfChild() < 366) { //==============  270 - 365 days === 9-12 month
-//                            helper.setChild_9_To_12_month_message_delivery_status(a_mother.getMotherRowPrimaryKey(), "false");
-//
-//                        }
-//
-//
-//                        holder.btn_call_1.setVisibility(View.VISIBLE);
-//                        if (a_mother.getAlternativePhoneNumber().isEmpty()) {
-//                            holder.btn_call_2.setVisibility(View.INVISIBLE);
-//                        } else {
-//                            holder.btn_call_2.setVisibility(View.VISIBLE);
-//                        }
-//                        //=============================================
-//                        holder.ivYesNO.setImageResource(R.drawable.no);
-//                        String deliveryStatusNO = "না";
-//                        String total_tv_message_text = messageText + deliveryStatusNO;
-//                        holder.tv_message.setText(total_tv_message_text);
-//                    }
-//                });
-//                builder.setNeutralButton("বাতিল করুন", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                    }
-//                });
+
                 final AlertDialog dialog = builder.create();
                 dialog.show();
 
@@ -476,7 +401,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
 
                 builder.setView(messageView);
 
-                builder.setNegativeButton("বাতিল করুন", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("ফিরে যাই", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -526,26 +451,7 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
                 builder.setView(view);
 
 
-//                builder.setTitle("আপনি কি এই মাকে ডিলিট করতে চান?");
-//                builder.setPositiveButton("হ্যাঁ", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        DatabaseHelper dbHelper = new DatabaseHelper(context);
-//                        dbHelper.deleteMother(a_mother);
-//
-//                        motherList.remove(holder.getAdapterPosition());
-//                        notifyItemRemoved(holder.getAdapterPosition());
-//                        notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
-//
-//
-//                    }
-//                });
-//                builder.setNegativeButton("না ", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                });
+
 
                 final AlertDialog dialog = builder.create();
                 dialog.show();
@@ -595,30 +501,15 @@ public class Child_Message_List_Adapter extends RecyclerView.Adapter<Child_Messa
 
         TextView tv_message, tvMotherName, tvEDD, tvHusbandName, tvAddress, tvDesireCallingTime, tvChildName;
         AppCompatButton btn_delete, btn_Edit, btn_details, btn_message, btn_change_status, btn_call_1, btn_call_2,btn_follow_up;
-//        protected TextView vName;
-//        protected TextView txt2;
-//        protected TextView txt3;
 
-        //protected Button btDetails, btMessage, btChange,btnCall;
-        // protected AppCompatButton  btnEdit;
         protected ImageView ivYesNO;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-//            vName = (TextView) itemView.findViewById(R.id.txtName);
-//            txt2 = (TextView) itemView.findViewById(R.id.txt2);
-//            txt3 = (TextView) itemView.findViewById(R.id.txt3);
-//
-//            btDetails = (Button) itemView.findViewById(R.id.button2);
-//            btMessage = (Button) itemView.findViewById(R.id.button);
-//            btChange  = (Button) itemView.findViewById(R.id.button3);
-//
 
-
-            // btnCall  = (Button) itemView.findViewById(R.id.button4);
             ivYesNO = (ImageView) itemView.findViewById(R.id.ivYesNo);
-            //btnEdit =   itemView.findViewById(R.id.btn_Edit);
+
 
 
             tv_message = (TextView) itemView.findViewById(R.id.tv_message);

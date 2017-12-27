@@ -62,15 +62,15 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.rbType1:
                 if (checked)
-                    userType = "type 1";
+                    userType = "CHCP";
                 break;
             case R.id.rbType2:
                 if (checked)
-                    userType = "type 2";
+                    userType = "FWA";
                 break;
             case R.id.rbType3:
                 if (checked)
-                    userType = "type 3";
+                    userType = "HA";
                 break;
             case R.id.rbType4:
                 if (checked)
@@ -106,7 +106,10 @@ public class LoginActivity extends AppCompatActivity {
 
         User user = new User(userId, userPassword, userType);
 
-        db.addAdmin(); // add admin entry in the login table
+        if (db.isLoginUserTableEmpty()){
+            db.addAdmin(); // add admin entry in the login table
+        }
+
         boolean isValid = false;
         try {
             isValid = db.isValidUser(user);
@@ -120,10 +123,12 @@ public class LoginActivity extends AppCompatActivity {
         if (isValid) {
 
             // On complete call  onLoginSuccess
+            progressDialog.dismiss();
+            ((MyApplication)this.getApplication()).setLoginUserName(userId);
             onLoginSuccess();
             // onLoginFailed();
 
-            progressDialog.dismiss();
+
         } else {
             // On incomplete call  onLoginFailed
             onLoginFailed();
@@ -160,13 +165,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         btLogin.setEnabled(true);
+
 //        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
 //        startActivity(intent);
         finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "লগ-ইন ব্যর্থ হয়েছে", Toast.LENGTH_LONG).show();
+        showCustomToast("লগ-ইন ব্যর্থ হয়েছে");
+        //Toast.makeText(getBaseContext(), "লগ-ইন ব্যর্থ হয়েছে", Toast.LENGTH_LONG).show();
 
         btLogin.setEnabled(true);
     }
@@ -184,8 +191,9 @@ public class LoginActivity extends AppCompatActivity {
             etLoginId.setError(null);
         }
 
-        if (loginPassword.isEmpty() || loginPassword.length() < 4 || loginPassword.length() > 10) {
-            etLoginPassword.setError("৪ থেকে ১০ অক্ষরের মধ্যে পাসওয়ার্ড প্রবেশ করুন");
+        if (loginPassword.isEmpty()) { //|| loginPassword.length() < 4 || loginPassword.length() > 10) {
+           // etLoginPassword.setError("৪ থেকে ১০ অক্ষরের মধ্যে পাসওয়ার্ড প্রবেশ করুন");
+            etLoginPassword.setError("");
             valid = false;
         } else {
             etLoginPassword.setError(null);

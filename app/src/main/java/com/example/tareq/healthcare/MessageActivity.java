@@ -60,47 +60,10 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 
     private void init() {
 
-        //  =======================    Temp   ===========
-//          tempList = new ArrayList<>();
-//        tempList.add(new Mother("aa","2016/10/7"));
-//        tempList.add(new Mother("bb","2016/10/17"));
-//        tempList.add(new Mother("cc","2016/10/21"));
-//        tempList.add(new Mother("dd","2016/10/8"));
-//        tempList.add(new Mother("ee","2016/10/18"));
-//        tempList.add(new Mother("ff","2016/10/15"));
-//        tempList.add(new Mother("gg","2016/10/13"));
-//        tempList.add(new Mother("hh","2016/10/7"));
-//        tempList.add(new Mother("ii","2016/10/7"));
-//        tempList.add(new Mother("jj","2016/10/19"));
-//        tempList.add(new Mother("kk","2016/10/6"));
+
 
 
         tempList = new ArrayList<>();
-//        tempList.add(new Mother("aaaa", "1/10/2016", "23","33999","address","pregnant"));
-//        tempList.add(new Mother("bbbb", "17/10/2016","23","33999","address","pregnant"));
-//        tempList.add(new Mother("cccc", "21/10/2016","23","33999","address","pregnant"));
-//        tempList.add(new Mother("dddd", "8/10/2016" ,"23","33999","address","pregnant"));
-//        tempList.add(new Mother("eeee", "18/10/2016","23","33999","address","pregnant"));
-//        tempList.add(new Mother("ffff", "15/10/2016","23","33999","address","pregnant"));
-//        tempList.add(new Mother("gggg", "13/10/2016","23","33999","address","pregnant"));
-//        tempList.add(new Mother("hhhh", "1/10/2016", "23","33999","address","pregnant"));
-//        tempList.add(new Mother("iiii", "7/10/2016", "23","33999","address","pregnant"));
-//        tempList.add(new Mother("jjjj", "19/10/2016","23","33999","address","pregnant"));
-//        tempList.add(new Mother("kkkk", "6/10/2016", "23","33999","address","pregnant"));
-
-
-        //tempList = new ArrayList<>();
-//        tempList.add(new Mother("llll", "1/10/2016", "33","37633","uttara",   "" ));
-//        tempList.add(new Mother("mmmm", "17/10/2016","33","37633","uttara",   "" ));
-//        tempList.add(new Mother("nnnn", "21/10/2016","33","37633","uttara",   "" ));
-//        tempList.add(new Mother("oooo", "8/10/2016", "33","37633","uttara",   "" ));
-//        tempList.add(new Mother("pppp", "18/10/2016","33","37633","uttara",   "" ));
-//        tempList.add(new Mother("qqqq", "15/10/2016","33","37633","uttara",   "" ));
-//        tempList.add(new Mother("rrrr", "13/10/2016","33","37633","uttara",   "" ));
-//        tempList.add(new Mother("ssss", "7/10/2016", "33","37633","uttara",   "" ));
-//        tempList.add(new Mother("tttt", "1/10/2016", "33","37633","uttara",   "" ));
-//        tempList.add(new Mother("uuuu", "19/10/2016","33","37633","uttara",   "" ));
-//        tempList.add(new Mother("vvvv", "6/10/2016", "33","37633","uttara",   "" ));
 
 
         // for inserting temp mothers
@@ -113,12 +76,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         }
         }
 
-        // inserting all mother end
 
-
-        //tv.setText(  GroupMother.anc1.toString() +"   "+ String.valueOf(GroupMother.anc2.size())+"   "+ String.valueOf(GroupMother.anc3.size()));
-
-        // Toast.makeText(this,GroupMother.allString(),Toast.LENGTH_LONG).show();
 
 //    =========================   Temp   end  -===============
 
@@ -152,10 +110,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         tvMessageRemainChild = (TextView) findViewById(      R.id.tvMessageRemainChild);
         tvMessageDeliveredChild = (TextView) findViewById(R.id.tvMessageDeliveredChild);
             tvMessageTotalChild = (TextView) findViewById(    R.id.tvMessageTotalChild);
-//
-//        tvMessageRemainPNC4 = (TextView) findViewById(R.id.tvMessageRemainPNC4);
-//        tvMessageDeliveredPNC4 = (TextView) findViewById(R.id.tvMessageDeliveredPNC4);
-//        tvMessageTotalPNC4 = (TextView) findViewById(R.id.tvMessageTotalPNC4);
+
 
 
         cvAnc1 = (CardView) findViewById(R.id.card_view_message_ANC1);
@@ -251,12 +206,6 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
 
                 break;}
-//            case R.id.card_view_messagePNC4 : {
-//                Intent intent = new Intent(MessageActivity.this, ANC_PNC_List_Activity.class);
-//                intent.putExtra(HEALTH_SEARVICE_NAME,"PNC 4");
-//                startActivity(intent);
-//
-//                break;}
 
 
         }
@@ -286,7 +235,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 
             Map<String, Integer> allStat = new HashMap<>();
 
-            GroupMother groupMother = new GroupMother();
+            GroupMother groupMother = new GroupMother(MessageActivity.this);
             try {
                 groupMother.doGrouping(db.getAllMothers()); //------------------------ put list of mothers inorder to group all mothers based on anc or pnc
             }catch (NullPointerException e){
@@ -375,13 +324,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
             for (Mother theMother : groupMother.childCareMessageStatusList) {
-                //boolean isDelivered = Boolean.parseBoolean(theMother.getIsChildMessageDelivered());
 
-//                if (isDelivered) {
-//                    child_message_delivered++;
-//                } else {
-//                    child_message_remain++;
-//                }
 
 
                 if (theMother.getAgeOfChild()>=0 && theMother.getAgeOfChild()<15){ //==============  0 - 14 days
@@ -427,24 +370,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 
 
             }
-//            for (Mother theMother : groupMother.pnc3) {
-//                boolean isDelivered = Boolean.parseBoolean(theMother.getIsMessageDelivered());
-//
-//                if (isDelivered) {
-//                    pnc3_delivered++;
-//                } else {
-//                    pnc3_remain++;
-//                }
-//            }
-//            for (Mother theMother : groupMother.pnc4) {
-//                boolean isDelivered = Boolean.parseBoolean(theMother.getIsMessageDelivered());
-//
-//                if (isDelivered) {
-//                    pnc4_delivered++;
-//                } else {
-//                    pnc4_remain++;
-//                }
-//            }
+
 
 //=============  store in map
             allStat.put("totalAnc1", groupMother.anc1.size());   /// ============== total size
@@ -534,9 +460,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
             tvMessageRemainChild.setText(String.valueOf(result.get("child_message_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
             tvMessageDeliveredChild.setText(String.valueOf(result.get("child_message_delivered")) + " জনকে মেসেজ দেয়া হয়েছে ");
             tvMessageTotalChild.setText("মোট সংখ্যা " + String.valueOf(result.get("total_child_message")) + " জন");
-//            tvMessageRemainPNC4.setText(String.valueOf(result.get("pnc4_remain")) + " জনকে মেসেজ দেয়া হয়নি ");
-//            tvMessageDeliveredPNC4.setText(String.valueOf(result.get("pnc4_delivered")) + " জনকে মেসেজ দেয়া হয়েছে ");
-//            tvMessageTotalPNC4.setText("মোট সংখ্যা " + String.valueOf(result.get("totalPnc4")) + " জন");
+
         }
 
     }
